@@ -48,6 +48,55 @@
   </ul>
 
 <h2>
+  Mapping of WAHCompressor.c:
+</h2>
+  <ul>
+    <li>WAHCompressor.c</li>
+    <ul>
+      <li>GetType()</li>
+      <ul>
+        <li>next = ZERO_LIT</li>
+        <ul>
+          <li>prev = ZER0_LIT</li>
+          <ul>
+            <li> make new fill </li>
+          </ul>
+          <li>prev = ZERO_RUN</li>
+          <ul>
+            <li> increment the fill </li>
+          </ul>
+          <li>else</li>
+          <ul>
+            <li> go to next word </li>
+          </ul>
+        <ul>
+        <li>next = ONE_LIT</li>
+        <ul>
+          <li>prev = ONE_LIT</li>
+          <ul>
+            <li> make new fill </li>
+          </ul>
+          <li>prev = ONE_RUN</li>
+          <ul>
+            <li> increment the fill </li>
+          </ul>
+          <li>else</li>
+          <ul>
+            <li> go to next word </li>
+          </ul>
+        </ul>
+        <li> else </li>
+        <ul>
+          <li> save the literal (not all ones or all zeros) </li>
+        </ul>
+      </ul>
+    </ul>
+  </ul>
+
+
+
+
+<h2>
   <p>Byte-aligned Bitmap Code overview:</p>
 </h2>
   <body>
