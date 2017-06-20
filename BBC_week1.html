@@ -53,9 +53,10 @@
   <body>
 
     <p>BBC starts off by grouping bits into 8-bit bytes.
-      BBC contructs runs of the form a fill followed by a literal tail with a header to give information about the type of run.
-      A fill has a 1 in the MSB with the tail having 0 in the MSB.
-      BBC has four kinds of runs.  Fills in BBC are either a 0-fill and 1-fill with the fill bits being 0 and 1 repectedly.
+      BBC contructs runs of the form of a header that gives information about the type of run, followed by a fill, followed by a literal tail, with a .
+      A fill has a 1 in the MSB with the tail having 0 in the MSB (not sure on this might be the reverse).
+      BBC has four kinds of runs.
+      Fills in BBC are either a 0-fill and 1-fill with the fill bits being 0 and 1 repectedly.
       There are actually two types of BBC's, one-sided and two-sided.
       One-sided only compresses 0-fills and two-sided compresses both 0-fills and 1-fills.
       The paper recommends using 0-fills for sparse data like we are using but addeding two-sided would also be usefully.</p>
