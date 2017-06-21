@@ -1,100 +1,215 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Bitmap Compression in C</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Raleway:400,200,500,600,700,800,300" rel="stylesheet" />
+<link href="default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="tree.css" rel="stylesheet" type="text/css"/>
+</head>
+
+
+  <div id="header-wrapper">
+    <div id="header" class="container">
+      <div id="logo">
+        <h1>Bitmap Compression in C</h1>
+        <p>Work by Patrick Ryan and Ian White with supervision of Professor David Chiu</p>
+      </div>
+    </div>
+  </div>
 
 <h1>
-  <p>Week 1 update</p>
+  <p style="text-align:center;">Week 1 Update</p>
 </h1>
 
-<h2>
-  Mapping of the BitmapEngine files:
+<!--<h3>
+<img style="height: 200px; width: 70%;" src = "images/matrix.gif">
+</h3>-->
+
+<h2 style="margin-bottom:0px;">
+General (incomplete) Mapping of the BitmapEngine files (RawBitmapReader.c):
 </h2>
-  <ul>
-    <li>main.c</li>
-    <ul>
-      <li>compress()</li>
+  <body>
+    <div id = "page" class = "tree">
       <ul>
-        <li>RawBitmapReader.c</li>
+        <li><a href="#">main.c</a>
         <ul>
-          <li>compressStriped()</li>
+          <li><a href="#">compress()</a>
           <ul>
-            <li>startThreadStriped()</li>
+            <li><a href="#">compressStriped()</a>
             <ul>
-              <li>compressUsingWAH()</li>
+              <li><a href="#">startThreadStriped()</a>
               <ul>
-                <li>WAHcompressor.c</li>
+                <li><a href="#">compressUsingWAH()</a>
+                <ul>
+                  <li><a href="#">WAHcompressor.c</a></li>
+                </ul>
+                </li>
               </ul>
+              </li>
             </ul>
           </ul>
-          <li>compressUnstriped()</li>
-          <ul>
-            <li>compressNext()</li>
+            <li><a href="#">compressUnstriped()</a>
             <ul>
-              <li>compressColumn()</li>
+              <li><a href="#">compressNext()</a>
               <ul>
-                <li>compressUsingWAH</li>
+                <li><a href="#">compressColumn()</a>
                 <ul>
-                  <li>WAHCompressor.c</li>
+                  <li><a href="#">compressUsingWAH</a>
+                  <ul>
+                    <li><a href="#">WAHCompressor.c</a></li>
+                  </ul>
+                  </li>
+                  <li><a href="#">compressUsingVAL</a>
+                  <ul>
+                    <li><a href="#">VALCompressor.c</a></li>
+                  </ul>
+                  </li>
                 </ul>
-                <li>compressUsingVAL</li>
-                <ul>
-                  <li>VALCompressor.c</li>
-                </ul>
+                </li>
               </ul>
+              </li>
             </ul>
+            </li>
           </ul>
+          </li>
         </ul>
       </ul>
+      </li>
+      </ul>
+    </li>
     </ul>
-  </ul>
+    </div>
+  </body>
 
+
+  <h2 style="margin-bottom:0px;">
+  General Mapping of WAHCompressor.c:
+  </h2>
+  <p>
+  The most important method in this file is CompressUsingWAH. It takes a block, 
+  and iterates through the block one word at a time. SegUtil.c contains
+  the bitwise functions that this file uses to operate on each word. 
+  The function checks two words: the current word and the previous word, 
+  and performs operations based on the type of words these are. (ONE_LIT, 
+  ZERO_LIT, ONE_RUN, and ZERO_RUN are the important types here.) In the case 
+  that a word or is none of the above types, the literal 
+  word is kept and the function moves to the next word. 
+  </p>
+  <body>
+    <div id = "page" class = "tree">
+      <ul>
+        <li><a href="#">CompressUsingWAH</a>
+        <ul>
+          <li><a href="#">getType()</a>
+          <ul>
+            <li><a href="#">next=ZERO_LIT</a>
+            <ul>
+              <li><a href="#">prev = ZERO_LIT</a>
+              <ul>
+                <li><a href="#">make a new fill</a>
+                </li>
+              </ul>
+              </li>
+              <li><a href="#">prev = ZERO_RUN</a>
+              <ul>
+                <li><a href="#">increment the fill</a></li>
+              </ul>
+              </li>
+              <li><a href="#">else</a>
+              <ul>
+                <li><a href="#">move to next word</a></li>
+              </ul>
+              </li>
+            </ul>
+            <li><a href="#">next=ONE_LIT</a>
+            <ul>
+              <li><a href="#">prev = ONE_LIT</a>
+              <ul>
+                <li><a href="#">make a new fill</a>
+                </li>
+              </ul>
+              </li>
+              <li><a href="#">prev = ONE_RUN</a>
+              <ul>
+                <li><a href="#">increment the fill</a></li>
+              </ul>
+              </li>
+              <li><a href="#">else</a>
+              <ul>
+                <li><a href="#">move to next word</a></li>
+              </ul>
+              </li>
+            </ul>
+            </li>
+          </ul>
+          </li>
+        </ul>
+      </ul>
+      </li>
+      </ul>
+    </li>
+    </ul>
+    </div>
+  </body>
+<!--
 <h2>
   Mapping of WAHCompressor.c:
 </h2>
-  <ul>
-    <li style="color:blue;">WAHCompressor.c</li>
+ <link rel = "stylesheet"
+   type = "text/css"
+   href = "tree.css" />
+  <div class = "tree">
     <ul>
-      <li>GetType()</li>
+      <li style="color:red; font-family: Impact, sans-serif;">WAHCompressor.c</li>
       <ul>
-        <li>next = ZERO_LIT</li>
+        <li>GetType()</li>
         <ul>
-          <li>prev = ZERO_LIT</li>
+          <li>next = ZERO_LIT</li>
           <ul>
-            <li> make new fill </li>
+            <li>prev = ZERO_LIT</li>
+            <ul>
+              <li> make new fill </li>
+            </ul>
+            <li>prev = ZERO_RUN</li>
+            <ul>
+              <li> increment the fill </li>
+            </ul>
+            <li>else</li>
+            <ul>
+              <li> go to next word </li>
+            </ul>
           </ul>
-          <li>prev = ZERO_RUN</li>
+          <li>next = ONE_LIT</li>
           <ul>
-            <li> increment the fill </li>
+            <li>prev = ONE_LIT</li>
+            <ul>
+              <li> make new fill </li>
+            </ul>
+            <li>prev = ONE_RUN</li>
+            <ul>
+              <li> increment the fill </li>
+            </ul>
+            <li>else</li>
+            <ul>
+              <li> go to next word </li>
+            </ul>
           </ul>
-          <li>else</li>
+          <li> else </li>
           <ul>
-            <li> go to next word </li>
+            <li> save the literal (not all ones or all zeros) </li>
           </ul>
-        </ul>
-        <li>next = ONE_LIT</li>
-        <ul>
-          <li>prev = ONE_LIT</li>
-          <ul>
-            <li> make new fill </li>
-          </ul>
-          <li>prev = ONE_RUN</li>
-          <ul>
-            <li> increment the fill </li>
-          </ul>
-          <li>else</li>
-          <ul>
-            <li> go to next word </li>
-          </ul>
-        </ul>
-        <li> else </li>
-        <ul>
-          <li> save the literal (not all ones or all zeros) </li>
         </ul>
       </ul>
     </ul>
-  </ul>
+  </div>
 </ul>
 </ul>
-
+-->
 
 
 
@@ -102,7 +217,7 @@
 <h2>
   <p>Byte-aligned Bitmap Code overview:</p>
 </h2>
-  <body>
+  <body style = "margin-bottom: 3em">
 
     <p>BBC starts off by grouping sequences of bits into bytes.
       BBC contructs runs of the form of a header that gives information about the type of run, followed by a fill, followed by a literal tail, with a .
@@ -112,7 +227,7 @@
       There are actually two types of BBC's, one-sided and two-sided.
       One-sided only compresses 0-fills and two-sided compresses both 0-fills and 1-fills.
       The paper recommends using 0-fills for sparse data like we are using but addeding two-sided would also be usefully.</p>
-    <ul> Types of runs
+    <ul style="margin-top:1em; margin-bottom: 3em; margin-left: 2em; margin-right: 2em;"> Types of runs
       <li>1:  The first kind of run contains 0-3 bytes in the fill and 0-15 bytes in the tail.
       The header byte for type 1 runs is as follows [ 1 | fill_bit (1 bits) | fill_length (2 bits) | tail_length (4 bits) ].
       Type 1 runs should be used when there are few or no fills in current sequence of bytes.</li>
