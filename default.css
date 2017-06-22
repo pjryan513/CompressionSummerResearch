@@ -1,5 +1,6 @@
 html, body {
 	height: 100%;
+	width: 100%;
 }
 
 body {
@@ -235,9 +236,9 @@ hr {
 {
 	display: flex;
 	text-align: center;
-	min-width: 100%;
+	min-width: 54.5em;
 	padding: 3em 0em 2em 0em;
-	background-image: url(images/matrix.gif);
+	/*background-image: url(images/binary_dank.gif);*/
 	background: #333333;
 	position: relative;
 }
