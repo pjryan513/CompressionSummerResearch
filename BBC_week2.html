@@ -27,7 +27,7 @@
       structs to use
     </h3>
     <p>based off of the struct used for WAH and VAL we will make a similar blockSeg struct but based around bytes instead of 32-bit words</p>
-    <p>We could use a similar name, such as "struct BBCseg". The struct would contain: 
+    <p>We could use a similar name, such as "struct BBCseg". The struct would contain:
     <ul>
       <li>Header byte of the current run. The header contains important information, which we can extract:</li>
       <ul>
@@ -83,15 +83,13 @@
       <p>int next = getType(next byte)</p>
       <p>if(next == 0)</p>
       <ul>
-        <p>if(new run)</p>
-        <ul>
-          startNewRun(next byte)
-        </ul>
-        <p>else</p>
-        <ul>
-          <p>updateHeader(0)
-        </ul>
+        char header = updateHeader(0)
       </ul>
     </ul>
+
+    <h2>
+      Questions and Concerns
+    </h2>
+    <p></p>
   </body>
 </html>
