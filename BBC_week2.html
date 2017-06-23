@@ -87,10 +87,11 @@
         <ul>
           startNewRun(next byte)
         </ul>
-        <p>else</p>
+        <p>else if(run = Type 1)</p>
         <ul>
           <p>updateHeader(0)
         </ul>
+        <p>else if()
       </ul>
       <p>if(next==1)</p>
       <p>if(next==2)</p>
@@ -107,5 +108,17 @@
       </p>
       <p>if(next==3)</p>
     </ul>
+    </p>
+    <h2>
+    Questions and Concerns:
+    </h2>
+      <p>
+        <ul>
+        <li>Suppose we have a long tail of messy bits, then we come across an odd byte.
+        Should we append the odd byte to the tail, or start a new type 2 or 4 run to 
+        contain the single odd bit? Possible overhead concerns with implementing this special
+        case vs. the rarity of the special case given sparse data.</li>
+        </ul>
+      </p>
   </body>
 </html>
