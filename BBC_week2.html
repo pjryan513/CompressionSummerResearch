@@ -79,57 +79,12 @@
 
     <h2> Revisited Pseudo Code </h2>
 
-<<<<<<< HEAD
-    <h2>
-      Revisted Psudeo Code
-    </h2>
-    <p>while(raw bit seq has next byte)</p>
-    <ul>
-      <p>get next byte</p>
-      <p>int next = getType(next byte)</p>
-      <p>if(next == 0)</p>
-      <ul>
-        char header = updateHeader(0)
-        <p>if(new run)</p>
-        <ul>
-          startNewRun(next byte)
-        </ul>
-        <p>else if(run = Type 1)</p>
-        <ul>
-          <p>updateHeader(0)
-        </ul>
-        <p>else if()
-      </ul>
-      <p>if(next==1)</p>
-      <p>if(next==2)</p>
-      <ul>
-      <p>if(tail_length > 0)</p>
-      <ul>
-        <p>.... do some stuff......</p>
-      </ul>
-      <p>else</p>
-      <p>
-        <ul>
-        <p>if fill <= 3</p>
-          <ul>
-          <p>Change to type 2 run and finish the run</p>
-          </ul>
-        <p>else</p>
-          <ul>
-          <p>Change to type 4 run and finish the run</p>
-          </ul>
-        </ul>
-      </p>
-      </ul>
-      </p>
-      <p>if(next==3)</p>
-    </ul>
-=======
+
   <pre class="prettyprint">
     /**Revisted Psudeo Code**/
 
 
-while(get next byte)
+while(has next byte)
 
   char next_byte= getNextByte()
 
@@ -229,7 +184,7 @@ while(get next byte)
   //messy byte (Eg: 11010100)
   if(next==3)
 
-    if(new_run) 
+    if(new_run)
       //start a new type 1 run
       //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
       incrementTail(next_byte);
@@ -258,9 +213,8 @@ while(get next byte)
         startNewRun();
   </pre>
 
->>>>>>> 22e80e17df61231a7b741d3c08cd2c9094d48d27
 
-    
+
     <h2>
     Questions and Concerns:
     </h2>
