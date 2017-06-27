@@ -39,10 +39,11 @@
       structs to use
     </h3>
     <p>based off of the struct used for WAH and VAL we will make a similar blockSeg struct but based around bytes instead of 32-bit words</p>
-    <p>We could use a similar name, such as "struct BBCseg". The struct would contain: 
-    <ul>
+    <p>We could use a similar name, such as "struct BBCseg". The struct would contain: </p>
+    <div class="browser-default">
+    <ul class="browser-default">
       <li>Header byte of the current run. The header contains important information, which we can extract:</li>
-      <ul>
+      <ul class="browser-default">
         <li>Fill length</li>
         <li>Tail length</li>
         <li>Run type</li>
@@ -52,7 +53,7 @@
       <li>current (uncompressed) byte</li>
       <li>current (uncompressed) byte type (as described above)</li>
     </ul>
-    </p>
+    </div>
 
 
 
@@ -66,27 +67,27 @@
     <p>
 
 
- <h2>
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px">
       Psuedo Code for BBC
     </h2>
     <p>
-    <p class="tab">get next byte from raw seq</ul>
-    <p class="tab">determine type of byte</p>
-    <p class="tab">call header byte or lastByte</p>
-    <p class="tab">
+    <ul class="browser-default">get next byte from raw seq</ul>
+    <ul class="browser-default">determine type of byte</ul>
+    <ul class="browser-default">call header byte or lastByte</ul>
+    <ul class="browser-default">
       update header byte
-      <p class="tab">
+      <ul class="browser-default">
         update fill length
         update tail length
-      </p>
+      </ul>
       change type of run
       end run
-    </p>
-    <p class="tab">if byte is new head or literal</p>
-    <p class="tab">
-      <p class="tab">add to bbc</p>
-    </p>
-    </p>
+    </ul>
+    <ul class="browser-default">if byte is new head or literal</ul>
+    <ul class="browser-default">
+      <ul class="browser-default">add to bbc</ul>
+    </ul>
+    </ul>
 
 
     <h2 class = "z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px"> 
