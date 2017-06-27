@@ -69,21 +69,23 @@
  <h2>
       Psuedo Code for BBC
     </h2>
-    <p>get next byte from raw seq</p>
-    <p>determine type of byte</p>
-    <p>call header byte or lastByte</p>
     <p>
-      <li>update header byte</li>
-      <p>
-        <li>update fill length</li>
-        <li>update tail length</li>
+    <p class="tab">get next byte from raw seq</ul>
+    <p class="tab">determine type of byte</p>
+    <p class="tab">call header byte or lastByte</p>
+    <p class="tab">
+      update header byte
+      <p class="tab">
+        update fill length
+        update tail length
       </p>
-      <li>change type of run</li>
-      <li>end run</li>
+      change type of run
+      end run
     </p>
-    <p>if byte is new head or literal</p>
-    <p>
-      <p>add to bbc</p>
+    <p class="tab">if byte is new head or literal</p>
+    <p class="tab">
+      <p class="tab">add to bbc</p>
+    </p>
     </p>
 
 
@@ -232,13 +234,13 @@ while(get next byte)
     <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
     Questions and Concerns:
     </h2>
-      <p>
+      <p style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
         <ul>
-        <li>Suppose we have a long tail of messy bits, then we come across an odd byte.
+        <li style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">Suppose we have a long tail of messy bits, then we come across an odd byte.
         Should we append the odd byte to the tail, or start a new type 2 or 4 run to 
         contain the single odd bit? Possible overhead concerns with implementing this special
         case vs. the rarity of the special case given sparse data.</li>
-        <li>Suppose we are a shooting star. <a href = "shooting_star.html">Then What?</a></li>
+        <li style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">Suppose we are a shooting star. <a href = "shooting_star.html">Then What?</a></li>
         </ul>
       </p>
   </body>
