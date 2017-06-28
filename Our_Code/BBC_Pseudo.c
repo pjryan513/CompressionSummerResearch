@@ -1,5 +1,5 @@
 /**Revisted Psudeo Code**/
-
+#include "bbcUtil.h";
 
 while(get next byte)
 
@@ -42,7 +42,7 @@ while(get next byte)
       //sets new_run to TRUE and sets header to blank type 1 run (10000000)
       //write current run to the compressed outfile
       //set header to NULL
-      startNewRun();
+      startNewRun(byte_type);
 
       //creates the 3 bits in type 2 or type 4 header to represent odd bit in last byte of tail
       placeOddBit();
@@ -51,21 +51,14 @@ while(get next byte)
       //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
       makeOddHeader();
 */
-  if(header==NULL)
+  //if the header is null
+  if(header==NULL){
+    startNewRun(byte_type);
+
+  }
 
   //0-fill byte or 1-fill byte (11111111 or 00000000)
-  if(byte_type == ZERO_BYTE || byte_type == ONE_BYTE)
-
-    if(header==NULL)
-
-      if(byte_type == ZERO_BYTE)
-        setFillByte(0);
-        //makeHeader(byte_type);
-
-      else
-        setFillByte(1);
-
-      new_run == 0;
+  else if(byte_type == ZERO_BYTE || byte_type == ONE_BYTE)
 
     //proper type of fill (0 or 1)
     if(byte_type == fill_bit)
@@ -92,15 +85,10 @@ while(get next byte)
 
 
   //odd byte (Eg: 00010000)
-  if(next==2)
-    if(new_run)
-      changeHeaderType(TYPE_2);
-      placeOddBit(next_byte);
-      new_run == 0;
+  else if(byte_type==ODD_BYTE)
 
-    if(tail_length > 0) //end the current run and make a new type 2 run
-      makeOddHeader(next_byte);
-      startNewRun();
+
+
       //end current run and create a new type 2 run holding just the odd byte
 
     if(run_type == TYPE_1)
@@ -113,15 +101,9 @@ while(get next byte)
 
 
   //messy byte (Eg: 11010100)
-  if(next==3)
+  else if(byte_type==3)
 
-    if(new_run) 
-      //start a new type 1 run
-      //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
-      incrementTail(next_byte);
-      new_run == 0;
-
-    else if(run_type == TYPE_1)
+    if(run_type == TYPE_1)
 
       if(tail_length<15)
 
@@ -129,7 +111,8 @@ while(get next byte)
 
       else
 
-        incrementTail(next_byte);
+        startNewRun(byte_type);
+        //incrementTail(next_byte);
 
     else if(run_type == TYPE_3)
 
@@ -140,11 +123,28 @@ while(get next byte)
 
       else
 
-        incrementTail(next_byte);
-        startNewRun();
+        //incrementTail(next_byte);
+        startNewRun(byte_type);
 
 
 
 
 
+startNewRun(char byte_type){
+        if(byte_type == ZERO_BYTE)
+          setFillByte(0);
+          //makeHeader(byte_type);
 
+       else
+          setFillByte(1);
+
+
+            if(new_run)
+      changeHeaderType(TYPE_2);
+      placeOddBit(next_byte);
+      new_run == 0;
+      makeOddHeader(next_byte);
+
+//type 3
+            incrementTail(next_byte);
+            //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
