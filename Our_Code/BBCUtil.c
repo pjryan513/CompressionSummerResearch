@@ -27,7 +27,6 @@ startNewRun(char byte_type){
     param->header = '11010000';
 
   //ODD BYTE
-  //set header to NULL here since we've dealt with the odd byte
   if(byte_type == ODD_BYTE)
     //make (and end) type 2 run with the odd bit stored in the header
     param->header = '01X00000';
