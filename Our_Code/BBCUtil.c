@@ -44,7 +44,7 @@ startNewRun(char byte_type){
 changeRunType(int run_type){
 
   /*this only happens if we are already a TYPE_1 run AND the 
-  tail length is 0*/
+  tail length is 0 (i.e. going from type 1 to type 2)*/
   if(run_type == TYPE_2){
     //we want to preserve: fill bit and the fill_length. 
     //get the odd bit position from 
@@ -52,7 +52,7 @@ changeRunType(int run_type){
   }
 
   /*this only happens if we are already a TYPE_3 run AND the 
-  tail length is 0*/
+  tail length is 0 (i.e. going from type 3 to type 4)*/
   else if(run_type == TYPE_4){
 
   }
