@@ -9,7 +9,6 @@ void bbcCompress(bbcSeg *param){
 
   int byte_type = getType(next_byte)
   //these methods gather information from the header
-  //default to type 1 run
   if(header != NULL){
     fill_len = getFill();
     tail_len = getTail();
