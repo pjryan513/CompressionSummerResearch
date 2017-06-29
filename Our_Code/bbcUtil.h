@@ -10,6 +10,6 @@
 #define TYPE_3 2
 #define TYPE_4 3
 
-#define FILL_LIMIT 3 /maybe????
+#define FILL_LIMIT 3 //maybe????
 
-typeDef struct 
+typedef char byte;

@@ -37,8 +37,8 @@ void bbcCompress(bbcSeg *param){
       //increments the fill length in the header
       incrementFill();
 
-      //changes the current header type to the desired header type
-      changeHeaderType(int type);
+      //changes the current run type to the desired header type
+      changeRunType(int type);
 
       //increments the counter bytes in a type 2 or type 4 run
       incrementCounterByte();
@@ -83,8 +83,9 @@ void bbcCompress(bbcSeg *param){
         //increment the counter bytes
         incrementCounterByte();
 
-    //if it's not the right kind of fill
+    //if it's not the right kind of fill, start a new run
     else
+
       startNewRun(byte_type);
 
   //odd byte (Eg: 00010000)
@@ -96,7 +97,7 @@ void bbcCompress(bbcSeg *param){
       //change ourselves to a TYPE_2 run
       //this will end the current run
       //changeRunType(TYPE_2);
-      startNewRun(byte_type;
+      startNewRun(byte_type);
 
     //if we are a TYPE_3 run
     if(run_type == TYPE_3)
@@ -120,8 +121,7 @@ void bbcCompress(bbcSeg *param){
 
       else
 
-        //otherwise, add the current byte to the run
-        // and start a new run
+        //otherwise, start a new run
         startNewRun(byte_type);
 
     //if we are a TYPE_3 run
@@ -133,8 +133,7 @@ void bbcCompress(bbcSeg *param){
 
         incrementTail(next_byte);
 
-      //otherwise, start a new run and add the current byte to the
-      //current run
+      //otherwise, start a new run
       else
 
         startNewRun(byte_type);
@@ -146,13 +145,16 @@ startNewRun(char byte_type){
   //ZERO FILL
   //there's only one possible byte we should produce
   if(byte_type == ZERO_BYTE)
+    //first we should write out the current array of chars to file
     //setFillBit(0);
     //makeHeader(byte_type);
     param->header = '10010000'
 
+
   //ONE_FILL
   //there's only one possible byte we should produce
   if(byte_type == ONE_BYTE)
+    //first we should write out the current array of chars to file
     //setFillBit(1);
     param->header = '11010000'
 

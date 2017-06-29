@@ -2,13 +2,13 @@
 #include "bbcUtil.h";
 
 
-void bbcCompress(bbcSeg *param){
+void bbcCompress(blockSegBBC *param){
   while(get next byte)
+ //these methods gather information from the header
+  next_byte= getNextByte()
 
-  char next_byte= getNextByte()
-
-  int byte_type = getType(next_byte)
-  //these methods gather information from the header
+  byte_type = getType(next_byte)
+ 
   if(header != NULL){
     fill_len = getFill();
     tail_len = getTail();
@@ -36,8 +36,8 @@ void bbcCompress(bbcSeg *param){
       //increments the fill length in the header
       incrementFill();
 
-      //changes the current header type to the desired header type
-      changeHeaderType(int type);
+      //changes the current run type to the desired header type
+      changeRunType(int type);
 
       //increments the counter bytes in a type 2 or type 4 run
       incrementCounterByte();
@@ -89,20 +89,30 @@ void bbcCompress(bbcSeg *param){
 
   //odd byte (Eg: 00010000)
   else if(byte_type==ODD_BYTE)
+    /*if the tail_length is 0, we can easily change to
+    either a TYPE_2 or TYPE_4 run by concatenating the 
+    ODD_BYTE to the end of our fill. */
+    if(tail_len == 0)
 
-    //if we are a TYPE_1 run
-    if(run_type == TYPE_1)
+      //if we are a TYPE_1 run
+      if(run_type == TYPE_1)
 
-      //change ourselves to a TYPE_2 run
-      //this will end the current run
-      changeRunType(TYPE_2);
+        //change ourselves to a TYPE_2 run
+        //this will end the current run
+        changeRunType(TYPE_2);
 
-    //if we are a TYPE_3 run
-    if(run_type == TYPE_3)
+      //if we are a TYPE_3 run
+      if(run_type == TYPE_3)
 
-      //change ourselves to a TYPE_4 run
-      //this will end the current run
-      changeRunType(TYPE_4);
+        //change ourselves to a TYPE_4 run
+        //this will end the current run
+        changeRunType(TYPE_4);
+
+    /*if we already have a tail, we must start a new run using
+    the ODD_BYTE*/
+    //the startNewRun() function checks for this specific case :D
+    else
+      startNewRun(byte_type);
 
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
