@@ -138,3 +138,37 @@ void bbcCompress(bbcSeg *param){
 
         startNewRun(byte_type);
 }
+
+//starts a new run based on the type of byte we have
+startNewRun(char byte_type){
+
+  //ZERO FILL
+  if(byte_type == ZERO_BYTE)
+    //setFillBit(0);
+    //makeHeader(byte_type);
+    header = 
+
+  //ONE_FILL
+  if(byte_type == ONE_BYTE)
+    //setFillBit(1);
+
+  //ODD BYTE
+  if(byte_type == ODD_BYTE)
+    //make (and end) type 2 run with the odd bit stored in the header
+    param->header = 01X0
+    param->header = placeOddBit(param->next_byte);
+
+  //MESSY BYTE
+  if(new_run)
+
+      changeHeaderType(TYPE_2);
+      placeOddBit(next_byte);
+      new_run == 0;
+      makeOddHeader(next_byte);
+
+//type 3
+            incrementTail(next_byte);
+            //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
+
+//
+placeOddBit(next_byte);
