@@ -91,21 +91,31 @@ void bbcCompress(blockSegBBC *param){
 
   //odd byte (Eg: 00010000)
   else if(byte_type==ODD_BYTE)
+    /*if the tail_length is 0, we can easily change to
+    either a TYPE_2 or TYPE_4 run by concatenating the 
+    ODD_BYTE to the end of our fill. */
+    if(tail_len == 0)
 
-    //if we are a TYPE_1 run
-    if(run_type == TYPE_1)
+      //if we are a TYPE_1 run
+      if(run_type == TYPE_1)
 
-      //change ourselves to a TYPE_2 run
-      //this will end the current run
-      changeRunType(TYPE_2);
+        //change ourselves to a TYPE_2 run
+        //this will end the current run
+        changeRunType(TYPE_2);
 
-    //if we are a TYPE_3 run
-    if(run_type == TYPE_3)
+      //if we are a TYPE_3 run
+      if(run_type == TYPE_3)
 
-      //change ourselves to a TYPE_4 run
-      //this will end the current run
-      changeRunType(TYPE_4);
+        //change ourselves to a TYPE_4 run
+        //this will end the current run
+        changeRunType(TYPE_4);
 
+    /*if we already have a tail, we must start a new run using
+    the ODD_BYTE*/
+    //the startNewRun() function checks for this specific case 
+    else
+      startNewRun(byte_type);
+    
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
 
