@@ -2,20 +2,21 @@
 #include "bbcUtil.h";
 
 
-void bbcCompress(bbcSeg *param){
+void bbcCompress(blockSegBBC *param){
+
+  //these methods gather information from the header
   while(get next byte)
 
-  char next_byte= getNextByte()
+  param->next_byte= getNextByte();
 
-  int byte_type = getType(next_byte)
-  //these methods gather information from the header
+  param->byte_type = getType(next_byte);
   //default to type 1 run
   if(header != NULL){
-    fill_len = getFill();
-    tail_len = getTail();
-    run_type = getHeadType(); 
-    fill_bit = getFillByte(); //actually represents the fill bit, saved as a byte to compare more easily
-                              //either ZERO_FILL or ONE_FILL 00000000 or 11111111
+    param->fill_len = getFill();
+    param->tail_len = getTail();
+    param->run_type = getHeadType(); 
+    //either ZERO_FILL or ONE_FILL 00000000 or 11111111
+    param->fill_bit = getFillByte(); //actually represents the fill bit, saved as a byte to compare more easily
   }
 /**
 ***FUNCTION DOCUMENTATION***
@@ -49,7 +50,7 @@ void bbcCompress(bbcSeg *param){
       startNewRun(byte_type);
 
       //creates the 3 bits in type 2 or type 4 header to represent odd bit in last byte of tail
-      placeOddBit();
+      placeOddBit(byte next_byte);
 
       //in the case where after a tail, we run into an odd byte
       //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
@@ -96,16 +97,14 @@ void bbcCompress(bbcSeg *param){
 
       //change ourselves to a TYPE_2 run
       //this will end the current run
-      //changeRunType(TYPE_2);
-      startNewRun(byte_type);
+      changeRunType(TYPE_2);
 
     //if we are a TYPE_3 run
     if(run_type == TYPE_3)
 
       //change ourselves to a TYPE_4 run
       //this will end the current run
-      //changeRunType(TYPE_4);
-      startNewRun(byte_type);
+      changeRunType(TYPE_4);
 
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
@@ -139,46 +138,3 @@ void bbcCompress(bbcSeg *param){
         startNewRun(byte_type);
 }
 
-//starts a new run based on the type of byte we have
-startNewRun(char byte_type){
-
-  //ZERO FILL
-  //there's only one possible byte we should produce
-  if(byte_type == ZERO_BYTE)
-    //first we should write out the current array of chars to file
-    //setFillBit(0);
-    //makeHeader(byte_type);
-    param->header = '10010000'
-
-
-  //ONE_FILL
-  //there's only one possible byte we should produce
-  if(byte_type == ONE_BYTE)
-    //first we should write out the current array of chars to file
-    //setFillBit(1);
-    param->header = '11010000'
-
-  //ODD BYTE
-  //set header to NULL here since we've dealt with the 
-  //odd byte
-  if(byte_type == ODD_BYTE)
-    //make (and end) type 2 run with the odd bit stored in the header
-    param->header = '01X00000'
-    //here we decide the last three bits of the above binary number
-    param->header = placeOddBit(param->next_byte);
-
-  //MESSY BYTE
-  if(byte_type == MESSY_BYTE)
-
-      changeHeaderType(TYPE_2);
-      placeOddBit(next_byte);
-      new_run == 0;
-      makeOddHeader(next_byte);
-
-//type 3
-            incrementTail(next_byte);
-            //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
-
-//
-          }
-placeOddBit(next_byte);

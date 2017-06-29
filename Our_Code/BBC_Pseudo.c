@@ -110,7 +110,7 @@ void bbcCompress(blockSegBBC *param){
 
     /*if we already have a tail, we must start a new run using
     the ODD_BYTE*/
-    //the startNewRun() function checks for this specific case :D
+    //the startNewRun() function checks for this specific case 
     else
       startNewRun(byte_type);
 
