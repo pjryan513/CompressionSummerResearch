@@ -1,25 +1,33 @@
 <!DOCTYPE_html>
 <html>
   <head>
-  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <link href="ian.css" rel="stylesheet" type="text/css" media="all" />
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
 
-  <header>
-    <title>Weekly Update 2</title>
-  </header>
-
   <body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+  <title>Weekly Update: Week 2</title>
+
+  <h1 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">Weekly Update: Week 2</h1>
 
 
-
-    <h1>
-      Weekly Update for week 2
-    </h1>
-
-    <h2>
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
       Structure of Code
     </h2>
-    <h3>
+    <h3 style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px" class="z-depth-4">
       types of bytes
     </h3>
     <p>int value of 0 will represent a 0-fill byte</p>
@@ -27,14 +35,15 @@
     <p>int value of 2 will represent a odd literal byte</p>
     <p>int value of 3 will represent a messy literal byte</p>
 
-    <h3>
+    <h3 style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px" class="z-depth-4">
       structs to use
     </h3>
     <p>based off of the struct used for WAH and VAL we will make a similar blockSeg struct but based around bytes instead of 32-bit words</p>
-    <p>We could use a similar name, such as "struct BBCseg". The struct would contain:
-    <ul>
+    <p>We could use a similar name, such as "struct BBCseg". The struct would contain: </p>
+    <div class="browser-default">
+    <ul class="browser-default">
       <li>Header byte of the current run. The header contains important information, which we can extract:</li>
-      <ul>
+      <ul class="browser-default">
         <li>Fill length</li>
         <li>Tail length</li>
         <li>Run type</li>
@@ -44,11 +53,11 @@
       <li>current (uncompressed) byte</li>
       <li>current (uncompressed) byte type (as described above)</li>
     </ul>
-    </p>
+    </div>
 
 
 
-    <h3>
+    <h3 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
       where and what to add
     </h3>
     <p>Have to add or use loop in RawBitmapReader.c to include a call to our bbc</p>
@@ -57,32 +66,38 @@
     <p>BBCCompressor.h </p>
     <p>
 
-    <h2>
+
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px">
       Psuedo Code for BBC
     </h2>
-    <p>get next byte from raw seq</p>
-    <p>determine type of byte</p>
-    <p>call header byte or lastByte</p>
-    <ul>
-      <li>update header byte</li>
-      <ul>
-        <li>update fill length</li>
-        <li>update tail length</li>
+    <p>
+    <ul class="browser-default">get next byte from raw seq</ul>
+    <ul class="browser-default">determine type of byte</ul>
+    <ul class="browser-default">call header byte or lastByte</ul>
+    <ul class="browser-default">
+      update header byte
+      <ul class="browser-default">
+        update fill length
+        update tail length
       </ul>
-      <li>change type of run</li>
-      <li>end run</li>
+      change type of run
+      end run
     </ul>
-    <p>if byte is new head or literal</p>
-    <ul>
-      <p>add to bbc</p>
+    <ul class="browser-default">if byte is new head or literal</ul>
+    <ul class="browser-default">
+      <ul class="browser-default">add to bbc</ul>
+    </ul>
     </ul>
 
-    <h2> Revisited Pseudo Code </h2>
+
+    <h2 class = "z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
+    Revisited Pseudo Code
+    </h2>
 
 
-  <pre class="prettyprint">
-    /**Revisted Psudeo Code**/
-
+  <pre class="prettyprint" style="margin-right: 20px; margin-left: 20px">
+/**Revisted Psudeo Code**/
+#include &lt;stdio.h&gt;
 
 while(has next byte)
 
@@ -192,7 +207,7 @@ while(has next byte)
 
     else if(run_type == TYPE_1)
 
-      if(tail_length<15)
+      if(tail_length<span class="pln"><span class="str">&lt;</span></span>15)
 
         incrementTail(next_byte);
 
@@ -202,7 +217,7 @@ while(has next byte)
 
     else if(run_type == TYPE_3)
 
-      if(tail_length<15)
+      if(tail_length<span class="pln"><span class="str">&lt;</span></span>15)
 
         incrementTail(next_byte);
         startNewRun();
@@ -211,20 +226,22 @@ while(has next byte)
 
         incrementTail(next_byte);
         startNewRun();
-  </pre>
+      </pre>
 
 
 
-    <h2>
+
+
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
     Questions and Concerns:
     </h2>
-      <p>
+      <p style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
         <ul>
-        <li>Suppose we have a long tail of messy bits, then we come across an odd byte.
+        <li style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">Suppose we have a long tail of messy bits, then we come across an odd byte.
         Should we append the odd byte to the tail, or start a new type 2 or 4 run to
         contain the single odd bit? Possible overhead concerns with implementing this special
         case vs. the rarity of the special case given sparse data.</li>
-        <li>Suppose we are a shooting star. <a href = "shooting_star.html">Then What?</a></li>
+        <li style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">Suppose we are a shooting star. <a href = "shooting_star.html">Then What?</a></li>
         </ul>
       </p>
   </body>
