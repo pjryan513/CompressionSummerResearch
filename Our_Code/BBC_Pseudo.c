@@ -79,12 +79,12 @@ void bbcCompress(bbcSeg *param){
 
       //if we are currently in a TYPE_3 run
       else if(run_type = TYPE_3)
-        //increment the counter byte somehow
+        //increment the counter bytes
         incrementCounterByte();
 
     //if it's not the right kind of fill
     else
-      startNewRun(BYTE_TYPE);
+      startNewRun(byte_type);
 
 
   //odd byte (Eg: 00010000)
@@ -118,8 +118,7 @@ void bbcCompress(bbcSeg *param){
 
       else
 
-        //otherwise, add the current byte to the run
-        // and start a new run
+        //otherwise, start a new run 
         startNewRun(byte_type);
 
     //if we are a TYPE_3 run
@@ -131,8 +130,7 @@ void bbcCompress(bbcSeg *param){
 
         incrementTail(next_byte);
 
-      //otherwise, start a new run and add the current byte to the
-      //current run
+      //otherwise, start a new run
       else
 
         startNewRun(byte_type);

@@ -80,13 +80,12 @@ void bbcCompress(bbcSeg *param){
 
       //if we are currently in a TYPE_3 run
       else if(run_type = TYPE_3)
-        //increment the counter byte somehow
+        //increment the counter bytes
         incrementCounterByte();
 
     //if it's not the right kind of fill
     else
-      startNewRun(BYTE_TYPE);
-
+      startNewRun(byte_type);
 
   //odd byte (Eg: 00010000)
   else if(byte_type==ODD_BYTE)
@@ -96,14 +95,16 @@ void bbcCompress(bbcSeg *param){
 
       //change ourselves to a TYPE_2 run
       //this will end the current run
-      changeRunType(TYPE_2);
+      //changeRunType(TYPE_2);
+      startNewRun(byte_type;
 
     //if we are a TYPE_3 run
     if(run_type == TYPE_3)
 
       //change ourselves to a TYPE_4 run
       //this will end the current run
-      changeRunType(TYPE_4);
+      //changeRunType(TYPE_4);
+      startNewRun(byte_type);
 
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
@@ -143,23 +144,29 @@ void bbcCompress(bbcSeg *param){
 startNewRun(char byte_type){
 
   //ZERO FILL
+  //there's only one possible byte we should produce
   if(byte_type == ZERO_BYTE)
     //setFillBit(0);
     //makeHeader(byte_type);
-    header = 
+    param->header = '10010000'
 
   //ONE_FILL
+  //there's only one possible byte we should produce
   if(byte_type == ONE_BYTE)
     //setFillBit(1);
+    param->header = '11010000'
 
   //ODD BYTE
+  //set header to NULL here since we've dealt with the 
+  //odd byte
   if(byte_type == ODD_BYTE)
     //make (and end) type 2 run with the odd bit stored in the header
-    param->header = 01X0
+    param->header = '01X00000'
+    //here we decide the last three bits of the above binary number
     param->header = placeOddBit(param->next_byte);
 
   //MESSY BYTE
-  if(new_run)
+  if(byte_type == MESSY_BYTE)
 
       changeHeaderType(TYPE_2);
       placeOddBit(next_byte);
@@ -171,4 +178,5 @@ startNewRun(char byte_type){
             //this method increases the tail length bit in the header and concatenates the messy literal bit to the tail
 
 //
+          }
 placeOddBit(next_byte);
