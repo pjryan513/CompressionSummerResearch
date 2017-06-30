@@ -63,13 +63,23 @@ void bbcCompress(blockSegBBC *param){
     if(param->header==NULL){
       startNewRun(param->byte_type);
 
+<<<<<<< HEAD
     }
+=======
+      //increments the fill length in the header
+      //increments the counter bytes in a type 3 run
+      incrementFill();
+>>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
     //0-fill byte or 1-fill byte (11111111 or 00000000)
     else if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE)
 
+<<<<<<< HEAD
       //proper type of fill (0 or 1)
       if(param->byte_type == param->fill_bit)
+=======
+      
+>>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
         //if we are currently in a TYPE_1 run
         if(param->run_type == TYPE_1)
@@ -78,9 +88,16 @@ void bbcCompress(blockSegBBC *param){
           if(param->fill_len < FILL_LIMIT)
             incrementFill();
 
+<<<<<<< HEAD
           //otherwise, change to type 3 run
           else
             changeRunType(TYPE_3);
+=======
+*/
+  //if the header is null
+  if(header==NULL){
+    startNewRun(byte_type);
+>>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
         //if we are currently in a TYPE_3 run
         else if(param->run_type = TYPE_3)
@@ -131,7 +148,18 @@ void bbcCompress(blockSegBBC *param){
           //messy bit to the tail and increment the tail length
           incrementTail(param->next_byte);
 
+<<<<<<< HEAD
         else
+=======
+    /*if we already have a tail, we must start a new run using
+    the ODD_BYTE*/
+    //the startNewRun() function checks for this specific case 
+    else
+      startNewRun(byte_type);
+
+  //messy byte (Eg: 11010100)
+  else if(byte_type==3)
+>>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
           //otherwise, start a new run
           startNewRun(param->byte_type);
