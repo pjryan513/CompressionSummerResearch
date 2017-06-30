@@ -11,5 +11,6 @@
 #define TYPE_4 3
 
 #define FILL_LIMIT 3 //maybe????
+#define TAIL_LIMIT 15 //maybe could be 16
 
 typedef char byte;
