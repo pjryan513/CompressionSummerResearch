@@ -11,33 +11,37 @@ void startNewRun(blockSegBBC *param){
 
   //first we should write out the current array of chars to file, 
   //and also free the memory from that array
-  fwrite(param->curr_run ...... etc.);
+  //fwrite(param->curr_run ...... etc.);
 
   //ZERO FILL
-  //there's only one possible byte we should produce
-  if(byte_type == ZERO_BYTE)
-    //setFillBit(0);
-    //makeHeader(byte_type);
-    param->header = '10010000';
-	fill_len = 1;
+  //there's only one possible byte we should produce TYPE_1
+  if(param->byte_type == ZERO_BYTE)
+    param->header = 0b10010000;
+	  param->fill_len = 1;
+    param->tail_len = 0;
+    param->run_type = TYPE_1;
+    param->fill_bit = 0b00000000;
 
   //ONE_FILL
-  //there's only one possible byte we should produce
-  if(byte_type == ONE_BYTE)
-    //setFillBit(1);
-    param->header = '11010000';
+  //there's only one possible byte we should produce TYPE_1
+  if(param->byte_type == ONE_BYTE)
+    param->header = 0b11010000;
+    param->fill_len = 1;
+    param->tail_len = 0;
+    param->run_type = TYPE_1;
+    param->fill_bit = 0b11111111;
 
   //ODD BYTE
-  if(byte_type == ODD_BYTE)
+  if(param->byte_type == ODD_BYTE)
     //make (and end) type 2 run with the odd bit stored in the header
-    param->header = '01X00000';
+    param->header = 0b01000000;
     //here we decide the last three bits of the above binary number
-    param->header = placeOddBit(param->next_byte);
+    param->header = placeOddBit(param);
 
   //MESSY BYTE... for example, 01101010
-  if(byte_type == MESSY_BYTE)
+  if(param->byte_type == MESSY_BYTE)
     //start off with a type 1 run, fill_length = 0. 
-    param->header = '1X000001';
+    param->header = 0b1X000001;
     //store the header byte and the literal in the run
     param->curr_run = {'1X000001', '01101010'};
   }
@@ -62,7 +66,9 @@ void changeRunType(int run_type){
 }
 
 //do some binary shifting here
-void placeOddBit(next_byte){
+byte placeOddBit(blockSegBBC *param){
+  //next_byte is one of eight bytes
+  char the_byte = param->next_byte;
 
 }
 
@@ -87,3 +93,7 @@ void getHeadType();
 
 //either ZERO_FILL or ONE_FILL 00000000 or 11111111
 void getFillByte();
+
+void getNextByte(blockSegBBC *param){
+
+}

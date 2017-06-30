@@ -1,6 +1,11 @@
-//ByteBlock.h
+//blockSegBBC.h
+#ifndef BLOCKSEGBBC_H_
+#define BLOCKSEGBBC_H_
+
+#include "bbcUtil.h"
 
 typedef struct blockSegBBC {
+	int size;
 	byte *compressBytes; //the current block of uncompressed bytes
 	struct blockBytes *nextBlock; //the next block of bytes to compress
 	int fill_len;
