@@ -7,7 +7,7 @@
 //all 'binary' values here are still very much pseudo code. 
 //real values will be stored in our defined 'typedef char byte' type
 
-startNewRun(char byte_type){
+startNewRun(blockSegBBC *param){
 
   //first we should write out the current array of chars to file, 
   //and also free the memory from that array
@@ -19,6 +19,7 @@ startNewRun(char byte_type){
     //setFillBit(0);
     //makeHeader(byte_type);
     param->header = '10010000';
+	fill_len = 1;
 
   //ONE_FILL
   //there's only one possible byte we should produce
@@ -41,6 +42,7 @@ startNewRun(char byte_type){
     param->curr_run = {'1X000001', '01101010'};
   }
 
+//changes the run type (either type 1 to type 2 or type 3 to type 4)
 changeRunType(int run_type){
 
   /*this only happens if we are already a TYPE_1 run AND the 
@@ -54,12 +56,19 @@ changeRunType(int run_type){
   /*this only happens if we are already a TYPE_3 run AND the 
   tail length is 0 (i.e. going from type 3 to type 4)*/
   else if(run_type == TYPE_4){
-
+	//we want to preserve: fill bytes and the fill_length.
   }
 
 }
 
-
+//do some binary shifting here
 placeOddBit(next_byte){
 
 }
+
+//increments the fill length in the header
+//increments the counter bytes in a type 3 run
+incrementFill();
+
+//changes the current run type to the desired header type
+changeRunType(int type);

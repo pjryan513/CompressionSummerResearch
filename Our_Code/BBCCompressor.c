@@ -36,13 +36,13 @@ void bbcCompress(blockSegBBC *param){
       incrementTail(char next_byte)
 
       //increments the fill length in the header
+      //increments the counter bytes in a type 3 run
       incrementFill();
 
       //changes the current run type to the desired header type
       changeRunType(int type);
 
-      //increments the counter bytes in a type 2 or type 4 run
-      incrementCounterByte();
+      
 
       //write current run to the compressed outfile
       //set header to NULL
@@ -52,9 +52,6 @@ void bbcCompress(blockSegBBC *param){
       //creates the 3 bits in type 2 or type 4 header to represent odd bit in last byte of tail
       placeOddBit(byte next_byte);
 
-      //in the case where after a tail, we run into an odd byte
-      //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
-      makeOddHeader();
 */
   //if the header is null
   if(header==NULL){
@@ -115,7 +112,7 @@ void bbcCompress(blockSegBBC *param){
     //the startNewRun() function checks for this specific case 
     else
       startNewRun(byte_type);
-    
+
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
 
