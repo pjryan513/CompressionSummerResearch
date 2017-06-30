@@ -33,7 +33,6 @@ void bbcCompress(blockSegBBC *param){
         //takes a byte and decides what "type" of byte it is
         getType(next byte)
 
-        //
         //increases the tail length in the header and concatenates the messy literal bit to the tail of the run
         //@param char next_byte The literal byte to be concatenated
         incrementTail(char next_byte)
@@ -77,16 +76,9 @@ void bbcCompress(blockSegBBC *param){
           if(param->fill_len < FILL_LIMIT)
             incrementFill();
 
-<<<<<<< HEAD
           //otherwise, change to type 3 run
           else
             changeRunType(TYPE_3);
-=======
-*/
-  //if the header is null
-  if(header==NULL){
-    startNewRun(byte_type);
->>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
         //if we are currently in a TYPE_3 run
         else if(param->run_type = TYPE_3)
@@ -137,9 +129,8 @@ void bbcCompress(blockSegBBC *param){
           //messy bit to the tail and increment the tail length
           incrementTail(param->next_byte);
 
-<<<<<<< HEAD
         else
-=======
+
     /*if we already have a tail, we must start a new run using
     the ODD_BYTE*/
     //the startNewRun() function checks for this specific case 
@@ -148,7 +139,6 @@ void bbcCompress(blockSegBBC *param){
 
   //messy byte (Eg: 11010100)
   else if(byte_type==3)
->>>>>>> 7740c9e6d983735e98a9988cb668174d6b139a25
 
           //otherwise, start a new run
           startNewRun(param->byte_type);
