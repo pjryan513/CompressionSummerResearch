@@ -10,11 +10,11 @@ void bbcCompress(blockSegBBC *param){
   for(i = 0; i < blockSize; i++)
   {
 
-    param->next_byte= param->nextBlock[i];
+    param->next_byte= param->nextBlock[i];//get the next byte from the clock sequence of bytes
 
-    param->byte_type = getType(param->next_byte);
+    param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
-    if(header != NULL){
+    if(param->header != NULL){ //make sure that it isn't the first run of the block seq where header will be NULL
       param->fill_len = getFill(param->header);
       param->tail_len = getTail(param->header);
       param->run_type = getHeadType(param->header);
@@ -113,12 +113,12 @@ void bbcCompress(blockSegBBC *param){
         startNewRun(param->byte_type);
       }
     }
-    else if(param->byte_type==TYPE_4){ //messy byte (Eg: 11010100)
+    else if(param->byte_type==MESSY_BYTE){ //messy byte (Eg: 11010100)
 
       //if we are a TYPE_1 run
       if(param->run_type == TYPE_1 || param->run_type == TYPE_3){
 
-        if(tail_length<TAIL_LIMIT){
+        if(param->tail_length<TAIL_LIMIT){
 
           //if we aren't too long yet, add the
           //messy bit to the tail and increment the tail length
@@ -128,9 +128,9 @@ void bbcCompress(blockSegBBC *param){
         /*if we already have a tail, we must start a new run using
         the ODD_BYTE*/
         //the startNewRun() function checks for this specific case
-      
+
         else{
-          startNewRun(byte_type);
+          startNewRun(param->byte_type);
         }
       }
     }
