@@ -10,7 +10,7 @@ void bbcCompress(blockSegBBC *param){
   for(i = 0; i < blockSize; i++)
   {
 
-    param->next_byte= param->nextBlock[i];//get the next byte from the clock sequence of bytes
+    param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
 
     param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
