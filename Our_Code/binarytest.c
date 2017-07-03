@@ -7,10 +7,20 @@
 
 int main(int argc, char*argv[]) {
 	printf("Printing some numbers...\n");
-	char a = 'a';
+	unsigned char a = 'a';
 	printf("%x\n", a);
-	char f = 0b01100001;
+	unsigned char f = 0b01100001;
+
 	printf("%x\n", f);
+  unsigned char temp = 0b10010000;
+  temp <<= 2;
+  temp >>= 6;
+  unsigned int newtemp = (unsigned int)temp;
+  newtemp = newtemp + 1;
+  unsigned char final = (unsigned char)newtemp;
+  printf("Added Char: %x\n", final);
+  final <<= 6;
+  printf("Char after shift %x\n", final);
 }
 
 /**

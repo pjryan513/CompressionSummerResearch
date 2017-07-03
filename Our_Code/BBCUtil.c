@@ -80,28 +80,32 @@ byte placeOddBit(blockSegBBC *param){
 
 //increments the fill length in the header
 //increments the counter bytes in a type 3 run
-void incrementFill();
-
-//changes the current run type to the desired header type
-void changeRunType(int type){
-
+void incrementFill(byte header){
+  
 }
 
+//gets
 void getType(next_byte){
 
 }
 
-void getFill()
-{
+void getFill(){
   
 }
 
-void getTail();
+void getTail(){
 
-void getHeadType();
+}
+
+
+void getRunType(){
+
+}
 
 //either ZERO_FILL or ONE_FILL 00000000 or 11111111
-void getFillByte();
+void getFillByte(){
+
+}
 
 void getNextByte(blockSegBBC *param){
 
