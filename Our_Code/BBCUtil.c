@@ -80,8 +80,17 @@ byte placeOddBit(blockSegBBC *param){
 
 //increments the fill length in the header
 //increments the counter bytes in a type 3 run
-void incrementFill(byte header){
-  
+void incrementFill(int type, byte header){
+  if(type == TYPE_1){
+    unsigned char temp = header;
+    temp <<= 2;
+    temp >>= 6;
+    XX 00 XXXX
+    0b00000000
+    0b00000001
+    0b00000010
+    0b00000001
+  }
 }
 
 //gets
