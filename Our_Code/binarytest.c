@@ -10,18 +10,17 @@ int main(int argc, char*argv[]) {
 	unsigned char a = 'a';
 	printf("%x\n", a);
 	unsigned char f = 0b01100001;
-	printf("%x\n", f);
-	unsigned char byte = 0b00000000;
-	unsigned char ones = 0b11111111;
-	if(byte == 0)
-		printf("TRUE\n");
-		printf("%c\n", byte);
-		printf("%012x\n", ones);
-		printf("%c\n", ones);
-	if(ones == 4292967295)
-		printf("TRUE ones\n");
 
-	//printbincharpad(ones);
+	printf("%x\n", f);
+  unsigned char temp = 0b10010000;
+  temp <<= 2;
+  temp >>= 6;
+  unsigned int newtemp = (unsigned int)temp;
+  newtemp = newtemp + 1;
+  unsigned char final = (unsigned char)newtemp;
+  printf("Added Char: %x\n", final);
+  final <<= 6;
+  printf("Char after shift %x\n", final);
 }
 
 	
