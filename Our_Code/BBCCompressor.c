@@ -9,17 +9,17 @@ void bbcCompress(blockSegBBC *param){
   int i;
   for(i = 0; i < blockSize; i++)
   {
-
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
-
+    
     param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
     if(param->header != NULL){ //make sure that it isn't the first run of the block seq where header will be NULL
-      param->fill_len = getFill(param->header);
-      param->tail_len = getTail(param->header);
-      param->run_type = getHeadType(param->header);
+      //param->run_type = getHeadType(param->header);
+      //param->fill_len = getFillLen(param->header);
+      //param->tail_len = getTailLen(param->header);
+      
       //either ZERO_FILL or ONE_FILL 00000000 or 11111111
-      param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
+      //param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
 
   /**
   ***FUNCTION DOCUMENTATION***
@@ -66,7 +66,7 @@ void bbcCompress(blockSegBBC *param){
 
           //we're not too long yet, so stay as a TYPE_1 and incrememt
           if(param->fill_len < FILL_LIMIT){
-            incrementFill();
+            incrementFill(param);
 
           }
           else{ //otherwise, change to type 3 run
@@ -75,7 +75,7 @@ void bbcCompress(blockSegBBC *param){
         }
         else if(param->run_type = TYPE_3) //if we are currently in a TYPE_3 run
           //increment the counter bytes
-          incrementCounterByte();
+          incrementFill(param);
 
       }
       else{ //if it's not the right kind of fill, start a new run

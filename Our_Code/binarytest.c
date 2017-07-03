@@ -13,14 +13,21 @@ int main(int argc, char*argv[]) {
 
 	printf("%x\n", f);
   unsigned char temp = 0b10010000;
+  unsigned char adder = 0b00000010;
   temp <<= 2;
   temp >>= 6;
+  unsigned char chartest = temp + adder;
   unsigned int newtemp = (unsigned int)temp;
   newtemp = newtemp + 1;
   unsigned char final = (unsigned char)newtemp;
   printf("Added Char: %x\n", final);
   final <<= 6;
   printf("Char after shift %x\n", final);
+  printf("can add chars? %x\n", chartest);
+  unsigned char chartest2 = 'c' + adder;
+  printf("can add chars? %c\n", chartest2);
+  unsigned char ones = 0b11111111;
+  printf("255 in char representation: %c\n", ones);
 }
 
 	

@@ -92,34 +92,52 @@ byte placeOddBit(blockSegBBC *param){
 }
 
 //increments the fill length in the header
+//increments the fill length in a type 1 run
 //increments the counter bytes in a type 3 run
-void incrementFill(int type, byte header){
-  if(type == TYPE_1){
-    unsigned char temp = header;
+void incrementFill(blockSegBBC *param){
+  if(param->run_type == TYPE_1){
+    unsigned char temp = param->header;s
     temp <<= 2;
     temp >>= 6;
-    XX 00 XXXX
-    0b00000000
-    0b00000001
-    0b00000010
-    0b00000001
+    temp = temp + 1;
+    temp <<= 6;
+    unsigned char newhead = 0b10000000;
+    newhead |= temp;
+    param->header = newhead;
+    param->fill_len = param->fill_len + 1;
+
+  }
+  //complex
+  if(param->run_type == TYPE_3){
+
   }
 }
 
-//gets
-void getType(next_byte){
+//gets the type of a RAW byte
+unsigned int getType(next_byte){
+  unsigned char b = next_byte;
+  if(next_byte == 0){
+    return ZERO_FILL;
+  }
+  else if(next_byte == 255){
+    return ONE_FILL;
+  }
+  //more efficient way to do this? ask david
+  else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
+    return ODD_BYTE;
+  }
+  else{
+    return MESSY_BYTE;
+  }
+}
+
+//increases tail_len in header by one
+//concatenates a literal byte to the tail of curr_run
+unsigned int incrementTail(blockSegBBC *param){
 
 }
 
-void getFill(){
-  
-}
-
-void getTail(){
-
-}
-
-
+/*
 void getRunType(){
 
 }
@@ -132,3 +150,13 @@ void getFillByte(){
 void getNextByte(blockSegBBC *param){
 
 }
+
+
+unsigned int getFillLen(unsigned char header, unsigned char runtype){
+  
+}
+
+unsigned int getTailLen(){
+
+}
+*/
