@@ -7,12 +7,37 @@
 
 int main(int argc, char*argv[]) {
 	printf("Printing some numbers...\n");
-	char a = 'a';
+	unsigned char a = 'a';
 	printf("%x\n", a);
-	char f = 0b01100001;
+	unsigned char f = 0b01100001;
 	printf("%x\n", f);
+	unsigned char byte = 0b00000000;
+	unsigned char ones = 0b11111111;
+	if(byte == 0)
+		printf("TRUE\n");
+		printf("%c\n", byte);
+		printf("%012x\n", ones);
+		printf("%c\n", ones);
+	if(ones == 4292967295)
+		printf("TRUE ones\n");
+
+	//printbincharpad(ones);
 }
 
+	
+
+void printbincharpad(char n)
+{
+	while (n) {
+	    if (n & 1)
+	        printf("1");
+	    else
+	        printf("0");
+
+	    n >>= 1;
+	}
+	printf("\n");
+}
 /**
 **Revisted Psudeo Code**
 #include "bbcUtil.h";
@@ -74,6 +99,7 @@ void bbcCompress(blockSegBBC *param){
         //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
         makeOddHeader();
   */
+/*
     //if the header is null
     if(param->header==NULL){
       startNewRun(param->byte_type);
@@ -110,7 +136,7 @@ void bbcCompress(blockSegBBC *param){
     else if(param->byte_type==ODD_BYTE)
       /*if the tail_length is 0, we can easily change to
       either a TYPE_2 or TYPE_4 run by concatenating the
-      ODD_BYTE to the end of our fill. */
+      ODD_BYTE to the end of our fill. 
       if(param->tail_len == 0)
 
         //if we are a TYPE_1 run
@@ -128,7 +154,7 @@ void bbcCompress(blockSegBBC *param){
           changeRunType(TYPE_4);
 
       /*if we already have a tail, we must start a new run using
-      the ODD_BYTE*/
+      the ODD_BYTE
       //the startNewRun() function checks for this specific case
       else
         startNewRun(param->byte_type);
@@ -148,7 +174,7 @@ void bbcCompress(blockSegBBC *param){
         else
 
     /*if we already have a tail, we must start a new run using
-    the ODD_BYTE*/
+    the ODD_BYTE
     //the startNewRun() function checks for this specific case 
     else
       startNewRun(byte_type);
@@ -174,5 +200,4 @@ void bbcCompress(blockSegBBC *param){
           startNewRun(param->byte_type);
   }
 }
-
 */

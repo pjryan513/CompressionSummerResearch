@@ -69,7 +69,20 @@ void changeRunType(int run_type){
 byte placeOddBit(blockSegBBC *param){
   //next_byte is one of eight bytes
   char the_byte = param->next_byte;
-
+  int i = 0;
+  int pos = 0;
+  //shift right until the number == 1
+  for(i = 0; i < 8; i++){
+    if(the_byte == 1){
+      pos = i;
+      break;
+    }
+    else{
+      the_byte >>= 1;
+    }
+  }
+  param->header |= pos;
+  return param->header;
 }
 
 //increments the fill length in the header
