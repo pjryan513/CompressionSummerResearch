@@ -134,7 +134,25 @@ unsigned int getType(next_byte){
 
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
+//This funtion should only be used for types 1 and 3 where the tail length is guarented to be the last 4 bits of the header
 unsigned int incrementTail(blockSegBBC *param){
+
+  if(param->run_type == TYPE_2 || param->run_type == TYPE_4)
+  {
+    printf("ERROR: incrementing tail when run type is of type 2 or 4!!!");
+  }
+  else
+  {
+    unsigned char temp = param->header; //copy header byte into temp value
+    temp <<= 4; //clear first half of temp, use left shitf bitwise operation by 4
+    temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
+    temp += 1; //increment tail length by 1
+
+    param->header >>= 4; //clear out the old tail length bits from header
+    header |= temp; //add the new tail length to header using an or bitwise operation
+  }
+
+
 
 }
 
@@ -154,7 +172,7 @@ void getNextByte(blockSegBBC *param){
 
 
 unsigned int getFillLen(unsigned char header, unsigned char runtype){
-  
+
 }
 
 unsigned int getTailLen(){
