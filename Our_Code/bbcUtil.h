@@ -15,3 +15,14 @@
 
 typedef char byte;
 
+void startNewRun(blockSegBBC *param);
+
+void changeRunType(int run_type, blockSegBBC *param);
+
+byte placeOddBit(blockSegBBC *param);
+
+void incrementFill(blockSegBBC *param);
+
+unsigned int getType(next_byte);
+
+unsigned int incrementTail(blockSegBBC *param);
