@@ -13,6 +13,7 @@ void startNewRun(blockSegBBC *param){
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
 
+
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
@@ -96,7 +97,7 @@ byte placeOddBit(blockSegBBC *param){
 //increments the counter bytes in a type 3 run
 void incrementFill(blockSegBBC *param){
   if(param->run_type == TYPE_1){
-    unsigned char temp = param->header;s
+    unsigned char temp = param->header;
     temp <<= 2;
     temp >>= 6;
     temp = temp + 1;
@@ -122,7 +123,7 @@ unsigned int getType(next_byte){
   else if(next_byte == 255){
     return ONE_FILL;
   }
-  //more efficient way to do this? ask david
+  //checks to see if there is 
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
     return ODD_BYTE;
   }

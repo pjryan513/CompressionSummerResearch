@@ -28,6 +28,11 @@ int main(int argc, char*argv[]) {
   printf("can add chars? %c\n", chartest2);
   unsigned char ones = 0b11111111;
   printf("255 in char representation: %c\n", ones);
+  FILE *fp;
+  fp = fopen("filewrite/alphabet.txt", "w");
+  char *fstring = "abcdefghijklmnopqrstuvwxyz";
+  fwrite(fstring, 1, 26, fp);
+  fclose(fp);
 }
 
 	
