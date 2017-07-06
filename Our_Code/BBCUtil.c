@@ -76,6 +76,7 @@ void changeRunType(unsigned int run_type, blockSegBBC *param){
     temp_bit <<= 4;
     param->header = 0b00100000; //'001' + fill_bit + tail_length //counter bytes will follow
     param->header |= temp_bit; //set the fill bit in the new header
+    param->curr_run[0] = param->header;
     //update the struct
     param->run_type = TYPE_3; 
     //param->fill_len = 4;
@@ -132,6 +133,7 @@ void incrementFill(blockSegBBC *param){
     byte newhead = 0b10000000;
     newhead |= temp_fill;
     param->header = newhead;
+    param->curr_run[0] = newhead;
   }
 
   //increments counter bytes
@@ -187,9 +189,10 @@ unsigned int incrementTail(blockSegBBC *param){
     temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
     temp += 1; //increment tail length by 1
     param->header >>= 4; //clear out the old tail length bits from header
-    header |= temp; //add the new tail length to header using an or bitwise operation
+    param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->tail_len++;
     param->curr_size = param->curr_size + 1; //increment the length of the current run
+    param->curr_run[0] = param->header;
     param->curr_run[param->curr_size] = param->next_byte; //concatenate the literal byte to the current run array
   }
 
