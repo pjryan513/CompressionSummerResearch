@@ -12,14 +12,14 @@ void bbcCompress(blockSegBBC *param){
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
-    
+
     param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
     if(param->header != NULL){} //make sure that it isn't the first run of the block seq where header will be NULL
       //param->run_type = getHeadType(param->header);
       //param->fill_len = getFillLen(param->header);
       //param->tail_len = getTailLen(param->header);
-      
+
       //either ZERO_FILL or ONE_FILL 00000000 or 11111111
       //param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
 
@@ -72,6 +72,7 @@ void bbcCompress(blockSegBBC *param){
           }
           else{ //otherwise, change to type 3 run
             changeRunType(TYPE_3);
+            incrementFill(param);
           }
         }
         else if(param->run_type = TYPE_3) //if we are currently in a TYPE_3 run
