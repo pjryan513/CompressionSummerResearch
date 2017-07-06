@@ -5,15 +5,17 @@
 void bbcCompress(blockSegBBC *param){
 
   //these methods gather information from the header
-  int blockSize = param->size;
   int i;
-  for(i = 0; i < blockSize; i++)
+  for(i = 0; i < param->size; i++)
   {
+    //these functions should go in rawbitmapreader.c, for each column there should be a new file. 
+    //sprintf(compfile, "compressed_%d", i);
+    //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
     
     param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
-    if(param->header != NULL){ //make sure that it isn't the first run of the block seq where header will be NULL
+    if(param->header != NULL){} //make sure that it isn't the first run of the block seq where header will be NULL
       //param->run_type = getHeadType(param->header);
       //param->fill_len = getFillLen(param->header);
       //param->tail_len = getTailLen(param->header);
@@ -53,7 +55,6 @@ void bbcCompress(blockSegBBC *param){
     //if the header is null
     if(param->header==NULL){
       startNewRun(param->byte_type);
-
     }
     //0-fill byte or 1-fill byte (11111111 or 00000000)
     else if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
@@ -96,6 +97,7 @@ void bbcCompress(blockSegBBC *param){
           //change ourselves to a TYPE_2 run
           //this will end the current run
           changeRunType(TYPE_2);
+          placeOddBit(param->next_byte);
 
         //if we are a TYPE_3 run
         }
@@ -104,6 +106,7 @@ void bbcCompress(blockSegBBC *param){
           //change ourselves to a TYPE_4 run
           //this will end the current run
           changeRunType(TYPE_4);
+          placeOddBit(param->next_byte);
         }
       /*if we already have a tail, we must start a new run using
       the ODD_BYTE*/

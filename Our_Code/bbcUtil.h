@@ -1,4 +1,5 @@
 //bbcUtil.h
+#include "blockSegBBC.h"
 
 #define ZERO_BYTE 0
 #define ONE_BYTE 1
