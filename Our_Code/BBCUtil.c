@@ -164,20 +164,31 @@ void incrementFill(struct blockSegBBC *param){
 }
 
 //gets the type of a RAW byte
-unsigned int getType(byte next_byte){
-  byte b = next_byte;
-  if(next_byte == 0){
-    return ZERO_BYTE;
+void getType(struct blockSegBBC *param){
+  byte b = param->next_byte;
+  if(param->next_byte == 0){
+    param->byte_type =  ZERO_BYTE;
   }
   else if(next_byte == 255){
-    return ONE_BYTE;
+    param->byte_type = ONE_BYTE;
   }
+  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
+  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
+  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
   //checks to see if there is
+  //if(param->fill_bit == 0){
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
-    return ODD_BYTE;
+    param->byte_type =  ODD_BYTE;
+    param->fill_match = 0;
   }
+  //}
+  else if(b == 254 || b == 253 || b == 251 || b ==247 || b ==239 || b ==223 || b == 191 || b == 127){
+    param->byte_type = ODD_BYTE;
+    param->fill_match = 1;
+  }
+
   else{
-    return MESSY_BYTE;
+    param->byte_type = MESSY_BYTE;
   }
 }
 
