@@ -61,7 +61,7 @@ void bbcCompress(blockSegBBC *param){
     else if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
 
       //proper type of fill (0 or 1)
-      if(param->byte_type == param->fill_bit){
+      if(param->fill_match == param->fill_bit){
 
         //if we are currently in a TYPE_1 run
         if(param->run_type == TYPE_1){
@@ -85,13 +85,14 @@ void bbcCompress(blockSegBBC *param){
 
         startNewRun(param);
       }
-    //odd byte (Eg: 00010000)
+    //odd byte (Eg: 00010000 or 111110111)
     }
     else if(param->byte_type==ODD_BYTE){
       /*if the tail_length is 0, we can easily change to
+      //FILL_MATCH to determine the value 
       either a TYPE_2 or TYPE_4 run by concatenating the
       ODD_BYTE to the end of our fill. */
-      if(param->tail_len == 0){
+      if(param->tail_len == 0 && param->fill_match == param->fill_bit){
 
         //if we are a TYPE_1 run
         if(param->run_type == TYPE_1){
