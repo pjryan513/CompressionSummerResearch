@@ -1,7 +1,5 @@
 //bbcUtil.h
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "blockSegBBC.h"
 
 #define ZERO_BYTE 0
@@ -19,14 +17,14 @@
 
 typedef unsigned char byte;
 
-void startNewRun(blockSegBBC *param);
+void startNewRun(struct blockSegBBC *param);
 
-void changeRunType(int run_type, blockSegBBC *param);
+void changeRunType(int run_type, struct blockSegBBC *param);
 
-byte placeOddBit(blockSegBBC *param);
+void placeOddBit(struct blockSegBBC *param);
 
-void incrementFill(blockSegBBC *param);
+void incrementFill(struct blockSegBBC *param);
 
-unsigned int getType(next_byte);
+unsigned int getType(unsigned char next_byte);
 
-unsigned int incrementTail(blockSegBBC *param);
+unsigned int incrementTail(struct blockSegBBC *param);

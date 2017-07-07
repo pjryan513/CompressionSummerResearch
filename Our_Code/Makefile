@@ -4,7 +4,14 @@ test:
 cleantest:
 	rm -f *.o bintest
 
-all:
-	gcc -Wall -c BBCUtil.c bbcUtil.h
-	gcc -Wall -c BBCCompressor.c BBCCompressor.h blockSegBBC.h
-	gcc -Wall -o main  BBCUtil.o BBCCompressor.o  -lm
+all: BBCUtil.o BBCCompressor.o
+
+
+BBCUtil.o: BBCUtil.c
+	gcc -Wall -c BBCUtil.c
+
+BBCCompressor.o: BBCCompressor.c
+	gcc -Wall -c BBCCompressor.c
+
+clean:
+	rm -f *.o
