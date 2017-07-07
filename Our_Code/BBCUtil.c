@@ -1,7 +1,6 @@
 //BBCUtil.c
 
-#include "ByteBlock.h";
-#include "BBCUtil.h";
+#include "bbcUtil.h"
 
 //This function starts a new run based on the type of byte we have
 //all 'binary' values here are still very much pseudo code.
