@@ -14,7 +14,7 @@ void bbcCompress(blockSegBBC *param){
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
 
-    param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
+    getType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
     if(param != NULL){} //make sure that it isn't the first run of the block seq where header will be NULL
       //param->run_type = getHeadType(param->header);
@@ -54,7 +54,7 @@ void bbcCompress(blockSegBBC *param){
         makeOddHeader();
   */
     //if the header is null
-    if(param == NULL){
+    if(param->header == NULL){
       startNewRun(param);
     }
     //0-fill byte or 1-fill byte (11111111 or 00000000)
@@ -82,8 +82,8 @@ void bbcCompress(blockSegBBC *param){
 
       }
       else{ //if it's not the right kind of fill, start a new run
-
-        startNewRun(param);
+        param->header = NULL;
+        //startNewRun(param);
       }
     //odd byte (Eg: 00010000 or 111110111)
     }

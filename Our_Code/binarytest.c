@@ -33,6 +33,10 @@ int main(int argc, char*argv[]) {
   char *fstring = "abcdefghijklmnopqrstuvwxyz";
   fwrite(fstring, 1, 26, fp);
   fclose(fp);
+  printf("get outta here\n");
+  unsigned char thing = 'z';
+  thing = NULL;
+  printf("%x\n", thing);
 }
 
 	

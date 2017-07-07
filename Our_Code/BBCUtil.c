@@ -26,6 +26,36 @@ void placeOddBit(struct blockSegBBC *param){
   //return param->header;
 }
 
+//gets the type of a RAW byte
+void getType(struct blockSegBBC *param){
+  byte b = param->next_byte;
+  if(param->next_byte == 0){
+    param->byte_type = ZERO_BYTE;
+    param->fill_match = 0;
+  }
+  else if(param->next_byte == 255){
+    param->byte_type = ONE_BYTE;
+    param->byte_type = 1;
+  }
+  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
+  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
+  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
+  //checks to see if there is
+  //if(param->fill_bit == 0){
+  else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
+    param->byte_type =  ODD_BYTE;
+    param->fill_match = 0;
+  }
+  //}
+  else if(b == 254 || b == 253 || b == 251 || b ==247 || b ==239 || b ==223 || b == 191 || b == 127){
+    param->byte_type = ODD_BYTE;
+    param->fill_match = 1;
+  }
+
+  else{
+    param->byte_type = MESSY_BYTE;
+  }
+}
 
 //This function starts a new run based on the type of byte we have
 //all 'binary' values here are still very much pseudo code.
@@ -65,7 +95,11 @@ void startNewRun(struct blockSegBBC *param){
   if(param->byte_type == ODD_BYTE)
   {
     //make (and end) type 2 run with the odd bit stored in the header
-    param->header = 0b01000000;
+    if(param->fill_match == 0)
+      param->header = 0b01000000;
+    else{
+      param->header = 0b01100000;
+    }
     param->curr_run[0] = param->header;
     //here we decide the last three bits of the above binary number
     placeOddBit(param);
@@ -163,34 +197,6 @@ void incrementFill(struct blockSegBBC *param){
   }
 }
 
-//gets the type of a RAW byte
-void getType(struct blockSegBBC *param){
-  byte b = param->next_byte;
-  if(param->next_byte == 0){
-    param->byte_type =  ZERO_BYTE;
-  }
-  else if(next_byte == 255){
-    param->byte_type = ONE_BYTE;
-  }
-  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
-  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
-  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
-  //checks to see if there is
-  //if(param->fill_bit == 0){
-  else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
-    param->byte_type =  ODD_BYTE;
-    param->fill_match = 0;
-  }
-  //}
-  else if(b == 254 || b == 253 || b == 251 || b ==247 || b ==239 || b ==223 || b == 191 || b == 127){
-    param->byte_type = ODD_BYTE;
-    param->fill_match = 1;
-  }
-
-  else{
-    param->byte_type = MESSY_BYTE;
-  }
-}
 
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
