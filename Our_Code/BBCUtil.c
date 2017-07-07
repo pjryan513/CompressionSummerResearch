@@ -9,42 +9,46 @@
 
 void startNewRun(blockSegBBC *param){
 
-//UPDATE TO PUT HEADER 
+//UPDATE TO PUT HEADER
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(param->curr_run, sizeof(char), curr_size, param->colFile);  
+  fwrite(param->curr_run, sizeof(char), curr_size, param->colFile);
 
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
+  {
     param->header = 0b10010000;
 	  param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b00000000;
     param->curr_run[0] = param->header;
-
+  }
   //ONE_FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ONE_BYTE)
+  {
     param->header = 0b11010000;
     param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b11111111;
     param->curr_run[0] = param->header[0];
-
+  }
   //ODD BYTE
   if(param->byte_type == ODD_BYTE)
+  {
     //make (and end) type 2 run with the odd bit stored in the header
     param->header = 0b01000000;
     param->curr_run[0] = param->header;
     //here we decide the last three bits of the above binary number
     param->header = placeOddBit(param);
-
+  }
   //MESSY BYTE... for example, 01101010
   if(param->byte_type == MESSY_BYTE)
+  {
     //start off with a type 1 run, fill_length = 0.
     param->header = 0b10000001;
     //store the header byte and the literal in the run
@@ -55,6 +59,7 @@ void startNewRun(blockSegBBC *param){
     param->tail_len = 1;
     param->run_type = TYPE_1;
   }
+}
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
 void changeRunType(unsigned int run_type, blockSegBBC *param){
@@ -79,7 +84,7 @@ void changeRunType(unsigned int run_type, blockSegBBC *param){
     param->header |= temp_bit; //set the fill bit in the new header
     param->curr_run[0] = param->header;
     //update the struct
-    param->run_type = TYPE_3; 
+    param->run_type = TYPE_3;
     //param->fill_len = 4;
     param->curr_size++; //increments size of byte array to allow for first counter byte
     param->curr_run[size] = (byte)param->fill_len; //sets counter byte to fill_len
@@ -98,7 +103,7 @@ void changeRunType(unsigned int run_type, blockSegBBC *param){
 }
 
 //transates a byte with a single '1' into a 3-bit representation of that bit's position
-//inserts those three bits into the appropriate header 
+//inserts those three bits into the appropriate header
 void placeOddBit(blockSegBBC *param){
   //next_byte is one of eight bytes
   byte the_byte = param->next_byte;
@@ -165,7 +170,7 @@ unsigned int getType(next_byte){
   else if(next_byte == 255){
     return ONE_FILL;
   }
-  //checks to see if there is 
+  //checks to see if there is
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
     return ODD_BYTE;
   }
