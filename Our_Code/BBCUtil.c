@@ -39,6 +39,7 @@ void startNewRun(blockSegBBC *param){
   if(param->byte_type == ODD_BYTE)
     //make (and end) type 2 run with the odd bit stored in the header
     param->header = 0b01000000;
+    param->curr_run[0] = param->header;
     //here we decide the last three bits of the above binary number
     param->header = placeOddBit(param);
 
