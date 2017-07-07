@@ -1,18 +1,43 @@
 //BBCUtil.c
 
-#include "bbcUtil.h"
+//#include "BBCUtil.h"
+#include "blockSegBBC.h"
+
+
+//transates a byte with a single '1' into a 3-bit representation of that bit's position
+//inserts those three bits into the appropriate header
+void placeOddBit(struct blockSegBBC *param){
+  //next_byte is one of eight bytes
+  byte the_byte = param->next_byte;
+  unsigned int i = 0;
+  unsigned int pos = 0;
+  //shift right until the number == 1
+  for(i = 0; i < 8; i++){
+    if(the_byte == 1){
+      pos = i;
+      break;
+    }
+    else{
+      the_byte >>= 1;
+    }
+  }
+  param->curr_run[0] |= pos;
+  param->header = NULL; //setting the header to NULL ensures a new run will on the start next loop of BBCCompressor.c
+  //return param->header;
+}
+
 
 //This function starts a new run based on the type of byte we have
 //all 'binary' values here are still very much pseudo code.
 //real values will be stored in our defined 'typedef char byte' type
 
-void startNewRun(blockSegBBC *param){
+void startNewRun(struct blockSegBBC *param){
 
 //UPDATE TO PUT HEADER
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(param->curr_run, sizeof(char), curr_size, param->colFile);
+  fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
 
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
@@ -34,7 +59,7 @@ void startNewRun(blockSegBBC *param){
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b11111111;
-    param->curr_run[0] = param->header[0];
+    param->curr_run[0] = param->header;
   }
   //ODD BYTE
   if(param->byte_type == ODD_BYTE)
@@ -43,7 +68,7 @@ void startNewRun(blockSegBBC *param){
     param->header = 0b01000000;
     param->curr_run[0] = param->header;
     //here we decide the last three bits of the above binary number
-    param->header = placeOddBit(param);
+    placeOddBit(param);
   }
   //MESSY BYTE... for example, 01101010
   if(param->byte_type == MESSY_BYTE)
@@ -53,7 +78,7 @@ void startNewRun(blockSegBBC *param){
     //store the header byte and the literal in the run
     param->curr_run[0] = param->header;
     param->curr_size = 1;
-    param->curr_run[curr_size] = param->next_byte; //storing the literal
+    param->curr_run[param->curr_size] = param->next_byte; //storing the literal
     param->fill_len = 0;
     param->tail_len = 1;
     param->run_type = TYPE_1;
@@ -61,7 +86,7 @@ void startNewRun(blockSegBBC *param){
 }
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
-void changeRunType(unsigned int run_type, blockSegBBC *param){
+void changeRunType(unsigned int run_type, struct blockSegBBC *param){
 
   /*this only happens if we are already a TYPE_1 run AND the
   tail length is 0 (i.e. going from type 1 to type 2)*/
@@ -86,7 +111,7 @@ void changeRunType(unsigned int run_type, blockSegBBC *param){
     param->run_type = TYPE_3;
     //param->fill_len = 4;
     param->curr_size++; //increments size of byte array to allow for first counter byte
-    param->curr_run[size] = (byte)param->fill_len; //sets counter byte to fill_len
+    param->curr_run[param->curr_size] = (byte)param->fill_len; //sets counter byte to fill_len
   }
 
   /*this only happens if we are already a TYPE_3 run AND the
@@ -101,32 +126,10 @@ void changeRunType(unsigned int run_type, blockSegBBC *param){
 
 }
 
-//transates a byte with a single '1' into a 3-bit representation of that bit's position
-//inserts those three bits into the appropriate header
-void placeOddBit(blockSegBBC *param){
-  //next_byte is one of eight bytes
-  byte the_byte = param->next_byte;
-  unsigned int i = 0;
-  unsigned int pos = 0;
-  //shift right until the number == 1
-  for(i = 0; i < 8; i++){
-    if(the_byte == 1){
-      pos = i;
-      break;
-    }
-    else{
-      the_byte >>= 1;
-    }
-  }
-  param->curr_run[0] |= pos;
-  param->header = NULL; //setting the header to NULL ensures a new run will on the start next loop of BBCCompressor.c
-  //return param->header;
-}
-
 //increments the fill length in the header
 //increments the fill length in a type 1 run
 //increments the counter bytes in a type 3 run
-void incrementFill(blockSegBBC *param){
+void incrementFill(struct blockSegBBC *param){
   //increments fill
   if(param->run_type == TYPE_1){
     param->fill_len++;
@@ -161,13 +164,13 @@ void incrementFill(blockSegBBC *param){
 }
 
 //gets the type of a RAW byte
-unsigned int getType(next_byte){
+unsigned int getType(byte next_byte){
   byte b = next_byte;
   if(next_byte == 0){
-    return ZERO_FILL;
+    return ZERO_BYTE;
   }
   else if(next_byte == 255){
-    return ONE_FILL;
+    return ONE_BYTE;
   }
   //checks to see if there is
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
@@ -181,7 +184,7 @@ unsigned int getType(next_byte){
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
 //This funtion should only be used for types 1 and 3 where the tail length is guaranteed to be the last 4 bits of the header
-unsigned int incrementTail(blockSegBBC *param){
+unsigned int incrementTail(struct blockSegBBC *param){
 
   if(param->run_type == TYPE_2 || param->run_type == TYPE_4)
   {
