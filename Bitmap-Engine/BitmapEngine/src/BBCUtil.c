@@ -22,7 +22,7 @@ void placeOddBit(struct blockSegBBC *param){
     }
   }
   param->curr_run[0] |= pos;
-  param->header = NULL; //setting the header to NULL ensures a new run will on the start next loop of BBCCompressor.c
+  param->header = 0; //setting the header to 0 ensures a new run will on the start next loop of BBCCompressor.c
   //return param->header;
 }
 
@@ -74,7 +74,7 @@ void startNewRun(struct blockSegBBC *param){
   if(param->byte_type == ZERO_BYTE)
   {
     param->header = 0b10010000;
-	  param->fill_len = 1;
+	param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b00000000;

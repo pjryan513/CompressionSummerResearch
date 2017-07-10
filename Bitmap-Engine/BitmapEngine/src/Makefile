@@ -12,6 +12,21 @@ all :
 	gcc -Wall -c WAHQuery.c
 	gcc -Wall -c Writer.c
 	gcc -Wall -o main main.c ActiveWord.o Clock.o Query.o QueryUtil.o RawBitmapReader.o SegUtil.o VALCompressor.o VALQuery.o WAHCompressor.o WAHQuery.o Writer.o -lpthread -lm
+
+test:
+	gcc -Wall -o bintest binarytest.c
+
+cleantest:
+	rm -f *.o bintest
+
+bbc: BBCUtil.o BBCCompressor.o
+
+BBCUtil.o: BBCUtil.c
+	gcc -Wall -c BBCUtil.c
+
+BBCCompressor.o: BBCCompressor.c
+	gcc -Wall -c BBCCompressor.c
+
 clean:
 	rm main
 	rm *.o
