@@ -35,11 +35,11 @@ void getType(struct blockSegBBC *param){
   }
   else if(param->next_byte == 255){
     param->byte_type = ONE_BYTE;
-    param->byte_type = 1;
+    param->fill_match = 1;
   }
-  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
-  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
-  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
+  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE.
+  //what if we are starting a new run? (NO FILL BIT DEFINED YET).
+  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly.
   //checks to see if there is
   //if(param->fill_bit == 0){
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
