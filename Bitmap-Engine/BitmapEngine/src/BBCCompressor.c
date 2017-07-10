@@ -1,6 +1,6 @@
 /**Revisted Psudeo Code**/
 //#include "BBCUtil.h"
-#include "blockSegBBC.h"
+#include "BBCUtil.h"
 
 
 void bbcCompress(blockSegBBC *param){
