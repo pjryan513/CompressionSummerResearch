@@ -8,6 +8,7 @@ void bbcCompress(struct blockSeg *param){
   int i;
   for(i = 0; i < param->size; i++)
   {
+    printf("starting bbccompress\n");
     //these functions should go in rawbitmapreader.c, for each column there should be a new file.
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
