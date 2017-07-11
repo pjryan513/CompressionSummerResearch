@@ -67,7 +67,8 @@ void startNewRun(struct blockSeg *param){
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
+  fwrite(8, sizeof(word_32),1,param->colFile);
+  //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
 
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
