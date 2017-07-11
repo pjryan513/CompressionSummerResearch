@@ -220,7 +220,7 @@ void bbcCompress(blockSegBBC *param){
     //if we are a TYPE_1 run
     if(run_type == TYPE_1)
 
-      if(tail_length<15)
+      if(tail_length< 15)
 
         //if we aren't too long yet, add the
         //messy bit to the tail and increment the tail length
@@ -236,7 +236,7 @@ void bbcCompress(blockSegBBC *param){
 
       //if we are not too long yet, add the
       //messy bit to the tail and increment the tail length
-      if(tail_length<15)
+      if(tail_length< 15)
 
         incrementTail(next_byte);
 

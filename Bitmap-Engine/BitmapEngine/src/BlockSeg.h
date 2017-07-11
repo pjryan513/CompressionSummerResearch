@@ -13,6 +13,7 @@ typedef struct blockSeg{
 	word_32 curr;//the latest compressed
 	word_32 stored;
 	int status;//first/last block of column? or not valid block (empty)?
+
 } blockSeg;
 
 #endif /* BLOCKSEG_H_ */
