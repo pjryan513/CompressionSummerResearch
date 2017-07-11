@@ -3,7 +3,7 @@
 #include "Core.h"
 
 /*
- * Compresses one segment of a column
+ * Compresses one segment o a column
  */
 void compressUsingWAH(blockSeg *param){
 	int numWords = param->size;//number of words in this block

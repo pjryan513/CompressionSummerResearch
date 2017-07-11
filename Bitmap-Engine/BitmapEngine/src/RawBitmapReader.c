@@ -54,7 +54,12 @@ int initCompression(){
 	pthread_mutex_init(&mut,NULL);//
 
 	if(striped==UNSTRIPED){
-		segs = (blockSeg **) malloc(sizeof(blockSeg *) *num_threads);//pointer for each thread to segment that it's compressing
+		if(COMPRESSION == WAH || COMPRESSION == VAL){
+			segs = (blockSeg **) malloc(sizeof(blockSeg *) *num_threads);//pointer for each thread to segment that it's compressing
+		}
+		else{
+			segs_bbc = (blockSegBBC **) malloc(sizeof(blockSegBBC *) *num_threads); //if we're doing BBC compression
+		}
 	}
 	else if(striped==STRIPED){
 		nextCol = (blockSeg **) malloc(sizeof(blockSeg **) * num_threads);//pointers for the front of the queue
@@ -111,6 +116,7 @@ double compress(char *file, int str, int form, int n){
 
 	initCompression();
 
+	//creating directories for output files
 	if(str==UNSTRIPED){
 		uncompressed_path=unstripedExt(file);
 		snprintf(compressed_path,BUFF_SIZE,"%s_%d_COMPRESSED/",uncompressed_path,num_threads);
@@ -150,12 +156,14 @@ void runOverhead(){
 	if(striped==UNSTRIPED){
 		numCols = 0;
 		while(1){
+			//creating output file
 			char temp_name[BUFF_SIZE];
 			snprintf(temp_name,BUFF_SIZE,"%s%d.dat",uncompressed_path,numCols);
 
 			if(size==0){
 				struct stat st;
 				stat(temp_name, &st);
+				//if(COMPRESSION )
 				size = (st.st_size)/sizeof(word_read);//this is number of words in each column file (same in each column)
 			}
 			//counting the number of columns there are in that folder
