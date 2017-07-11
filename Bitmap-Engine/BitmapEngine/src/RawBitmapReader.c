@@ -512,6 +512,7 @@ void compressColumn(int col, int threadNum){
 
 			if(format==WAH) compressUsingWAH(segs[threadNum]);//compress it
 			else if(format==VAL) numWords += compressUsingVAL(segs[threadNum],length);
+			//else if(format==BBC) bbcCompress()????///
 			if(CORE==IN_CORE) break;
 			segs[threadNum]->status = VALID;//not at the beginning anymore
 			if(read<blockWords){//if we reached the end of the file

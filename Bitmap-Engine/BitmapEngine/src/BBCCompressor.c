@@ -13,7 +13,7 @@ void bbcCompress(blockSegBBC *param){
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
-    getType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
+    getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /**

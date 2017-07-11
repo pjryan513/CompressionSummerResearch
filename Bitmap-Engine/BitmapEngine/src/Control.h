@@ -39,7 +39,15 @@
 		typedef unsigned long long word_32;
 		typedef unsigned long long word_read;
 	#endif
+<<<<<<< HEAD
 #elif COMPRESSION == VAL
+=======
+#elsif COMPRESSION == BBC
+	#define FLAG_BITS 1
+	typedef unsigned char byte;
+	#endif
+#else//VAL
+>>>>>>> 3dc2cc28112eddae61bb19664df66ebbe0957233
 	#define FLAG_BITS 4
 	#if WORD_LENGTH == 32 //VAL 32
 		#define WORD_READ_LENGTH 8

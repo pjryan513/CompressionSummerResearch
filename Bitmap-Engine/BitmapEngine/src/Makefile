@@ -1,6 +1,8 @@
 # A note to aingerson, por que no Makefile?
 all :
 	gcc -Wall -c ActiveWord.c
+	gcc -Wall -c BBCCompressor.c
+	gcc -Wall -c BBCUtil.c
 	gcc -Wall -c Clock.c
 	gcc -Wall -c Query.c
 	gcc -Wall -c QueryUtil.c
@@ -11,7 +13,7 @@ all :
 	gcc -Wall -c WAHCompressor.c
 	gcc -Wall -c WAHQuery.c
 	gcc -Wall -c Writer.c
-	gcc -Wall -o main main.c ActiveWord.o Clock.o Query.o QueryUtil.o RawBitmapReader.o SegUtil.o VALCompressor.o VALQuery.o WAHCompressor.o WAHQuery.o Writer.o -lpthread -lm
+	gcc -Wall -o main main.c ActiveWord.o BBCCompressor.o BBCUtil.o Clock.o Query.o QueryUtil.o RawBitmapReader.o SegUtil.o VALCompressor.o VALQuery.o WAHCompressor.o WAHQuery.o Writer.o -lpthread -lm
 
 test:
 	gcc -Wall -o bintest binarytest.c
