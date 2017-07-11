@@ -17,6 +17,12 @@ int blockWords;//number of words can scan per block (per thread for STRIPED)
 int colNum;//current column number file we're scanning (only used for STRIPED)
 int moreFiles;//whether we're done readifng all the files (only used for STRIPED)
 blockSeg **segs;//structs to hold data to pass to compressor
+
+/////////////////////////
+/*BBC 								*/
+blockSegBBC **segs_bbc; //structs to hold data to pass to bbc compressor
+/////////////////////////
+
 int id[MAX_NUM_THREADS];//threads ids
 //word_32 *readingBuffer;//buffer to read data into from columns (only used for STRIPED?)
 //word_32 **buffer;
