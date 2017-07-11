@@ -44,7 +44,7 @@ void placeOddBit(struct blockSegBBC *param);
 
 void incrementFill(struct blockSegBBC *param);
 
-void getType(struct blockSegBBC *param);
+void getByteType(struct blockSegBBC *param);
 
 unsigned int incrementTail(struct blockSegBBC *param);
 

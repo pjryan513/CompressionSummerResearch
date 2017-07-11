@@ -27,7 +27,7 @@ void placeOddBit(struct blockSegBBC *param){
 }
 
 //gets the type of a RAW byte
-void getType(struct blockSegBBC *param){
+void getByteType(struct blockSegBBC *param){
   byte b = param->next_byte;
   if(param->next_byte == 0){
     param->byte_type = ZERO_BYTE;

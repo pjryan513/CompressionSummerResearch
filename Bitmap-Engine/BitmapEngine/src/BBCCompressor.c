@@ -13,15 +13,7 @@ void bbcCompress(blockSegBBC *param){
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
-    getType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
-    //default to type 1 run
-    //make sure that it isn't the first run of the block seq where header will be 0
-      //param->run_type = getHeadType(param->header);
-      //param->fill_len = getFillLen(param->header);
-      //param->tail_len = getTailLen(param->header);
-
-      //either ZERO_FILL or ONE_FILL 00000000 or 11111111
-      //param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
+    getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
 
   /**
   ***FUNCTION DOCUMENTATION***
