@@ -40,7 +40,9 @@
 		typedef unsigned long long word_read;
 	#endif
 #if COMPRESSION == BBC //8 bit words
-	#define FLAG_BITS 1
+	#define FLAG_BITS 0
+	#define WORD_READ_LENGTH 8
+	#define BASE_LEN 8
 	typedef unsigned char byte;
 	typedef unsigned char word_32;
 	typedef unsigned char word_read;
@@ -58,13 +60,6 @@
 		typedef unsigned long long word_32;
 		typedef unsigned short word_read;
 	#endif
-#else //BBC
-	#define FLAG_BITS ?
-	#define WORD_LENGTH 8
-	#define WORD_READ_LENGTH ?
-	#define BASE_LEN ?
-	typedef unsigned char byte;
-#endif
 
 
 #endif /* CONTROL_H_ */
