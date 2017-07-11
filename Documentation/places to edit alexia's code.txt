@@ -22,3 +22,6 @@ maybe just define word as 8 bits in the control file.
 
 in the control file, just set word_32 and word_read to bytes since they're all over the place in RawBitmapReader.c
 FLAG_BITS doesn't really matter for our implementation, neither does BASE_LEN, we can just set them to 0 and 8 respectively. 
+
+
+We also added "BBC" constant to "Vars.h". 

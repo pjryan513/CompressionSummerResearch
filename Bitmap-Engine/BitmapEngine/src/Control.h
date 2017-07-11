@@ -13,8 +13,8 @@
 #define BLOCK_SIZE 32								//kB blocks (recommended: 32)
 #define MAX_NUM_THREADS 4								//define number of threads to use for compression (1,2,3,4)
 
-#define COMPRESSION WAH 							//define compression type (WAH or VAL)
-#define WORD_LENGTH 32								//define compression word length (32/64)
+#define COMPRESSION BBC					//define compression type (WAH, VAL, or BBC)
+#define WORD_LENGTH 8							//define compression word length (32/64)
 #define NUM_SEGS 1									//define number of segments per word to use (1/2/4 -> -1 runs optimal segment length)
 
 //#define QUERY_FILE "Queries/query2.txt"				//the query file to be parsed
@@ -39,7 +39,7 @@
 		typedef unsigned long long word_32;
 		typedef unsigned long long word_read;
 	#endif
-#if COMPRESSION == BBC //8 bit words
+#elif COMPRESSION == BBC //8 bit words
 	#define FLAG_BITS 0
 	#define WORD_READ_LENGTH 8
 	#define BASE_LEN 8
@@ -47,7 +47,7 @@
 	typedef unsigned char word_32;
 	typedef unsigned char word_read;
 	#endif
-#else//VAL
+/*#else//VAL
 	#define FLAG_BITS 4
 	#if WORD_LENGTH == 32 //VAL 32
 		#define WORD_READ_LENGTH 8
@@ -59,7 +59,7 @@
 		#define BASE_LEN 15
 		typedef unsigned long long word_32;
 		typedef unsigned short word_read;
-	#endif
+	#endif*/
 
 
 #endif /* CONTROL_H_ */

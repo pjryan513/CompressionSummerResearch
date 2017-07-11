@@ -58,7 +58,7 @@ int initCompression(){
 
 		/////////////////////////
 		/*BBC									*/
-		segs_bbc = (blockSegsBBC **) malloc(sizeof(blockSegBBC *) *num_threads);//same as above line of code but for bbc compressor, unsure it num_threads is right for this one
+		//segs_bbc = (blockSegsBBC **) malloc(sizeof(blockSegBBC *) *num_threads);//same as above line of code but for bbc compressor, unsure it num_threads is right for this one
 
 	}
 	else if(striped==STRIPED){

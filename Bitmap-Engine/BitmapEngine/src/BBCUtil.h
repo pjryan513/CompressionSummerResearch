@@ -1,6 +1,4 @@
 //bbcUtil.h
-#include <stdio.h>
-#include "blockSegBBC.h"
 
 #define ZERO_BYTE 0
 #define ONE_BYTE 1
@@ -15,7 +13,7 @@
 #define FILL_LIMIT 3 //maybe????
 #define TAIL_LIMIT 15 //maybe could be 16
 
-typedef unsigned char byte;
+//typedef unsigned char byte;
 
 typedef struct blockSegBBC {
 	unsigned int size;  //the size of the current block
@@ -34,14 +32,14 @@ typedef struct blockSegBBC {
 	unsigned int curr_size; //the length of the curr_run array
 } blockSegBBC;
 
-void startNewRun(struct blockSegBBC *param);
+void startNewRun(struct blockSeg *param);
 
-void changeRunType(int run_type, struct blockSegBBC *param);
+void changeRunType(unsigned int run_type, struct blockSeg *param);
 
-void placeOddBit(struct blockSegBBC *param);
+void placeOddBit(struct blockSeg *param);
 
-void incrementFill(struct blockSegBBC *param);
+void incrementFill(struct blockSeg *param);
 
-unsigned int getType(unsigned char next_byte);
+void getByteType(struct blockSeg *param);
 
-unsigned int incrementTail(struct blockSegBBC *param);
+unsigned int incrementTail(struct blockSeg *param);

@@ -1,9 +1,8 @@
 /**Revisted Psudeo Code**/
-//#include "BBCUtil.h"
-#include "BBCUtil.h"
+#include "Core.h"
 
 
-void bbcCompress(blockSegBBC *param){
+void bbcCompress(struct blockSeg *param){
 
   //these methods gather information from the header
   int i;

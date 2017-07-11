@@ -1,12 +1,12 @@
 //BBCUtil.c
 
 //#include "BBCUtil.h"
-#include "blockSegBBC.h"
+#include "Core.h"
 
 
 //transates a byte with a single '1' into a 3-bit representation of that bit's position
 //inserts those three bits into the appropriate header
-void placeOddBit(struct blockSegBBC *param){
+void placeOddBit(struct blockSeg *param){
   //next_byte is one of eight bytes
   byte the_byte = param->next_byte;
   unsigned int i = 0;
@@ -27,7 +27,7 @@ void placeOddBit(struct blockSegBBC *param){
 }
 
 //gets the type of a RAW byte
-void getByteType(struct blockSegBBC *param){
+void getByteType(struct blockSeg *param){
   byte b = param->next_byte;
   if(param->next_byte == 0){
     param->byte_type = ZERO_BYTE;
@@ -61,7 +61,7 @@ void getByteType(struct blockSegBBC *param){
 //all 'binary' values here are still very much pseudo code.
 //real values will be stored in our defined 'typedef char byte' type
 
-void startNewRun(struct blockSegBBC *param){
+void startNewRun(struct blockSeg *param){
 
 //UPDATE TO PUT HEADER
   //first we should write out the current array of chars to file,
@@ -120,7 +120,7 @@ void startNewRun(struct blockSegBBC *param){
 }
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
-void changeRunType(unsigned int run_type, struct blockSegBBC *param){
+void changeRunType(unsigned int run_type, struct blockSeg *param){
 
   /*this only happens if we are already a TYPE_1 run AND the
   tail length is 0 (i.e. going from type 1 to type 2)*/
@@ -163,7 +163,7 @@ void changeRunType(unsigned int run_type, struct blockSegBBC *param){
 //increments the fill length in the header
 //increments the fill length in a type 1 run
 //increments the counter bytes in a type 3 run
-void incrementFill(struct blockSegBBC *param){
+void incrementFill(struct blockSeg *param){
   //increments fill
   if(param->run_type == TYPE_1){
     param->fill_len++;
@@ -201,7 +201,7 @@ void incrementFill(struct blockSegBBC *param){
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
 //This funtion should only be used for types 1 and 3 where the tail length is guaranteed to be the last 4 bits of the header
-unsigned int incrementTail(struct blockSegBBC *param){
+unsigned int incrementTail(struct blockSeg *param){
 
   if(param->run_type == TYPE_2 || param->run_type == TYPE_4)
   {
@@ -224,27 +224,3 @@ unsigned int incrementTail(struct blockSegBBC *param){
 
 
 }
-
-/*
-void getRunType(){
-
-}
-
-//either ZERO_FILL or ONE_FILL 00000000 or 11111111
-void getFillByte(){
-
-}
-
-void getNextByte(blockSegBBC *param){
-
-}
-
-
-unsigned int getFillLen(unsigned char header, unsigned char runtype){
-
-}
-
-unsigned int getTailLen(){
-
-}
-*/
