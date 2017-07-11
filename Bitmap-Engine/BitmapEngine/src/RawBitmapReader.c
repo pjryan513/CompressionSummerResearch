@@ -54,12 +54,12 @@ int initCompression(){
 	pthread_mutex_init(&mut,NULL);//
 
 	if(striped==UNSTRIPED){
-		if(COMPRESSION == WAH || COMPRESSION == VAL){
-			segs = (blockSeg **) malloc(sizeof(blockSeg *) *num_threads);//pointer for each thread to segment that it's compressing
-		}
-		else{
-			segs_bbc = (blockSegBBC **) malloc(sizeof(blockSegBBC *) *num_threads); //if we're doing BBC compression
-		}
+		segs = (blockSeg **) malloc(sizeof(blockSeg *) *num_threads);//pointer for each thread to segment that it's compressing
+
+		/////////////////////////
+		/*BBC									*/
+		segs_bbc = (blockSegsBBC **) malloc(sizeof(blockSegBBC *) *num_threads);//same as above line of code but for bbc compressor, unsure it num_threads is right for this one
+
 	}
 	else if(striped==STRIPED){
 		nextCol = (blockSeg **) malloc(sizeof(blockSeg **) * num_threads);//pointers for the front of the queue
