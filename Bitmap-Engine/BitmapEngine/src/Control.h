@@ -46,8 +46,8 @@
 	typedef unsigned char byte;
 	typedef unsigned char word_32;
 	typedef unsigned char word_read;
-	#endif
-/*#else//VAL
+
+#else//VAL
 	#define FLAG_BITS 4
 	#if WORD_LENGTH == 32 //VAL 32
 		#define WORD_READ_LENGTH 8
@@ -59,7 +59,9 @@
 		#define BASE_LEN 15
 		typedef unsigned long long word_32;
 		typedef unsigned short word_read;
-	#endif*/
+
+	#endif
+#endif
 
 
 #endif /* CONTROL_H_ */
