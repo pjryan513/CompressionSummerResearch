@@ -40,7 +40,7 @@
 		typedef unsigned long long word_32;
 		typedef unsigned long long word_read;
 	#endif
-#elif COMPRESSION == BBC //8 bit words
+#else// COMPRESSION == BBC //8 bit words
 	#define FLAG_BITS 0
 	#define WORD_READ_LENGTH 8
 	#define BASE_LEN 8

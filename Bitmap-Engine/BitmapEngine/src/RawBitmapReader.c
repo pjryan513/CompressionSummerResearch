@@ -165,12 +165,14 @@ void runOverhead(){
 				struct stat st;
 				stat(temp_name, &st);
 				//if(COMPRESSION )
+				printf("st.size = %d\n", st.st_size);
+				//printf("temp name is %s\n", temp_name);
 				size = (st.st_size)/sizeof(word_read);//this is number of words in each column file (same in each column)
 				printf("num of words in each column file %d\n", size);
+				
 			}
 			//counting the number of columns there are in that folder
 			if(access(temp_name,F_OK) != -1){//if this file exists
-				printf("file exists\n");
 				numCols++;//count it
 				continue;//and keep counting
 			}
@@ -466,12 +468,10 @@ void compressUnstriped(){
  * Compresses the next column that has not been compressed yet
  */
 void *compressNext(void *param){
-	printf("compressing next\n");
 	int n = -1;//hasn't been assigned a column yet
 	int *id = (int *) param;
 	while(n<numCols){
 		pthread_mutex_lock(&mut);//lock everything
-		printf("compressing column, n=%d, numcols is %d\n", n, numCols);
 		n=(next++);//find out which column we need to compress (and increment for the next thread to compress)
 		pthread_mutex_unlock(&mut);//unlock it
 
@@ -525,7 +525,11 @@ void compressColumn(int col, int threadNum){
 
 			////////////////////////////////////////////// BBCCOMPRESS///////////////////////////////////////////////////
 			printf("about to choose compression \n");
-			if(format == BBC) bbcCompress(segs[threadNum]);
+			if(COMPRESSION == BBC) {
+				printf("about to bbccompress\n");
+				bbcCompress(segs[threadNum]);
+			}
+
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if(format==WAH) compressUsingWAH(segs[threadNum]);//compress it
 			else if(format==VAL) numWords += compressUsingVAL(segs[threadNum],length);
