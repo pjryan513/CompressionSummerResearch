@@ -1,0 +1,222 @@
+<!DOCTYPE_html>
+<html>
+  <head>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <link href="ian.css" rel="stylesheet" type="text/css" media="all" />
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="materialize/css/materialize.min.css"  media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+  <title>Weekly Update: Week 3/4</title>
+
+  <div class= "container">
+  <h1 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 15px; margin-top: 15px">Weekly Update: Week 3/4</h1>
+
+
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 15px; margin-top: 15px">
+      Progress:
+    </h2>
+    <p>BBCCompressor.c: Contains the basic progression of the algorithm; operates on each byte
+    and compresses it.</p>
+    <p>BBCUtil.c: Contains most of the bitwise functions that create the compressed compressed bytes.
+    </p>
+    <p>BBCUtil.h: Contains macro definitions for BBCUtil.c and BBCCompressor.c</p>
+    <p>BlockSegBBC.h: Contains the struct definition for "struct blockSegBBC," which contains most of ourimportant information about the byte we are compressing.</p>
+
+
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 15px; margin-top: 15px">
+      BBCCompressor Documentation
+    </h2>
+    <p>Similar to how WAH and VAL work, our BBC algorithm's main class is BBCCompressor.
+      This is where the blockSegBBC structure is passed to the algorithm.
+      The algorithm loops for however long compressBytes is and gets the current byte to compress at each iteration.
+      After the byte to compress is recieved the algorithm branches into 4 different parts.
+      The byte will follow the path based on whichever run it follows.
+      The first </p>
+    <pre class="prettyprint" style="margin-right: 20px; margin-left: 20px">
+      /**Revisted Psudeo Code**/
+      //#include "BBCUtil.h"
+      #include "BBCUtil.h"
+
+
+      void bbcCompress(blockSegBBC *param){
+
+        //these methods gather information from the header
+        int i;
+        for(i = 0; i < param->size; i++)
+        {
+          //these functions should go in rawbitmapreader.c, for each column there should be a new file.
+          //sprintf(compfile, "compressed_%d", i);
+          //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
+          param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
+          getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
+
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+        ***FUNCTION DOCUMENTATION***
+              //Run Types (as Described in our documentation and BBC paper)
+              //'0' = TYPE_1
+              //'1' = TYPE_2
+              //'2' = TYPE_3
+              //'3' = TYPE_4
+
+              //takes a byte and decides what "type" of byte it is
+              //Will either be ZERO_BYTE, ONE_BYTE, ODD_BYTE, MESSY_BYTE
+              getType(next byte)
+
+              //increases the tail length in the header and concatenates the messy literal bit to the tail of the run
+              //@param char next_byte The literal byte to be concatenated
+              incrementTail(char next_byte)
+
+              //increments the fill length in the header
+              incrementFill();
+
+              //changes the current run type to the desired header type
+              changeRunType(int type);
+
+              //increments the counter bytes in a type 2 or type 4 run
+              incrementCounterByte();
+
+              //write current run to the compressed outfile
+              //set header to 0
+              //start new run, create new header
+              startNewRun(byte_type);
+
+              //creates the 3 bits in type 2 or type 4 header to represent odd bit in last byte of tail
+              placeOddBit(byte next_byte);
+
+              //in the case where after a tail, we run into an odd byte
+              //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
+              makeOddHeader();
+        */
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+          //0-fill byte or 1-fill byte (11111111 or 00000000)
+          if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
+
+            //proper type of fill (0 or 1)
+            if(param->fill_match == param->fill_bit){
+
+              //if we are currently in a TYPE_1 run
+              if(param->run_type == TYPE_1){
+
+                //we're not too long yet, so stay as a TYPE_1 and incrememt
+                if(param->fill_len < FILL_LIMIT){
+                  incrementFill(param);
+
+                }
+                else{ //otherwise, change to type 3 run
+                  changeRunType(TYPE_3, param);
+                  incrementFill(param);
+                }
+              }
+              else if(param->run_type == TYPE_3) //if we are currently in a TYPE_3 run
+                //increment the counter bytes
+                incrementFill(param);
+
+            }
+            else{ //if it's not the right kind of fill, start a new run
+              param->header = 0;
+              //startNewRun(param);
+            }
+          //odd byte (Eg: 00010000 or 111110111)
+          }
+          else if(param->byte_type==ODD_BYTE){ //if we have an odd one or zero bit in an otherwise fill worthy byte
+            /*if the tail_length is 0, we can easily change to
+            //FILL_MATCH to determine the value
+            either a TYPE_2 or TYPE_4 run by concatenating the
+            ODD_BYTE to the end of our fill. */
+            if(param->tail_len == 0 && param->fill_match == param->fill_bit){
+
+              //if we are a TYPE_1 run
+              if(param->run_type == TYPE_1){
+
+                //change ourselves to a TYPE_2 run
+                //this will end the current run
+                changeRunType(TYPE_2, param);
+                placeOddBit(param);
+
+              //if we are a TYPE_3 run
+              }
+              else if(param->run_type == TYPE_3){
+
+                //change ourselves to a TYPE_4 run
+                //this will end the current run
+                changeRunType(TYPE_4, param);
+                placeOddBit(param);
+              }
+            /*if we already have a tail, we must start a new run using
+            the ODD_BYTE*/
+            //the startNewRun() function checks for this specific case
+            }
+            else{
+              param->header = 0;
+              //startNewRun(param);
+            }
+          }
+          else if(param->byte_type==MESSY_BYTE){ //messy byte (Eg: 11010100)
+
+            //if we are a TYPE_1 run
+            if(param->run_type == TYPE_1 || param->run_type == TYPE_3){
+
+              if(param->tail_len < TAIL_LIMIT){
+
+                //if we aren't too long yet, add the
+                //messy bit to the tail and increment the tail length
+                incrementTail(param);
+              }
+
+              /*if we already have a tail, we must start a new run using
+              the ODD_BYTE*/
+              //the startNewRun() function checks for this specific case
+
+              else{
+                param->header = 0;
+                //startNewRun(param);
+              }
+            }
+          }
+          //if the header is 0
+          if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
+            startNewRun(param);
+          }
+        }
+      }
+    </pre>
+
+
+    <h2 class="z-depth-4" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 15px; margin-top: 15px">
+    Integration progress
+  </h2>
+  <p>The main issue we are facing for integration into Alexia's code is the difference between her blockSeg and our blockSegBBC strucutre
+  When Alexia created the blockSeg structure it was based on word-algined compression algorithms, ours is byte-aligned though.
+  This leaves two opinions for integrating our code into rawbitmapreader.  </p>
+  <ol>
+    <li>We can create and implement a second segs structure based on our blockSegBBC
+  along side Alexia's blockSeg structure.  This however will result in needing to copy our new structure along side the already existing blockSeg.
+  Furthor more this will result in the two strucutures being malloc and threaded side by side which will be a waste of processing time and memory,
+  since we will only be using one of the structures for any give compression algorithm.
+  To counter this ineffinceny we would need to add a bunch of if statements throughout rawbitmapreader to prevent this.</li>
+  <li>We can merge our blockSegBBC strucuture with the already existing blockSeg structure.
+    This will require the need for our new merged blockSeg struct to either have new bbc variables along side the wah and val ones
+    (which will mean that only half of the struct will be used during any given compression algorithm)
+    or we implement an if statement system to choose between the two sections (not sure how to do this in a struct).</li>
+  </ol>
+  <p>Either system has it's pros and cons but Ian and I are leaning towards the second opion as it will require less additional code to rawbitmapreader.</p>
+
+  </div>
+  </body>
+</html>

@@ -1,25 +1,28 @@
 /**Revisted Psudeo Code**/
-#include "bbcUtil.h";
+//#include "BBCUtil.h"
+#include "blockSegBBC.h"
 
 
 void bbcCompress(blockSegBBC *param){
 
   //these methods gather information from the header
-  int blockSize = param->size;
   int i;
-  for(i = 0; i < blockSize; i++)
+  for(i = 0; i < param->size; i++)
   {
-
+    //these functions should go in rawbitmapreader.c, for each column there should be a new file. 
+    //sprintf(compfile, "compressed_%d", i);
+    //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
 
-    param->byte_type = getType(param->next_byte);//get the type of next_byte: zero byte, one byte, odd byte ect ect
+    getType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
     //default to type 1 run
-    if(param->header != NULL){ //make sure that it isn't the first run of the block seq where header will be NULL
-      param->fill_len = getFill(param->header);
-      param->tail_len = getTail(param->header);
-      param->run_type = getHeadType(param->header);
+    if(param != NULL){} //make sure that it isn't the first run of the block seq where header will be NULL
+      //param->run_type = getHeadType(param->header);
+      //param->fill_len = getFillLen(param->header);
+      //param->tail_len = getTailLen(param->header);
+
       //either ZERO_FILL or ONE_FILL 00000000 or 11111111
-      param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
+      //param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
 
   /**
   ***FUNCTION DOCUMENTATION***
@@ -51,51 +54,53 @@ void bbcCompress(blockSegBBC *param){
         makeOddHeader();
   */
     //if the header is null
-    if(param->header==NULL){
-      startNewRun(param->byte_type);
-
+    if(param->header == NULL){
+      startNewRun(param);
     }
     //0-fill byte or 1-fill byte (11111111 or 00000000)
     else if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
 
       //proper type of fill (0 or 1)
-      if(param->byte_type == param->fill_bit){
+      if(param->fill_match == param->fill_bit){
 
         //if we are currently in a TYPE_1 run
         if(param->run_type == TYPE_1){
 
           //we're not too long yet, so stay as a TYPE_1 and incrememt
           if(param->fill_len < FILL_LIMIT){
-            incrementFill();
+            incrementFill(param);
 
           }
           else{ //otherwise, change to type 3 run
-            changeRunType(TYPE_3);
+            changeRunType(TYPE_3, param);
+            incrementFill(param);
           }
         }
-        else if(param->run_type = TYPE_3) //if we are currently in a TYPE_3 run
+        else if(param->run_type == TYPE_3) //if we are currently in a TYPE_3 run
           //increment the counter bytes
-          incrementCounterByte();
+          incrementFill(param);
 
       }
       else{ //if it's not the right kind of fill, start a new run
-
-        startNewRun(param->byte_type);
+        param->header = NULL;
+        //startNewRun(param);
       }
-    //odd byte (Eg: 00010000)
+    //odd byte (Eg: 00010000 or 111110111)
     }
     else if(param->byte_type==ODD_BYTE){
       /*if the tail_length is 0, we can easily change to
+      //FILL_MATCH to determine the value 
       either a TYPE_2 or TYPE_4 run by concatenating the
       ODD_BYTE to the end of our fill. */
-      if(param->tail_len == 0){
+      if(param->tail_len == 0 && param->fill_match == param->fill_bit){
 
         //if we are a TYPE_1 run
         if(param->run_type == TYPE_1){
 
           //change ourselves to a TYPE_2 run
           //this will end the current run
-          changeRunType(TYPE_2);
+          changeRunType(TYPE_2, param);
+          placeOddBit(param);
 
         //if we are a TYPE_3 run
         }
@@ -103,14 +108,15 @@ void bbcCompress(blockSegBBC *param){
 
           //change ourselves to a TYPE_4 run
           //this will end the current run
-          changeRunType(TYPE_4);
+          changeRunType(TYPE_4, param);
+          placeOddBit(param);
         }
       /*if we already have a tail, we must start a new run using
       the ODD_BYTE*/
       //the startNewRun() function checks for this specific case
       }
       else{
-        startNewRun(param->byte_type);
+        startNewRun(param);
       }
     }
     else if(param->byte_type==MESSY_BYTE){ //messy byte (Eg: 11010100)
@@ -118,11 +124,11 @@ void bbcCompress(blockSegBBC *param){
       //if we are a TYPE_1 run
       if(param->run_type == TYPE_1 || param->run_type == TYPE_3){
 
-        if(param->tail_length<TAIL_LIMIT){
+        if(param->tail_len < TAIL_LIMIT){
 
           //if we aren't too long yet, add the
           //messy bit to the tail and increment the tail length
-          incrementTail(param->next_byte);
+          incrementTail(param);
         }
 
         /*if we already have a tail, we must start a new run using
@@ -130,7 +136,7 @@ void bbcCompress(blockSegBBC *param){
         //the startNewRun() function checks for this specific case
 
         else{
-          startNewRun(param->byte_type);
+          startNewRun(param);
         }
       }
     }
