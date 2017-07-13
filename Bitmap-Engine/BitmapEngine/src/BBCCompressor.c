@@ -12,8 +12,14 @@ void bbcCompress(struct blockSeg *param){
     //these functions should go in rawbitmapreader.c, for each column there should be a new file.
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
-    param->next_byte = param->compressBytes[i];//get the next byte from the block sequence of bytes
-    printf("here\n");
+
+    if(param->curr_size > 1)
+    	param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
+  	else
+    	param->curr_run = (byte*) malloc(sizeof(byte));
+    param->next_byte = param->toCompress[i];//get the next byte from the block sequence of bytes
+    printf("next byte: %x\n", param->next_byte);
+
     getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

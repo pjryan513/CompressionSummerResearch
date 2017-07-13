@@ -37,9 +37,9 @@ void getByteType(struct blockSeg *param){
     param->byte_type = ONE_BYTE;
     param->byte_type = 1;
   }
-  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
-  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
-  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
+  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE.
+  //what if we are starting a new run? (NO FILL BIT DEFINED YET).
+  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly.
   //checks to see if there is
   //if(param->fill_bit == 0){
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
@@ -67,7 +67,7 @@ void startNewRun(struct blockSeg *param){
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
+  fwrite(param->curr_run, sizeof(byte),param->curr_size,param->colFile);
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
   if(param->curr_size > 1)
     param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
