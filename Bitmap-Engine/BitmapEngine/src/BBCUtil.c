@@ -67,9 +67,12 @@ void startNewRun(struct blockSeg *param){
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(8, sizeof(word_32),1,param->colFile);
+  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
-
+  if(param->curr_size > 1)
+    param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
+  else
+    param->curr_run = (byte*) malloc(sizeof(byte));
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
@@ -176,7 +179,9 @@ void incrementFill(struct blockSeg *param){
     byte newhead = 0b10000000;
     newhead |= temp_fill;
     param->header = newhead;
+    printf("here2\n");
     param->curr_run[0] = newhead;
+    printf("here3\n");
   }
 
   //increments counter bytes
