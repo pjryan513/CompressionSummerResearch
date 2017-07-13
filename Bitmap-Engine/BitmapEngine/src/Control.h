@@ -60,6 +60,7 @@
 		typedef unsigned long long word_32;
 		typedef unsigned short word_read;
 	#endif
+
 #endif
 
 #endif /* CONTROL_H_ */

@@ -525,6 +525,7 @@ void compressColumn(int col, int threadNum){
 
 			////////////////////////////////////////////// BBCCOMPRESS///////////////////////////////////////////////////
 
+
 			printf("about to choose compression \n");
 			if(COMPRESSION == BBC) {
 				printf("about to bbccompress\n");
