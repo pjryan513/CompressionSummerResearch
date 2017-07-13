@@ -524,12 +524,19 @@ void compressColumn(int col, int threadNum){
 			segs[threadNum]->size = read;//and save how many words there are in there
 
 			////////////////////////////////////////////// BBCCOMPRESS///////////////////////////////////////////////////
+<<<<<<< HEAD
+			if(COMPRESSION == BBC) {
+				printf("compressing with BBC\n");
+				bbcCompress(segs[threadNum]);
+			}
+=======
 			printf("about to choose compression \n");
 			if(COMPRESSION == BBC) {
 				printf("about to bbccompress\n");
 				bbcCompress(segs[threadNum]);
 			}
 
+>>>>>>> 6bd6a851ed35015e3c3e0e74675ab12c23307825
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if(format==WAH) compressUsingWAH(segs[threadNum]);//compress it
 			else if(format==VAL) numWords += compressUsingVAL(segs[threadNum],length);
