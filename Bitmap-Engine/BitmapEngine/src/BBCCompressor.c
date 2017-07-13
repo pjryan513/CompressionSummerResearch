@@ -9,7 +9,7 @@ void bbcCompress(blockSegBBC *param){
   int i;
   for(i = 0; i < param->size; i++)
   {
-    //these functions should go in rawbitmapreader.c, for each column there should be a new file. 
+    //these functions should go in rawbitmapreader.c, for each column there should be a new file.
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
     param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
@@ -84,7 +84,7 @@ void bbcCompress(blockSegBBC *param){
     }
     else if(param->byte_type==ODD_BYTE){
       /*if the tail_length is 0, we can easily change to
-      //FILL_MATCH to determine the value 
+      //FILL_MATCH to determine the value
       either a TYPE_2 or TYPE_4 run by concatenating the
       ODD_BYTE to the end of our fill. */
       if(param->tail_len == 0 && param->fill_match == param->fill_bit){
