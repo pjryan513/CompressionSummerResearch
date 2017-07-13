@@ -17,6 +17,12 @@ int blockWords;//number of words can scan per block (per thread for STRIPED)
 int colNum;//current column number file we're scanning (only used for STRIPED)
 int moreFiles;//whether we're done readifng all the files (only used for STRIPED)
 blockSeg **segs;//structs to hold data to pass to compressor
+
+/////////////////////////
+/*BBC 								*/
+blockSegBBC **segs_bbc; //structs to hold data to pass to bbc compressor
+/////////////////////////
+
 int id[MAX_NUM_THREADS];//threads ids
 //word_32 *readingBuffer;//buffer to read data into from columns (only used for STRIPED?)
 //word_32 **buffer;
@@ -49,6 +55,11 @@ int initCompression(){
 
 	if(striped==UNSTRIPED){
 		segs = (blockSeg **) malloc(sizeof(blockSeg *) *num_threads);//pointer for each thread to segment that it's compressing
+
+		/////////////////////////
+		/*BBC									*/
+		//segs_bbc = (blockSegsBBC **) malloc(sizeof(blockSegBBC *) *num_threads);//same as above line of code but for bbc compressor, unsure it num_threads is right for this one
+
 	}
 	else if(striped==STRIPED){
 		nextCol = (blockSeg **) malloc(sizeof(blockSeg **) * num_threads);//pointers for the front of the queue
@@ -105,6 +116,7 @@ double compress(char *file, int str, int form, int n){
 
 	initCompression();
 
+	//creating directories for output files
 	if(str==UNSTRIPED){
 		uncompressed_path=unstripedExt(file);
 		snprintf(compressed_path,BUFF_SIZE,"%s_%d_COMPRESSED/",uncompressed_path,num_threads);
@@ -133,6 +145,7 @@ double compress(char *file, int str, int form, int n){
 	if(striped==STRIPED) compressStriped();
 	else compressUnstriped();
 
+
 	double end = rtclock();
 	return end-start;
 }
@@ -144,13 +157,19 @@ void runOverhead(){
 	if(striped==UNSTRIPED){
 		numCols = 0;
 		while(1){
+			//creating output file
 			char temp_name[BUFF_SIZE];
 			snprintf(temp_name,BUFF_SIZE,"%s%d.dat",uncompressed_path,numCols);
 
 			if(size==0){
 				struct stat st;
 				stat(temp_name, &st);
+				//if(COMPRESSION )
+				printf("st.size = %d\n", st.st_size);
+				//printf("temp name is %s\n", temp_name);
 				size = (st.st_size)/sizeof(word_read);//this is number of words in each column file (same in each column)
+				printf("num of words in each column file %d\n", size);
+				
 			}
 			//counting the number of columns there are in that folder
 			if(access(temp_name,F_OK) != -1){//if this file exists
@@ -504,8 +523,17 @@ void compressColumn(int col, int threadNum){
 			}
 			segs[threadNum]->size = read;//and save how many words there are in there
 
-			if(format==WAH) compressUsingWAH(segs[threadNum]);//compress it
+			////////////////////////////////////////////// BBCCOMPRESS///////////////////////////////////////////////////
+			printf("about to choose compression \n");
+			if(COMPRESSION == BBC) {
+				printf("about to bbccompress\n");
+				bbcCompress(segs[threadNum]);
+			}
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			else if(format==WAH) compressUsingWAH(segs[threadNum]);//compress it
 			else if(format==VAL) numWords += compressUsingVAL(segs[threadNum],length);
+			//else if(format==BBC) bbcCompress()????///
 			if(CORE==IN_CORE) break;
 			segs[threadNum]->status = VALID;//not at the beginning anymore
 			if(read<blockWords){//if we reached the end of the file

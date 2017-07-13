@@ -1,28 +1,22 @@
 /**Revisted Psudeo Code**/
-//#include "BBCUtil.h"
-#include "blockSegBBC.h"
+#include "Core.h"
 
 
-void bbcCompress(blockSegBBC *param){
+void bbcCompress(struct blockSeg *param){
 
   //these methods gather information from the header
   int i;
   for(i = 0; i < param->size; i++)
   {
+    printf("starting bbccompress\n");
     //these functions should go in rawbitmapreader.c, for each column there should be a new file.
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
-    param->next_byte= param->compressBytes[i];//get the next byte from the clock sequence of bytes
-    getType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
-    //default to type 1 run
-    //make sure that it isn't the first run of the block seq where header will be 0
-      //param->run_type = getHeadType(param->header);
-      //param->fill_len = getFillLen(param->header);
-      //param->tail_len = getTailLen(param->header);
+    param->next_byte = param->compressBytes[i];//get the next byte from the block sequence of bytes
+    printf("here\n");
+    getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
 
-      //either ZERO_FILL or ONE_FILL 00000000 or 11111111
-      //param->fill_bit = getFillByte(param->header); //actually represents the fill bit, saved as a byte to compare more easily
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /**
   ***FUNCTION DOCUMENTATION***
         //Run Types (as Described in our documentation and BBC paper)
@@ -30,27 +24,38 @@ void bbcCompress(blockSegBBC *param){
         //'1' = TYPE_2
         //'2' = TYPE_3
         //'3' = TYPE_4
+
         //takes a byte and decides what "type" of byte it is
+        //Will either be ZERO_BYTE, ONE_BYTE, ODD_BYTE, MESSY_BYTE
         getType(next byte)
+
         //increases the tail length in the header and concatenates the messy literal bit to the tail of the run
         //@param char next_byte The literal byte to be concatenated
         incrementTail(char next_byte)
+
         //increments the fill length in the header
         incrementFill();
+
         //changes the current run type to the desired header type
         changeRunType(int type);
+
         //increments the counter bytes in a type 2 or type 4 run
         incrementCounterByte();
+
         //write current run to the compressed outfile
         //set header to 0
         //start new run, create new header
         startNewRun(byte_type);
+
         //creates the 3 bits in type 2 or type 4 header to represent odd bit in last byte of tail
         placeOddBit(byte next_byte);
+
         //in the case where after a tail, we run into an odd byte
         //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
         makeOddHeader();
   */
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     //0-fill byte or 1-fill byte (11111111 or 00000000)
     if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
@@ -82,7 +87,7 @@ void bbcCompress(blockSegBBC *param){
       }
     //odd byte (Eg: 00010000 or 111110111)
     }
-    else if(param->byte_type==ODD_BYTE){
+    else if(param->byte_type==ODD_BYTE){ //if we have an odd one or zero bit in an otherwise fill worthy byte
       /*if the tail_length is 0, we can easily change to
       //FILL_MATCH to determine the value
       either a TYPE_2 or TYPE_4 run by concatenating the
@@ -138,7 +143,7 @@ void bbcCompress(blockSegBBC *param){
       }
     }
     //if the header is 0
-    if(param->header == 0){
+    if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
       startNewRun(param);
     }
   }

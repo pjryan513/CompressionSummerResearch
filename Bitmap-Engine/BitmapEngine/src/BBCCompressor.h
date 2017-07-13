@@ -2,8 +2,9 @@
 
 #ifndef BBC_COMPRESSOR
 #define BBC_COMPRESSOR
+#include "Core.h"
 
 
-void bbcCompress(struct blockSegBBC *param);
+void bbcCompress(struct blockSeg *param);
 
 #endif

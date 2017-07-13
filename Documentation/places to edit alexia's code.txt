@@ -1,0 +1,27 @@
+Places to Edit in Alexia's Code:
+
+void compressColumn(int col, int threadNum){
+
+opens uncompressed file
+gets which column she's' on
+create a file to write to (each column corresponds to a file), 
+also open that file for writing
+she counts everything by words here... maybe we should too? even though we're byte-aligned we could also go
+by word at the block level. most CPUs deal with words anyways
+puts the segment of words into the struct
+
+she also saves the number of words
+then she saves compressUsingWAH on the blockSeg of words. we could even get away with doing
+this I think... we could just save a few more variables of overhead in our BBCCompressor file? 
+
+
+compressUnstriped: 
+
+she allocates a word array buffer with however many words are in the segment. we need to do the same but with bytes? 
+maybe just define word as 8 bits in the control file. 
+
+in the control file, just set word_32 and word_read to bytes since they're all over the place in RawBitmapReader.c
+FLAG_BITS doesn't really matter for our implementation, neither does BASE_LEN, we can just set them to 0 and 8 respectively. 
+
+
+We also added "BBC" constant to "Vars.h". 
