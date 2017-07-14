@@ -3,6 +3,7 @@
 
 int main(int argc, char *argsv[])
 {
+	printf("stuff");
   struct blockSeg *seg;
 
   seg->size = 10;
