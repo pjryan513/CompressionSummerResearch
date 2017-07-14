@@ -1,8 +1,9 @@
-#include "core.h"
+#include <stdio.h>
+#include "Core.h"
 
 int main(int argc, char *argsv[])
 {
-  blockSeg seg;
+  struct blockSeg *seg;
 
   seg->size = 10;
   int i;
@@ -14,4 +15,5 @@ int main(int argc, char *argsv[])
 
   FILE *ptr = fopen("bbc_test_output.dat","wb");
   seg->colFile = ptr;
+  bbcCompress(seg);
 }

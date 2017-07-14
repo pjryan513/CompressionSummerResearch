@@ -68,11 +68,8 @@ void startNewRun(struct blockSeg *param){
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
   fwrite(param->curr_run, sizeof(byte),param->curr_size,param->colFile);
+  free(param->curr_run);
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
-  if(param->curr_size > 1)
-    param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
-  else
-    param->curr_run = (byte*) malloc(sizeof(byte));
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
