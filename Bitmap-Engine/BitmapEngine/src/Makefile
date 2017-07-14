@@ -55,4 +55,4 @@ bbctest:
 	gcc -Wall -c WAHQuery.c
 	gcc -Wall -c Writer.c
 	gcc -Wall -c bbc_test_main.c
-	gcc -Wall -o bbc_test_main ActiveWord.o BBCCompressor.o BBCUtil.o bbc_test_main.o Clock.o Query.o QueryUtil.o RawBitmapReader.o SegUtil.o VALCompressor.o VALQuery.o WAHCompressor.o WAHQuery.o Writer.o -lpthread -lm
+	gcc -Wall -o bbc_test_main bbc_test_main.o ActiveWord.o BBCCompressor.o BBCUtil.o Clock.o Query.o QueryUtil.o RawBitmapReader.o SegUtil.o VALCompressor.o VALQuery.o WAHCompressor.o WAHQuery.o Writer.o -lpthread -lm
