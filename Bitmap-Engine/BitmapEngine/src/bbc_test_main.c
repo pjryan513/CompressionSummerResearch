@@ -4,24 +4,26 @@
 
 int main()
 {
-  printf("start of main");
+  printf("start of main\n");
   struct blockSeg *seg;
 
-  //seg = (blockSeg*) malloc(sizeof(blockSeg));
+  seg = (blockSeg*) malloc(sizeof(blockSeg));
+  seg->toCompress = (word_read*) malloc(sizeof(word_read)*10);
 
-  //seg->size = 10;
+  seg->size = 10;
   int i;
 
   for(i = 0; i < seg->size; i++)
   {
     seg->toCompress[i] = 0;
   }
-  printf("segs is filled");
+  printf("segs is filled\n");
 
   //FILE *ptr = fopen("bbc_test_output.dat","wb");
   //seg->colFile = ptr;
-  printf("colFile is pointing");
+  printf("colFile is pointing\n");
   bbcCompress(seg);
 
+  free(seg->toCompress);
   free(seg);
 }
