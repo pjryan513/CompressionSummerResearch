@@ -19,8 +19,8 @@ int main()
   }
   printf("segs is filled\n");
 
-  //FILE *ptr = fopen("bbc_test_output.dat","wb");
-  //seg->colFile = ptr;
+  FILE *ptr = fopen("bbc_test_output.dat","wb");
+  seg->colFile = ptr;
   printf("colFile is pointing\n");
   bbcCompress(seg);
 

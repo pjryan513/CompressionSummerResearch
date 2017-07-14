@@ -75,7 +75,7 @@ void startNewRun(struct blockSeg *param){
   if(param->byte_type == ZERO_BYTE)
   {
     param->header = 0b10010000;
-	param->fill_len = 1;
+	   param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b00000000;
@@ -219,7 +219,7 @@ unsigned int incrementTail(struct blockSeg *param){
     param->header >>= 4; //clear out the old tail length bits from header
     param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->tail_len++;
-    param->curr_size = param->curr_size + 1; //increment the length of the current run
+    param->curr_size++; //increment the length of the current run
     param->curr_run[0] = param->header;
     param->curr_run[param->curr_size] = param->next_byte; //concatenate the literal byte to the current run array
   }
