@@ -190,6 +190,8 @@ void incrementFill(struct blockSeg *param){
       printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
       printf("param_curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
+      printf("param_curr_run[0] = %x\n", param->curr_run[0]);
+      printf("param->curr_size = %x\n", param->curr_size);
       param->fill_len++;
     }
     //make new counter byte

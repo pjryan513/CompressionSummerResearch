@@ -153,7 +153,11 @@ void bbcCompress(struct blockSeg *param){
     }
   }
   printf("writing final run\n");
+<<<<<<< HEAD
   printf("param->curr_size is %d\n", param->curr_size);
   printf("counter byte value is %x\n",param->curr_run[param->curr_size]);
   fwrite(param->curr_run, sizeof(byte), 2, param->colFile);
+=======
+  fwrite(param->curr_run, sizeof(byte), 3, param->colFile);
+>>>>>>> e7fc0eab94ee9dfddd563e194bf255ce5a2e1e83
 }
