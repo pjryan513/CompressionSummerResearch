@@ -71,18 +71,14 @@ void startNewRun(struct blockSeg *param){
   printf("curr_size = %x\n", param->curr_size);
   fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
   //free(param->curr_run);
-  param->curr_size = 1;
+  param->curr_size = 0;
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
   {
     param->header = 0b10010000;
-<<<<<<< HEAD
-	   param->fill_len = 1;
-=======
 	  param->fill_len = 1;
->>>>>>> 119be6e1501bdc005235fcdf4321a77cfc04d3f6
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b00000000;
