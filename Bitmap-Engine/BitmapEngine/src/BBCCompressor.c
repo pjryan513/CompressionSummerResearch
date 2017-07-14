@@ -17,6 +17,7 @@ void bbcCompress(struct blockSeg *param){
     	param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
   	else
     	param->curr_run = (byte*) malloc(sizeof(byte));
+    
     param->next_byte = param->toCompress[i];//get the next byte from the block sequence of bytes
     printf("next byte: %x\n", param->next_byte);
 
