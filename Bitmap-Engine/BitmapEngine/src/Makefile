@@ -36,6 +36,10 @@ clean:
 	rm main
 	rm *.o
 
+cleanbbc:
+	rm bbc_test_main
+	rm *.o
+
 bbctest:
 	gcc -Wall -c ActiveWord.c
 	gcc -Wall -c BBCCompressor.c
