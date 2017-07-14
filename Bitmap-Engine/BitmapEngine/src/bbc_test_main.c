@@ -1,14 +1,15 @@
 #include <stdio.h>
-#include "Core.h"
+#include <stdlib.h>
+#include "BlockSeg.h"
 
-int main(int argc, char *argsv[])
+int main()
 {
   printf("start of main");
   struct blockSeg *seg;
 
-  seg = (blockSeg*) malloc(sizeof(blockSeg));
+  //seg = (blockSeg*) malloc(sizeof(blockSeg));
 
-  seg->size = 10;
+  //seg->size = 10;
   int i;
 
   for(i = 0; i < seg->size; i++)
@@ -17,8 +18,8 @@ int main(int argc, char *argsv[])
   }
   printf("segs is filled");
 
-  FILE *ptr = fopen("bbc_test_output.dat","wb");
-  seg->colFile = ptr;
+  //FILE *ptr = fopen("bbc_test_output.dat","wb");
+  //seg->colFile = ptr;
   printf("colFile is pointing");
   bbcCompress(seg);
 
