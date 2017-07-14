@@ -225,7 +225,7 @@ unsigned int incrementTail(struct blockSeg *param){
     param->header >>= 4; //clear out the old tail length bits from header
     param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->tail_len++;
-    param->curr_size = param->curr_size + 1; //increment the length of the current run
+    param->curr_size++; //increment the length of the current run
     param->curr_run[0] = param->header;
     param->curr_run[param->curr_size] = param->next_byte; //concatenate the literal byte to the current run array
   }
