@@ -7,7 +7,7 @@ void bbcCompress(struct blockSeg *param){
   //these methods gather information from the header
   int i;
   param->curr_run = (byte*) malloc(sizeof(byte)*100);
-  param->curr_size = 1;
+  param->curr_size = 0;
   for(i = 0; i < param->size; i++)
   {
     printf("starting bbccompress\n");
@@ -153,5 +153,5 @@ void bbcCompress(struct blockSeg *param){
     }
   }
   printf("writing final run\n");
-  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
+  fwrite(param->curr_run, sizeof(byte), 3, param->colFile);
 }
