@@ -67,15 +67,18 @@ void startNewRun(struct blockSeg *param){
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  fwrite(param->curr_run, sizeof(byte),param->curr_size,param->colFile);
-  free(param->curr_run);
+  printf("about to write\n");
+  printf("curr_size = %x\n", param->curr_size);
+  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
+  //free(param->curr_run);
+  param->curr_size = 1;
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
   {
     param->header = 0b10010000;
-	param->fill_len = 1;
+	  param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
     param->fill_bit = 0b00000000;
@@ -122,7 +125,7 @@ void startNewRun(struct blockSeg *param){
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
 void changeRunType(unsigned int run_type, struct blockSeg *param){
-
+  printf("changing run type\n");
   /*this only happens if we are already a TYPE_1 run AND the
   tail length is 0 (i.e. going from type 1 to type 2)*/
   if(run_type == TYPE_2){
@@ -166,6 +169,7 @@ void changeRunType(unsigned int run_type, struct blockSeg *param){
 //increments the counter bytes in a type 3 run
 void incrementFill(struct blockSeg *param){
   //increments fill
+  printf("incrementing fill\n");
   if(param->run_type == TYPE_1){
     param->fill_len++;
     byte temp_fill = (byte)param->fill_len;
@@ -176,15 +180,14 @@ void incrementFill(struct blockSeg *param){
     byte newhead = 0b10000000;
     newhead |= temp_fill;
     param->header = newhead;
-    printf("here2\n");
     param->curr_run[0] = newhead;
-    printf("here3\n");
   }
 
   //increments counter bytes
   if(param->run_type == TYPE_3){
     //continue incrementing current counter byte
     if(param->curr_run[param->curr_size] < 127){
+      printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
       param->fill_len++;
     }

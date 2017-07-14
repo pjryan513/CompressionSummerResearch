@@ -6,6 +6,8 @@ void bbcCompress(struct blockSeg *param){
 
   //these methods gather information from the header
   int i;
+  param->curr_run = (byte*) malloc(sizeof(byte)*100);
+  param->curr_size = 1;
   for(i = 0; i < param->size; i++)
   {
     printf("starting bbccompress\n");
@@ -13,11 +15,6 @@ void bbcCompress(struct blockSeg *param){
     //sprintf(compfile, "compressed_%d", i);
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
 
-    if(param->curr_size > 1)
-    	param->curr_run = (byte*) realloc(param->curr_run, sizeof(byte)*param->curr_size);
-  	else
-    	param->curr_run = (byte*) malloc(sizeof(byte));
-    
     param->next_byte = param->toCompress[i];//get the next byte from the block sequence of bytes
     printf("next byte: %x\n", param->next_byte);
 
@@ -155,4 +152,6 @@ void bbcCompress(struct blockSeg *param){
       startNewRun(param);
     }
   }
+  printf("writing final run\n");
+  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
 }
