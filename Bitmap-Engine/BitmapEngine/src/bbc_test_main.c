@@ -5,25 +5,77 @@
 int main()
 {
   printf("start of main\n");
-  struct blockSeg *seg;
+  struct blockSeg *segtest1;
+  struct blockSeg *segtest2;
+  struct blockSeg *segtest3;
+  struct blockSeg *segtest4;
 
-  seg = (blockSeg*) malloc(sizeof(blockSeg));
-  seg->toCompress = (word_read*) malloc(sizeof(word_read)*10);
+  segtest1 = (blockSeg*) malloc(sizeof(blockSeg));
+/////////////////for possibly writing an actual text file and reading it///////////////
+    /*segtest2->
+  	int i;
+	for(i=0;i<colsPerFile;i++){
 
-  seg->size = 10;
+		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
+		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
+  int tnum = 3;
 
-  for(i = 0; i < seg->size; i++)
-  {
-    seg->toCompress[i] = 0;
+  //TEST #1 (WORKING)
+  //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+  if(tnum == 0){
+  	segtest1->size = 10;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*10);
+	for(i = 0; i < segtest1->size; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
   }
-  printf("segs is filled\n");
+  //TEST #2 (WORKING) 
+  //00000000 00000000 00000000 00010000
+  else if(tnum == 1){
+  	segtest1->size = 4;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
+	for(i = 0; i < 3; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
+	segtest1->toCompress[3] = 0b00010000;
+	/*for(i = 4; i < segtest1->size; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}*/
+  }
+  //TEST #3 (W0RKING)
+  //00000000 00000000 00000000
+  else if(tnum == 2){
+  	segtest1->size = 3;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*3);
+	for(i = 0; i < 3; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
+  }
 
+  //TEST #4 (BROKEN)
+  //we need to figure out when to set fill_bit and fill_match correctly
+  //also made a change to incrementFill because it automatically was setting the fill bit to 0 (not what we want)
+  //11111111 11111111 11111111
+  else if(tnum == 3){
+  	segtest1->size = 3;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*3);
+	for(i = 0; i < 3; i++)
+	{
+	  segtest1->toCompress[i] = 0b11111111;
+	}
+  }
   FILE *ptr = fopen("bbc_test_output.dat","wb");
-  seg->colFile = ptr;
-  printf("colFile is pointing\n");
-  bbcCompress(seg);
+  //FILE *readfrom2 = fopen("")
+  segtest1->colFile = ptr;
 
-  free(seg->toCompress);
-  free(seg);
+  printf("colFile is pointing\n");
+  bbcCompress(segtest1);
+
+  free(segtest1->toCompress);
+  free(segtest1);
 }

@@ -147,11 +147,14 @@ void bbcCompress(struct blockSeg *param){
         }
       }
     }
-    //if the header is 0
-    if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
+    //if the header is 0 and we're not on the last word of the block, start a new run. 
+    if(param->header == 0 && i != param->size-1){ //if any part of the above code caused a new run to be need this will start that new run
       startNewRun(param);
     }
   }
-  printf("writing final run\n");
-  fwrite(param->curr_run, sizeof(byte), 3, param->colFile);
+  printf("param->size is %x\n", param->size);
+  printf("writing final run, curr_size %x\n", param->curr_size);
+  printf("sizeof byte is %x\n", sizeof(byte));
+  fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
+  fclose(param->colFile);
 }
