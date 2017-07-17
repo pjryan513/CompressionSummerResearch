@@ -72,7 +72,7 @@ void startNewRun(struct blockSeg *param){
   printf("current header %x in startnewrun\n", param->curr_run[0]);
   fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
   //free(param->curr_run);
-  param->curr_size = 1;
+  param->curr_size = 0;
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
