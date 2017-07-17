@@ -151,7 +151,7 @@ void bbcCompress(struct blockSeg *param){
       }
     }
     //if the header is 0 and we're not on the last word of the block, start a new run.
-    else{ //if any part of the above code caused a new run to be need this will start that new run
+    if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
       startNewRun(param);
     }
   }
