@@ -62,13 +62,14 @@ void bbcCompress(struct blockSeg *param){
 
 
     //0-fill byte or 1-fill byte (11111111 or 00000000)
+    printf("param->header before first if %x\n", param->header);
     if(param->header != 0){
       if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
 
         //proper type of fill (0 or 1)
 
         if(param->fill_match == param->fill_bit){
-
+         printf("fill match = fill bit\n");
           //if we are currently in a TYPE_1 run
           if(param->run_type == TYPE_1){
 
@@ -150,13 +151,15 @@ void bbcCompress(struct blockSeg *param){
       }
     }
     //if the header is 0 and we're not on the last word of the block, start a new run. 
+    printf("param->header before  second if :::: %x\n", param->header);
     if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
+      printf("param->header was 0?\n");
       startNewRun(param);
     }
   }
   printf("param->size is %x\n", param->size);
   printf("writing final run, curr_size %x\n", param->curr_size);
   printf("sizeof byte is %x\n", sizeof(byte));
-  fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
+  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
   fclose(param->colFile);
 }

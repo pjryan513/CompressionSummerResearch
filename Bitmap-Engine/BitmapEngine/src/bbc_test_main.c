@@ -19,7 +19,7 @@ int main()
 		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
 		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
-  int tnum = 3;
+  int tnum = 0;
 
   //TEST #1 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -31,7 +31,7 @@ int main()
 	  segtest1->toCompress[i] = 0;
 	}
   }
-  //TEST #2 (WORKING) 
+  //TEST #2 (WORKING)
   //00000000 00000000 00000000 00010000
   else if(tnum == 1){
   	segtest1->size = 4;
@@ -57,7 +57,7 @@ int main()
 	}
   }
 
-  //TEST #4 (BROKEN)
+  //TEST #4 (WORKING)
   //we need to figure out when to set fill_bit and fill_match correctly
   //also made a change to incrementFill because it automatically was setting the fill bit to 0 (not what we want)
   //11111111 11111111 11111111
@@ -68,6 +68,18 @@ int main()
 	{
 	  segtest1->toCompress[i] = 0b11111111;
 	}
+  }
+
+    //TEST #5 (????????)
+  //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010
+  else if(tnum == 4){
+  	segtest1->size = 11;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*11);
+	for(i = 0; i < 10; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
+	segtest1->toCompress[10] = 0b00000010;
   }
   FILE *ptr = fopen("bbc_test_output.dat","wb");
   //FILE *readfrom2 = fopen("")

@@ -36,6 +36,7 @@ void getByteType(struct blockSeg *param){
   }
   else if(param->next_byte == 255){
     param->byte_type = ONE_BYTE;
+    param->fill_match = 1;
     //param->byte_type = 1;
   }
   //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE.
@@ -64,10 +65,8 @@ void getByteType(struct blockSeg *param){
 
 void startNewRun(struct blockSeg *param){
 
-//UPDATE TO PUT HEADER
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
-  //fwrite(param->curr_run ...... etc.);
   printf("about to write in startnewrun\n");
   printf("curr_size = %x in startnewrun\n", param->curr_size);
   printf("current header %x in startnewrun\n", param->curr_run[0]);
@@ -83,7 +82,7 @@ void startNewRun(struct blockSeg *param){
 	  param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
-    param->fill_bit = 0b00000000;
+    param->fill_bit = 0;
     param->curr_run[0] = param->header;
   }
   //ONE_FILL
@@ -94,7 +93,7 @@ void startNewRun(struct blockSeg *param){
     param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
-    param->fill_bit = 0b11111111;
+    param->fill_bit = 1;
     param->curr_run[0] = param->header;
   }
   //ODD BYTE
@@ -195,7 +194,7 @@ void incrementFill(struct blockSeg *param){
     if(param->curr_run[param->curr_size] < 127){
       printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
-      printf("param_curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
+      printf("param->curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
       printf("param_curr_run[0] = %x\n", param->curr_run[0]);
       printf("param_curr_run[1] = %x\n", param->curr_run[1]);
       printf("param->curr_size = %x\n", param->curr_size);
