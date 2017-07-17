@@ -63,6 +63,7 @@ void bbcCompress(struct blockSeg *param){
 
 
     //0-fill byte or 1-fill byte (11111111 or 00000000)
+    
     if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
 
       //proper type of fill (0 or 1)
