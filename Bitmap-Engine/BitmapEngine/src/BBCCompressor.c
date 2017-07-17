@@ -153,13 +153,6 @@ void bbcCompress(struct blockSeg *param){
       startNewRun(param);
     }
   }
-  printf("writing final run\n");
-  int j;
-  for(j = 0; j < param->curr_size+1; j++)
-  {
-    printf("curr run spot %d is %x\n", j,param->curr_run[j]);
-  }
-
 
   fwrite(param->curr_run, sizeof(byte), param->curr_run[param->curr_size+1], param->colFile);
 }
