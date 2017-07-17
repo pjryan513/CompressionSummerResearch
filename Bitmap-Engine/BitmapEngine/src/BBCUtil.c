@@ -70,7 +70,8 @@ void startNewRun(struct blockSeg *param){
   printf("about to write in startnewrun\n");
   printf("curr_size = %x in startnewrun\n", param->curr_size);
   printf("current header %x in startnewrun\n", param->curr_run[0]);
-  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
+  if(param->curr_run[0] != 0)
+    fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
   //free(param->curr_run);
   param->curr_size = 0;
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);

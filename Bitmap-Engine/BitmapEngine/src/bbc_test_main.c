@@ -19,7 +19,7 @@ int main()
 		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
 		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
-  int tnum = 0;
+  int tnum = 6;
 
   //TEST #1 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -80,6 +80,34 @@ int main()
 	  segtest1->toCompress[i] = 0;
 	}
 	segtest1->toCompress[10] = 0b00000010;
+  }
+
+      //TEST #6 (????????)
+  //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 11111111 11111111
+  else if(tnum == 5){
+  	segtest1->size = 13;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*13);
+	for(i = 0; i < 10; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
+	segtest1->toCompress[10] = 0b00000000;
+	segtest1->toCompress[11] = 0b11111111;
+	segtest1->toCompress[12] = 0b11111111;
+
+  }
+  //TEST #7 (????????)
+  //00000000 00000000 11111111 11111111
+  else if(tnum == 6){
+  	segtest1->size = 4;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
+	for(i = 0; i < 2; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
+	segtest1->toCompress[2] = 0b11111111;
+	segtest1->toCompress[3] = 0b11111111;
+
   }
   FILE *ptr = fopen("bbc_test_output.dat","wb");
   //FILE *readfrom2 = fopen("")

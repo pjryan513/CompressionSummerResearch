@@ -154,7 +154,7 @@ void bbcCompress(struct blockSeg *param){
     //if the header is 0 and we're not on the last word of the block, start a new run. 
     printf("param->header before  second if :::: %x\n", param->header);
     //if the header is 0 and we're not on the last word of the block, start a new run.
-    if(param->header == 0){ //if any part of the above code caused a new run to be need this will start that new run
+    if(param->header == 0 && i != param->size-1 ){ //if any part of the above code caused a new run to be need this will start that new run
       printf("param->header was 0?\n");
       startNewRun(param);
     }
@@ -162,6 +162,6 @@ void bbcCompress(struct blockSeg *param){
   printf("param->size is %x\n", param->size);
   printf("writing final run, curr_size %x\n", param->curr_size);
   printf("sizeof byte is %x\n", sizeof(byte));
-  fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
+  fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
   fclose(param->colFile);
 }
