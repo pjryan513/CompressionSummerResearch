@@ -21,6 +21,7 @@ void placeOddBit(struct blockSeg *param){
       the_byte >>= 1;
     }
   }
+  printf("current header (about to place odd bit) %x\n", param->curr_run[0]);
   param->curr_run[0] |= pos;
   param->header = 0; //setting the header to 0 ensures a new run will on the start next loop of BBCCompressor.c
   //return param->header;
@@ -35,7 +36,7 @@ void getByteType(struct blockSeg *param){
   }
   else if(param->next_byte == 255){
     param->byte_type = ONE_BYTE;
-    param->byte_type = 1;
+    //param->byte_type = 1;
   }
   //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE.
   //what if we are starting a new run? (NO FILL BIT DEFINED YET).
@@ -67,8 +68,9 @@ void startNewRun(struct blockSeg *param){
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
   //fwrite(param->curr_run ...... etc.);
-  printf("about to write\n");
-  printf("curr_size = %x\n", param->curr_size);
+  printf("about to write in startnewrun\n");
+  printf("curr_size = %x in startnewrun\n", param->curr_size);
+  printf("current header %x in startnewrun\n", param->curr_run[0]);
   fwrite(param->curr_run, sizeof(byte), param->curr_size, param->colFile);
   //free(param->curr_run);
   param->curr_size = 0;
@@ -169,6 +171,7 @@ void changeRunType(unsigned int run_type, struct blockSeg *param){
 //increments the counter bytes in a type 3 run
 void incrementFill(struct blockSeg *param){
   //increments fill
+  byte newhead;
   printf("incrementing fill\n");
   if(param->run_type == TYPE_1){
     param->fill_len++;
@@ -177,7 +180,10 @@ void incrementFill(struct blockSeg *param){
     //temp >>= 6;
     //temp = temp + 1;
     //temp <<= 6;
-    byte newhead = 0b10000000;
+    if(param->fill_bit == 0)
+      newhead = 0b10000000;
+    else
+      newhead = 0b11000000;
     newhead |= temp_fill;
     param->header = newhead;
     param->curr_run[0] = newhead;
@@ -191,6 +197,7 @@ void incrementFill(struct blockSeg *param){
       param->curr_run[param->curr_size]++;
       printf("param_curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
       printf("param_curr_run[0] = %x\n", param->curr_run[0]);
+      printf("param_curr_run[1] = %x\n", param->curr_run[1]);
       printf("param->curr_size = %x\n", param->curr_size);
       param->fill_len++;
     }
