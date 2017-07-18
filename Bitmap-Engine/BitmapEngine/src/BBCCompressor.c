@@ -64,6 +64,13 @@ void bbcCompress(struct blockSeg *param){
 
     //0-fill byte or 1-fill byte (11111111 or 00000000)
     printf("param->header before first if %x\n", param->header);
+    
+    //When a type 2 or type 4 is reached no new bytes can be added after the odd bit is placed so no matter what the new byte is a new run wll always be needed
+    if(param->run_type == TYPE_2 && param->run_type == TYPE_4)
+    {
+      param->header = 0;
+    }
+
     if(param->header != 0){
       if(param->byte_type == ZERO_BYTE || param->byte_type == ONE_BYTE){
 
@@ -151,12 +158,15 @@ void bbcCompress(struct blockSeg *param){
         }
       }
     }
-    //if the header is 0 and we're not on the last word of the block, start a new run. 
+    //if the header is 0 and we're not on the last word of the block, start a new run.
     printf("param->header before  second if :::: %x\n", param->header);
     //if the header is 0 and we're not on the last word of the block, start a new run.
     if(param->header == 0 && i != param->size-1 ){ //if any part of the above code caused a new run to be need this will start that new run
       printf("param->header was 0?\n");
       startNewRun(param);
+    }
+    else{
+      //for type 2 and 4 runs
     }
   }
   printf("param->size is %x\n", param->size);

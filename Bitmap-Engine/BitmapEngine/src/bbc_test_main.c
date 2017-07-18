@@ -26,35 +26,35 @@ int main()
   if(tnum == 0){
   	segtest1->size = 10;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*10);
-	for(i = 0; i < segtest1->size; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
+  	for(i = 0; i < segtest1->size; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
   }
   //TEST #2 (WORKING)
   //00000000 00000000 00000000 00010000
   else if(tnum == 1){
   	segtest1->size = 4;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
-	for(i = 0; i < 3; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
-	segtest1->toCompress[3] = 0b00010000;
-	/*for(i = 4; i < segtest1->size; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}*/
+  	for(i = 0; i < 3; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
+  	segtest1->toCompress[3] = 0b00010000;
+  	/*for(i = 4; i < segtest1->size; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}*/
   }
   //TEST #3 (W0RKING)
   //00000000 00000000 00000000
   else if(tnum == 2){
   	segtest1->size = 3;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*3);
-	for(i = 0; i < 3; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
+  	for(i = 0; i < 3; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
   }
 
   //TEST #4 (WORKING)
@@ -64,10 +64,10 @@ int main()
   else if(tnum == 3){
   	segtest1->size = 3;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*3);
-	for(i = 0; i < 3; i++)
-	{
-	  segtest1->toCompress[i] = 0b11111111;
-	}
+  	for(i = 0; i < 3; i++)
+  	{
+  	  segtest1->toCompress[i] = 0b11111111;
+  	}
   }
 
     //TEST #5 (????????)
@@ -75,11 +75,11 @@ int main()
   else if(tnum == 4){
   	segtest1->size = 11;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*11);
-	for(i = 0; i < 10; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
-	segtest1->toCompress[10] = 0b00000010;
+  	for(i = 0; i < 10; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
+  	segtest1->toCompress[10] = 0b00000010;
   }
 
       //TEST #6 (????????)
@@ -87,13 +87,13 @@ int main()
   else if(tnum == 5){
   	segtest1->size = 13;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*13);
-	for(i = 0; i < 10; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
-	segtest1->toCompress[10] = 0b00000000;
-	segtest1->toCompress[11] = 0b11111111;
-	segtest1->toCompress[12] = 0b11111111;
+  	for(i = 0; i < 10; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
+  	segtest1->toCompress[10] = 0b00000000;
+  	segtest1->toCompress[11] = 0b11111111;
+  	segtest1->toCompress[12] = 0b11111111;
 
   }
   //TEST #7 (????????)
@@ -101,12 +101,12 @@ int main()
   else if(tnum == 6){
   	segtest1->size = 4;
   	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
-	for(i = 0; i < 2; i++)
-	{
-	  segtest1->toCompress[i] = 0;
-	}
-	segtest1->toCompress[2] = 0b11111111;
-	segtest1->toCompress[3] = 0b11111111;
+  	for(i = 0; i < 2; i++)
+  	{
+  	  segtest1->toCompress[i] = 0;
+  	}
+  	segtest1->toCompress[2] = 0b11111111;
+  	segtest1->toCompress[3] = 0b11111111;
 
   }
   FILE *ptr = fopen("bbc_test_output.dat","wb");
