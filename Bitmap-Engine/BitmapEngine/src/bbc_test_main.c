@@ -19,7 +19,7 @@ int main()
 		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
 		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
-  int tnum = 6;
+  int tnum = 4;
 
   //TEST #1 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -71,15 +71,19 @@ int main()
   }
 
     //TEST #5 (????????)
-  //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010
+  //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010 00000000 00000000 00000000
   else if(tnum == 4){
-  	segtest1->size = 11;
-  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*11);
+  	segtest1->size = 14;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*14);
 	for(i = 0; i < 10; i++)
 	{
 	  segtest1->toCompress[i] = 0;
 	}
 	segtest1->toCompress[10] = 0b00000010;
+	for(i = 11; i < 14; i++)
+	{
+	  segtest1->toCompress[i] = 0;
+	}
   }
 
       //TEST #6 (????????)
