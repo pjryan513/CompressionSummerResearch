@@ -12,13 +12,26 @@ void placeOddBit(struct blockSeg *param){
   unsigned int i = 0;
   unsigned int pos = 0;
   //shift right until the number == 1
-  for(i = 0; i < 8; i++){
-    if(the_byte == 1){
-      pos = i;
-      break;
+  if(param->fill_match == 0){
+    for(i = 0; i < 8; i++){
+      if(the_byte == 1){
+        pos = i;
+        break;
+      }
+      else{
+        the_byte >>= 1;
+      }
     }
-    else{
-      the_byte >>= 1;
+  }
+  else{
+    for(i = 0; i < 8; i++){
+      if(the_byte%2==0){
+        pos = i;
+        break;
+      }
+      else{
+        the_byte >>= 1;
+      }
     }
   }
   printf("current header (about to place odd bit) %x\n", param->curr_run[0]);
@@ -67,13 +80,12 @@ void startNewRun(struct blockSeg *param){
 
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
-  printf("about to write in startnewrun\n");
   printf("curr_size = %x in startnewrun\n", param->curr_size);
   printf("current header %x in startnewrun\n", param->curr_run[0]);
   //This ensures that we aren't starting from the very first byte of the block
   //otherwise this would write a 0-byte to the file before anything else.
   if(param->curr_run[0] != 0){
-    printf("***************WRITING OUT****************\n");
+    printf("***************WRITING OUT**************** (startnewrun)\n");
     fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
   }
   //free(param->curr_run);
@@ -200,9 +212,9 @@ void incrementFill(struct blockSeg *param){
       printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
       printf("param->curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
-      printf("param_curr_run[0] = %x\n", param->curr_run[0]);
-      printf("param_curr_run[1] = %x\n", param->curr_run[1]);
-      printf("param->curr_size = %x\n", param->curr_size);
+      //printf("param_curr_run[0] = %x\n", param->curr_run[0]);
+      //printf("param_curr_run[1] = %x\n", param->curr_run[1]);
+      printf("param->curr_size = %d\n", param->curr_size);
       param->fill_len++;
     }
     //make new counter byte
@@ -229,13 +241,13 @@ unsigned int incrementTail(struct blockSeg *param){
   }
   else
   {
-    byte temp = param->header; //copy header byte into temp value
-    temp <<= 4; //clear first half of temp, use left shift bitwise operation by 4
-    temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
-    temp += 1; //increment tail length by 1
-    param->header >>= 4; //clear out the old tail length bits from header
-    param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->tail_len++;
+    byte temp = param->tail_len;
+    //temp <<= 4; //clear first half of temp, use left shift bitwise operation by 4
+    //temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
+    param->header >>= 4; //clear out the old tail length bits from header
+    param->header <<= 4; //shift it back
+    param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->curr_size++; //increment the length of the current run
     param->curr_run[0] = param->header;
     param->curr_run[param->curr_size] = param->next_byte; //concatenate the literal byte to the current run array

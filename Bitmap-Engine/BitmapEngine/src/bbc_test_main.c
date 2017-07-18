@@ -19,9 +19,9 @@ int main()
 		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
 		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
-  int tnum = 4;
+  int tnum = 10;
 
-  //TEST #1 (WORKING)
+  //TEST #0 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
   if(tnum == 0){
   	segtest1->size = 10;
@@ -31,7 +31,7 @@ int main()
   	  segtest1->toCompress[i] = 0;
   	}
   }
-  //TEST #2 (WORKING)
+  //TEST #1 (WORKING)
   //00000000 00000000 00000000 00010000
   else if(tnum == 1){
   	segtest1->size = 4;
@@ -46,7 +46,7 @@ int main()
   	  segtest1->toCompress[i] = 0;
   	}*/
   }
-  //TEST #3 (W0RKING)
+  //TEST #2 (W0RKING)
   //00000000 00000000 00000000
   else if(tnum == 2){
   	segtest1->size = 3;
@@ -57,7 +57,7 @@ int main()
   	}
   }
 
-  //TEST #4 (WORKING)
+  //TEST #3 (WORKING)
   //we need to figure out when to set fill_bit and fill_match correctly
   //also made a change to incrementFill because it automatically was setting the fill bit to 0 (not what we want)
   //11111111 11111111 11111111
@@ -70,7 +70,7 @@ int main()
   	}
   }
 
-    //TEST #5 (????????)
+    //TEST #4 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010 00000000 00000000 00000000
   else if(tnum == 4){
   	segtest1->size = 14;
@@ -86,7 +86,7 @@ int main()
 	}
   }
 
-      //TEST #6 (????????)
+      //TEST #5 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 11111111 11111111
   else if(tnum == 5){
   	segtest1->size = 13;
@@ -100,7 +100,7 @@ int main()
   	segtest1->toCompress[12] = 0b11111111;
 
   }
-  //TEST #7 (????????)
+  //TEST #6 (WORKING)
   //00000000 00000000 11111111 11111111
   else if(tnum == 6){
   	segtest1->size = 4;
@@ -111,6 +111,54 @@ int main()
   	}
   	segtest1->toCompress[2] = 0b11111111;
   	segtest1->toCompress[3] = 0b11111111;
+
+  }
+  //TEST #7
+  //11111111 11111111 11010010 11101011 (10000001)*13
+  else if(tnum == 7){
+  	segtest1->size = 19;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*19);
+  	for(i = 0; i < 2; i++)
+  	{
+  	  segtest1->toCompress[i] = 0b11111111;
+  	}
+  	segtest1->toCompress[2] = 0b11010010;
+  	for(i = 3; i < 6; i++)
+  	{
+  	  segtest1->toCompress[i] = 0b11101011;
+  	}
+  	for(i = 6; i < 19; i++)
+  	{
+  		segtest1->toCompress[i] = 0b10000001;
+  	}
+  }
+  //TEST #8
+  //00000000
+  else if(tnum == 8){
+  	segtest1->size = 1;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*1);
+  	segtest1->toCompress[0] =  0b00000000;
+
+  }
+  //TEST #9
+  //11110111
+  else if(tnum == 9){
+  	segtest1->size = 1;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*1);
+  	segtest1->toCompress[0] =  0b11110111;
+
+  }
+
+  //TEST #10
+  //11111111 11111111 11111111 11011111
+  else if(tnum == 10){
+  	segtest1->size = 4;
+  	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
+  	for(i = 0; i < 3; i++)
+  	{
+  		segtest1->toCompress[i] = 0b11111111;
+  	}
+  	segtest1->toCompress[3] =  0b11011111;
 
   }
   FILE *ptr = fopen("bbc_test_output.dat","wb");
