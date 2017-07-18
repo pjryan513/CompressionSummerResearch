@@ -16,7 +16,7 @@ void bbcCompress(struct blockSeg *param){
     //param->colFile = fopen("filewrite/compressed%d.txt", i, "w");
 
     param->next_byte = param->toCompress[i];//get the next byte from the block sequence of bytes
-    printf("next byte: %x\n", param->next_byte);
+    printf("next byte (#%d): %x\n", i, param->next_byte);
 
     getByteType(param);//get the type of next_byte: zero byte, one byte, odd byte ect ect
 
