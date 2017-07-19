@@ -19,7 +19,7 @@ int main()
 		saving[i]->toCompress = (word_read *) malloc(sizeof(word_read)*(block/colsPerFile));
 		saving[i]->size=fread(saving[i]->toCompress,sizeof(word_read),block/colsPerFile,toRead);*/
   int i;
-  int tnum = 10;
+  int tnum = 1;
 
   //TEST #0 (WORKING)
   //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
