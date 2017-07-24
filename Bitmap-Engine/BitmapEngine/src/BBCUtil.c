@@ -83,7 +83,7 @@ void startNewRun(struct blockSeg *param){
   printf("curr_size = %x in startnewrun\n", param->curr_size);
   printf("current header %x in startnewrun\n", param->curr_run[0]);
   //This ensures that we aren't starting from the very first byte of the block
-  //otherwise this would write a 0-byte to the file before anything else. 
+  //otherwise this would write a 0-byte to the file before anything else.
   if(param->curr_run[0] != 0){
     printf("***************WRITING OUT**************** (startnewrun)\n");
     fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
