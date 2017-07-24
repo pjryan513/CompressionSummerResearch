@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "BlockSeg.h"
 
 int main(int argc, char*argv[])
@@ -178,24 +179,34 @@ int main(int argc, char*argv[])
   }
   else
   {
-    printf("about to open bitmap_out.txt\n");
+    printf("about to open bitmap_test.dat\n");
+    char cwd[1024];
+    //char test[100];
+    getcwd(cwd, sizeof(cwd));
+    strcat(cwd, "/bitmap_test.dat");
+    printf("%s\n", cwd);
+    //FILE *inPtr = fopen("C:/Users/bill/Documents/Summer2017/Bitmap Project/CompressionSummerResearch/Develop/Bitmap-Engine/BitmapWorkloadGenerator/src/bitmap_out.txt","rb");
+    FILE *inPtr = fopen(cwd,"rb");
 
-    FILE *inPtr = fopen("/home/xinu/CompressionSummerResearch/Bitmap-Engine/BitmapWorkloadGenerator/src/bitmap_out.txt","rb");
 
-
-    printf("about to read from bitmap_out.txt\n");
+    printf("about to read from bitmap_test.dat\n");
     int readSize = 8;
     int i;
     int loopSize = 3000/8;
+
     segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*loopSize);
+    segtest1->size = loopSize;
     for(i = 0; i < loopSize; i++)
     {
-      printf("inside loop\n");
-      char buff[readSize];
-      fgets(buff,readSize,inPtr);
-      segtest1->toCompress[i] = buff;
+      //printf("inside loop\n");
+      //unsigned char buff[1];
+      fread(segtest1->toCompress, 1, loopSize, inPtr);
+      //fread()
+      //fgets(buff,readSize,inPtr);
+      //segtest1->toCompress[i] = buff;
+      printf("%x", segtest1->toCompress[i]);
     }
-    printf("loop end\n");
+    printf("\nloop end\n");
 
 
 
