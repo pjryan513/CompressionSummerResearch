@@ -192,7 +192,7 @@ int main(int argc, char*argv[])
     {
       printf("inside loop\n");
       char buff[readSize];
-      fgets(inPtr,readSize,buff);
+      fgets(buff,readSize,inPtr);
       segtest1->toCompress[i] = buff;
     }
     printf("loop end\n");
