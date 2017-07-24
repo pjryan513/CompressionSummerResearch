@@ -190,12 +190,13 @@ int main(int argc, char*argv[])
     segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*loopSize);
     for(i = 0; i < loopSize; i++)
     {
-      printf("inside loop\n");
-      char buff[readSize];
-      fgets(buff,readSize,inPtr);
-      segtest1->toCompress[i] = buff;
+      fread(segtest1->toCompress,1,loopSize,inPtr);
+      /*char buff[1];
+      fgets(buff,1,inPtr);
+      segtest1->toCompress[i] = buff[0];*/
     }
     printf("loop end\n");
+
 
 
 
@@ -206,6 +207,12 @@ int main(int argc, char*argv[])
   FILE *ptr = fopen("bbc_test_output.dat","wb");
   //FILE *readfrom2 = fopen("")
   segtest1->colFile = ptr;
+
+  int i;
+  for(i = 0; i < 3000/8; i++)
+  {
+    printf("%x!!!\n",segtest1->toCompress[i]);
+  }
 
   printf("colFile is pointing\n");
   bbcCompress(segtest1);
