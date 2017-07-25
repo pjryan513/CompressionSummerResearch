@@ -42,4 +42,4 @@ void incrementFill(struct blockSeg *param);
 
 void getByteType(struct blockSeg *param);
 
-unsigned int incrementTail(struct blockSeg *param);
+void incrementTail(struct blockSeg *param);

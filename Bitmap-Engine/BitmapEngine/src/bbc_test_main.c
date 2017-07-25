@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "BlockSeg.h"
+#include "BBCCompressor.h"
 
 int main(int argc, char*argv[])
 {
@@ -16,7 +18,7 @@ int main(int argc, char*argv[])
   {
     manualSet = 0;
   }
-  manualSet = 0; //testing
+  manualSet = 1; //testing
 
   struct blockSeg *segtest1;
 
@@ -34,7 +36,7 @@ int main(int argc, char*argv[])
   {
 
     int i;
-    int tnum = 10;
+    int tnum = 11;
 
     //TEST #0 (WORKING)
     //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -51,7 +53,7 @@ int main(int argc, char*argv[])
     else if(tnum == 1){
     	segtest1->size = 4;
     	segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*4);
-    	for(i = 0; i < 3; i++)
+    	for(i = 0; i < 4; i++)
     	{
     	  segtest1->toCompress[i] = 0;
     	}
@@ -85,7 +87,7 @@ int main(int argc, char*argv[])
     	}
     }
 
-      //TEST #4 (WORKING)
+    //TEST #4 (WORKING)
     //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010 00000000 00000000 00000000
     else if(tnum == 4){
     	segtest1->size = 14;
@@ -101,7 +103,7 @@ int main(int argc, char*argv[])
   	}
     }
 
-        //TEST #5 (WORKING)
+    //TEST #5 (WORKING)
     //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 11111111 11111111
     else if(tnum == 5){
     	segtest1->size = 13;
@@ -176,7 +178,138 @@ int main(int argc, char*argv[])
     	segtest1->toCompress[3] =  0b11011111;
 
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*                                                                                                         */
+    /*This test combines all previous tests (test 0 -> test 10)                                                */
+    /*                                                                                                         */
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    else if(tnum == 11)
+    {
+
+      segtest1->size = 76;
+      segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*segtest1->size);
+
+      //TEST #0 (WORKING)
+      //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+      int tempSize = 0;
+      for(i = 0; i < 10; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+
+      tempSize +=i;
+
+      //TEST #1 (WORKING)
+      //00000000 00000000 00000000 00010000
+      for(i = 10; i < 14; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+    	segtest1->toCompress[13] = 0b00010000;
+
+      tempSize +=i;
+
+
+      //TEST #2 (W0RKING)
+      //00000000 00000000 00000000
+
+      for(i = 14; i < 17; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+
+      tempSize +=i;
+
+      //TEST #3 (WORKING)
+      //we need to figure out when to set fill_bit and fill_match correctly
+      //also made a change to incrementFill because it automatically was setting the fill bit to 0 (not what we want)
+      //11111111 11111111 11111111
+
+      for(i = 17; i < 20; i++)
+    	{
+    	  segtest1->toCompress[i] = 0b11111111;
+    	}
+
+      tempSize +=1;
+
+      //TEST #4 (WORKING)
+      //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010 00000000 00000000 00000000
+
+      for(i = 20; i < 30; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+    	segtest1->toCompress[30] = 0b00000010;
+    	for(i = 31; i < 34; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+
+      //TEST #5 (WORKING)
+      //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 11111111 11111111
+
+      for(i = 34; i < 45; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+    	segtest1->toCompress[45] = 0b11111111;
+    	segtest1->toCompress[46] = 0b11111111;
+
+
+      //TEST #6 (WORKING)
+      //00000000 00000000 11111111 11111111
+
+      for(i = 47; i < 49; i++)
+    	{
+    	  segtest1->toCompress[i] = 0;
+    	}
+    	segtest1->toCompress[49] = 0b11111111;
+    	segtest1->toCompress[50] = 0b11111111;
+
+      //TEST #7
+      //11111111 11111111 11010010 (11101011)*3 (10000001)*13
+
+      for(i = 51; i < 53; i++)
+    	{
+    	  segtest1->toCompress[i] = 0b11111111;
+    	}
+    	segtest1->toCompress[53] = 0b11010010;
+    	for(i = 54; i < 57; i++)
+    	{
+    	  segtest1->toCompress[i] = 0b11101011;
+    	}
+    	for(i = 57; i < 70; i++)
+    	{
+    		segtest1->toCompress[i] = 0b10000001;
+    	}
+
+      //TEST #8
+      //00000000
+
+      segtest1->toCompress[70] =  0b00000000;
+
+      //TEST #9
+      //11110111
+
+      segtest1->toCompress[71] =  0b11110111;
+
+      //TEST #10
+      //11111111 11111111 11111111 11011111
+
+      for(i = 72; i < 75; i++)
+    	{
+    		segtest1->toCompress[i] = 0b11111111;
+    	}
+    	segtest1->toCompress[75] =  0b11011111;
+    }
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  /*                                                                                            */
+  /*This test is when a file of bytes to compress is read instead of hard coding in the bytes   */
+  /*                                                                                            */
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   else
   {
     printf("about to open bitmap_test.dat\n");
@@ -190,7 +323,7 @@ int main(int argc, char*argv[])
 
 
     printf("about to read from bitmap_test.dat\n");
-    int readSize = 8;
+    //int readSize = 8;
     int i;
     int loopSize = 3000/8;
 
