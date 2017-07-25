@@ -233,7 +233,7 @@ void incrementFill(struct blockSeg *param){
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
 //This funtion should only be used for types 1 and 3 where the tail length is guaranteed to be the last 4 bits of the header
-unsigned int incrementTail(struct blockSeg *param){
+void incrementTail(struct blockSeg *param){
 
   if(param->run_type == TYPE_2 || param->run_type == TYPE_4)
   {
