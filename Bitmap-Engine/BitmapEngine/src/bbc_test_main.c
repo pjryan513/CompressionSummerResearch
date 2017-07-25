@@ -179,11 +179,11 @@ int main(int argc, char*argv[])
   }
   else
   {
-    printf("about to open bitmap_test.dat\n");
+    printf("about to open tester2.dat\n");
     char cwd[1024];
     //char test[100];
     getcwd(cwd, sizeof(cwd));
-    strcat(cwd, "/bitmap_test.dat");
+    strcat(cwd, "/bbc_tester_2.dat");
     printf("%s\n", cwd);
     //FILE *inPtr = fopen("C:/Users/bill/Documents/Summer2017/Bitmap Project/CompressionSummerResearch/Develop/Bitmap-Engine/BitmapWorkloadGenerator/src/bitmap_out.txt","rb");
     FILE *inPtr = fopen(cwd,"rb");
@@ -192,10 +192,14 @@ int main(int argc, char*argv[])
     printf("about to read from bitmap_test.dat\n");
     int readSize = 8;
     int i;
-    int loopSize = 3000/8;
+    //int loopSize = 3000/8;
+    fseek(inPtr, 0L, SEEK_END);
+    int loopSize = ftell(inPtr);
+    rewind(inPtr);
 
     segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*loopSize);
     segtest1->size = loopSize;
+    printf("loopsize: %d\n", loopSize);
     for(i = 0; i < loopSize; i++)
     {
       //printf("inside loop\n");
@@ -204,7 +208,7 @@ int main(int argc, char*argv[])
       //fread()
       //fgets(buff,readSize,inPtr);
       //segtest1->toCompress[i] = buff;
-      printf("%x", segtest1->toCompress[i]);
+      printf("%02x", segtest1->toCompress[i]);
     }
     printf("\nloop end\n");
 
