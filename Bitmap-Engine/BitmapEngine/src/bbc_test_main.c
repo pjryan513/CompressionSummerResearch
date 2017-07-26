@@ -36,7 +36,7 @@ int main(int argc, char*argv[])
   {
 
     int i;
-    int tnum = 11;
+    int tnum = 12;
 
     //TEST #0 (WORKING)
     //00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -301,6 +301,20 @@ int main(int argc, char*argv[])
     		segtest1->toCompress[i] = 0b11111111;
     	}
     	segtest1->toCompress[75] =  0b11011111;
+    }
+    else if(tnum == 12)
+    {
+      segtest1->size = 170;
+      segtest1->toCompress = (word_read*) malloc(sizeof(word_read)*segtest1->size);
+
+      for(i = 0; i < 150; i++)
+      {
+        segtest1->toCompress[i] = 0;
+      }
+      for(i = 150; i < 170; i++)
+      {
+        segtest1->toCompress[i] = 0b00001100;
+      }
     }
   }
 
