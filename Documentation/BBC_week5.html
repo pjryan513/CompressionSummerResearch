@@ -40,7 +40,7 @@
     <script type="text/javascript" src="js/materialize.min.js"></script>
   <title>Weekly Update: Week 5</title>
 
-  <h1 class="z-depth-2" style = "margin-bottom: 20px">Weekly Update: Week 5</h1>
+  <h1 class="z-depth-2" style = "margin-bottom: 20px">Weekly Update</h1>
 
 
     <!--<h2 class="z-depth-2" style = "margin-right: 20px; margin-left: 20px; margin-bottom: 20px">
@@ -55,13 +55,14 @@
     <p>Successfully created several tests</p>
     <p>Using HxD hex editor on Windows to verify output, and wxHexEditor on Ubuntu</p>
     <p>We needed to restructure some of our code and add some additional variables to make sure edge cases didn't break the program every time</p>
+    <p>As of now, we believe the algorithm is fully functional./p>
     </div>
     <h3 class="z-depth-2" style = "margin-bottom: 20px">Successful Test Cases:</h3>
     <div class="z-depth-2" style = "padding-left: 20px; padding-top: 20px; padding-bottom: 20px; font-family: 'Josefin Sans', sans-serif; text-align: left;"">
     <p>
     <ul>
     <li>Input: (00000000)*10</li>
-    <li>Binary Output: 0010 0000 0000 1010 200A </li>
+    <li>Binary Output: 0010 0000 0000 1010</li>
     <li>Hex Output: 20 0A </li>
     </ul>
     <ul>
@@ -114,11 +115,25 @@
     <li>Binary Output: 0111 1101 </li>
     <li>Hex Output: 7D </li>
     </ul>
+    <ul>
+    <li>We also tested all of the above tests combined, which output correctly after testing, as well as testing cases with multiple counter bytes
+    and a full tail of literal bytes.
+    </li>
+    </ul>
     </ul>
     </p>
     </div>
-
-
+    <h3 class="z-depth-2" style = "margin-bottom: 20px">
+    To Do:
+    </h3>
+    <div class="z-depth-2" style = "padding-left: 20px; padding-top: 20px; padding-bottom: 20px; font-family: 'Josefin Sans', sans-serif; text-align: left;"">
+    <p>
+    <ul>
+    <li>Finish integrating into Alexia's code (as of now we run from our own test main file)</li>
+    <li>Querying? (working remotely?)</li>
+    </ul>
+    </p>
+    </div>
   </body>
   </div>
 </html>
