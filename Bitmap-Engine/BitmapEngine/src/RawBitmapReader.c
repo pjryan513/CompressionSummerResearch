@@ -169,7 +169,7 @@ void runOverhead(){
 				//printf("temp name is %s\n", temp_name);
 				size = (st.st_size)/sizeof(word_read);//this is number of words in each column file (same in each column)
 				printf("num of words in each column file %d\n", size);
-				
+
 			}
 			//counting the number of columns there are in that folder
 			if(access(temp_name,F_OK) != -1){//if this file exists
@@ -524,6 +524,8 @@ void compressColumn(int col, int threadNum){
 			segs[threadNum]->size = read;//and save how many words there are in there
 
 			////////////////////////////////////////////// BBCCOMPRESS///////////////////////////////////////////////////
+
+
 			printf("about to choose compression \n");
 			if(COMPRESSION == BBC) {
 				printf("about to bbccompress\n");

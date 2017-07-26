@@ -113,8 +113,12 @@ void bbcCompress(blockSegBBC *param){
         //in the case where after a tail, we run into an odd byte
         //places an odd byte header (type 2) in the compressed data before starting a new run (defaulting to a blank type 1 header)
         makeOddHeader();
+<<<<<<< HEAD
+
+=======
   */
 /*
+>>>>>>> 64bec1dab4c1600bd799298a0d61dd1ba7f622d2
     //if the header is null
     if(param->header==NULL){
       startNewRun(param->byte_type);
@@ -151,8 +155,13 @@ void bbcCompress(blockSegBBC *param){
     else if(param->byte_type==ODD_BYTE)
       /*if the tail_length is 0, we can easily change to
       either a TYPE_2 or TYPE_4 run by concatenating the
+<<<<<<< HEAD
+      ODD_BYTE to the end of our fill. */
+      /*if(param->tail_len == 0)
+=======
       ODD_BYTE to the end of our fill. 
       if(param->tail_len == 0)
+>>>>>>> 64bec1dab4c1600bd799298a0d61dd1ba7f622d2
 
         //if we are a TYPE_1 run
         if(param->run_type == TYPE_1)
@@ -171,7 +180,7 @@ void bbcCompress(blockSegBBC *param){
       /*if we already have a tail, we must start a new run using
       the ODD_BYTE
       //the startNewRun() function checks for this specific case
-      else
+      /*else
         startNewRun(param->byte_type);
 
     //messy byte (Eg: 11010100)
@@ -189,9 +198,15 @@ void bbcCompress(blockSegBBC *param){
         else
 
     /*if we already have a tail, we must start a new run using
+<<<<<<< HEAD
+    the ODD_BYTE*/
+    //the startNewRun() function checks for this specific case
+    /*else
+=======
     the ODD_BYTE
     //the startNewRun() function checks for this specific case 
     else
+>>>>>>> 64bec1dab4c1600bd799298a0d61dd1ba7f622d2
       startNewRun(byte_type);
 
   //messy byte (Eg: 11010100)
@@ -215,4 +230,9 @@ void bbcCompress(blockSegBBC *param){
           startNewRun(param->byte_type);
   }
 }
+<<<<<<< HEAD
+
 */
+=======
+*/
+>>>>>>> 64bec1dab4c1600bd799298a0d61dd1ba7f622d2

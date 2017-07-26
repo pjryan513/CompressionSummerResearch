@@ -12,17 +12,31 @@ void placeOddBit(struct blockSeg *param){
   unsigned int i = 0;
   unsigned int pos = 0;
   //shift right until the number == 1
-  for(i = 0; i < 8; i++){
-    if(the_byte == 1){
-      pos = i;
-      break;
-    }
-    else{
-      the_byte >>= 1;
+  if(param->fill_match == 0){
+    for(i = 0; i < 8; i++){
+      if(the_byte == 1){
+        pos = i;
+        break;
+      }
+      else{
+        the_byte >>= 1;
+      }
     }
   }
+  else{
+    for(i = 0; i < 8; i++){
+      if(the_byte%2==0){
+        pos = i;
+        break;
+      }
+      else{
+        the_byte >>= 1;
+      }
+    }
+  }
+  printf("current header (about to place odd bit) %x\n", param->curr_run[0]);
   param->curr_run[0] |= pos;
-  param->header = 0; //setting the header to 0 ensures a new run will on the start next loop of BBCCompressor.c
+  //param->header = 0; //setting the header to 0 ensures a new run will on the start next loop of BBCCompressor.c
   //return param->header;
 }
 
@@ -35,11 +49,12 @@ void getByteType(struct blockSeg *param){
   }
   else if(param->next_byte == 255){
     param->byte_type = ONE_BYTE;
-    param->byte_type = 1;
+    param->fill_match = 1;
+    //param->byte_type = 1;
   }
-  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE. 
-  //what if we are starting a new run? (NO FILL BIT DEFINED YET). 
-  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly. 
+  //if fill bit == 0, then we can use the ODD OBE BYTE. if the fill bit == 1, then we can use the ODD ZERO BYTE.
+  //what if we are starting a new run? (NO FILL BIT DEFINED YET).
+  //then we can attach either type of ODD BYTE to the end of a 1-bit-long type 2 run, and adjust the fill bit accordingly.
   //checks to see if there is
   //if(param->fill_bit == 0){
   else if(b == 1 || b == 2 || b == 4 || b == 8 || b == 16 || b == 32 || b == 64 || b == 128){
@@ -63,22 +78,28 @@ void getByteType(struct blockSeg *param){
 
 void startNewRun(struct blockSeg *param){
 
-//UPDATE TO PUT HEADER
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
-  //fwrite(param->curr_run ...... etc.);
-  fwrite(8, sizeof(word_32),1,param->colFile);
+  //printf("curr_size = %x in startnewrun\n", param->curr_size);
+  //printf("current header %x in startnewrun\n", param->curr_run[0]);
+  //This ensures that we aren't starting from the very first byte of the block
+  //otherwise this would write a 0-byte to the file before anything else.
+  if(param->curr_run[0] != 0){
+    printf("***************WRITING OUT**************** (startnewrun)\n");
+    fwrite(param->curr_run, sizeof(byte), param->curr_size+1, param->colFile);
+  }
+  //free(param->curr_run);
+  param->curr_size = 0;
   //fwrite(param->curr_run, sizeof(char), param->curr_size, param->colFile);
-
   //ZERO FILL
   //there's only one possible byte we should produce TYPE_1
   if(param->byte_type == ZERO_BYTE)
   {
     param->header = 0b10010000;
-	param->fill_len = 1;
+	  param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
-    param->fill_bit = 0b00000000;
+    param->fill_bit = 0;
     param->curr_run[0] = param->header;
   }
   //ONE_FILL
@@ -89,7 +110,7 @@ void startNewRun(struct blockSeg *param){
     param->fill_len = 1;
     param->tail_len = 0;
     param->run_type = TYPE_1;
-    param->fill_bit = 0b11111111;
+    param->fill_bit = 1;
     param->curr_run[0] = param->header;
   }
   //ODD BYTE
@@ -122,7 +143,7 @@ void startNewRun(struct blockSeg *param){
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
 void changeRunType(unsigned int run_type, struct blockSeg *param){
-
+  //printf("changing run type\n");
   /*this only happens if we are already a TYPE_1 run AND the
   tail length is 0 (i.e. going from type 1 to type 2)*/
   if(run_type == TYPE_2){
@@ -166,6 +187,8 @@ void changeRunType(unsigned int run_type, struct blockSeg *param){
 //increments the counter bytes in a type 3 run
 void incrementFill(struct blockSeg *param){
   //increments fill
+  byte newhead;
+  //printf("incrementing fill\n");
   if(param->run_type == TYPE_1){
     param->fill_len++;
     byte temp_fill = (byte)param->fill_len;
@@ -173,7 +196,10 @@ void incrementFill(struct blockSeg *param){
     //temp >>= 6;
     //temp = temp + 1;
     //temp <<= 6;
-    byte newhead = 0b10000000;
+    if(param->fill_bit == 0)
+      newhead = 0b10000000;
+    else
+      newhead = 0b11000000;
     newhead |= temp_fill;
     param->header = newhead;
     param->curr_run[0] = newhead;
@@ -183,7 +209,12 @@ void incrementFill(struct blockSeg *param){
   if(param->run_type == TYPE_3){
     //continue incrementing current counter byte
     if(param->curr_run[param->curr_size] < 127){
+      //printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
+      //printf("param->curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
+      //printf("param_curr_run[0] = %x\n", param->curr_run[0]);
+      //printf("param_curr_run[1] = %x\n", param->curr_run[1]);
+      //printf("param->curr_size = %d\n", param->curr_size);
       param->fill_len++;
     }
     //make new counter byte
@@ -202,7 +233,7 @@ void incrementFill(struct blockSeg *param){
 //increases tail_len in header by one
 //concatenates a literal byte to the tail of curr_run
 //This funtion should only be used for types 1 and 3 where the tail length is guaranteed to be the last 4 bits of the header
-unsigned int incrementTail(struct blockSeg *param){
+void incrementTail(struct blockSeg *param){
 
   if(param->run_type == TYPE_2 || param->run_type == TYPE_4)
   {
@@ -210,14 +241,14 @@ unsigned int incrementTail(struct blockSeg *param){
   }
   else
   {
-    byte temp = param->header; //copy header byte into temp value
-    temp <<= 4; //clear first half of temp, use left shift bitwise operation by 4
-    temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
-    temp += 1; //increment tail length by 1
-    param->header >>= 4; //clear out the old tail length bits from header
-    param->header |= temp; //add the new tail length to header using an or bitwise operation
     param->tail_len++;
-    param->curr_size = param->curr_size + 1; //increment the length of the current run
+    byte temp = param->tail_len;
+    //temp <<= 4; //clear first half of temp, use left shift bitwise operation by 4
+    //temp >>= 4; //move tail bits to LSBs position in temp, this way we can view the actual value of the tail length, use right shitf bitwise operation by 4
+    param->header >>= 4; //clear out the old tail length bits from header
+    param->header <<= 4; //shift it back
+    param->header |= temp; //add the new tail length to header using an or bitwise operation
+    param->curr_size++; //increment the length of the current run
     param->curr_run[0] = param->header;
     param->curr_run[param->curr_size] = param->next_byte; //concatenate the literal byte to the current run array
   }
