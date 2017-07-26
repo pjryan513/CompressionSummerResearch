@@ -80,8 +80,8 @@ void startNewRun(struct blockSeg *param){
 
   //first we should write out the current array of chars to file,
   //and also free the memory from that array
-  printf("curr_size = %x in startnewrun\n", param->curr_size);
-  printf("current header %x in startnewrun\n", param->curr_run[0]);
+  //printf("curr_size = %x in startnewrun\n", param->curr_size);
+  //printf("current header %x in startnewrun\n", param->curr_run[0]);
   //This ensures that we aren't starting from the very first byte of the block
   //otherwise this would write a 0-byte to the file before anything else.
   if(param->curr_run[0] != 0){
@@ -143,7 +143,7 @@ void startNewRun(struct blockSeg *param){
 
 //changes the run type (either type 1 to 2, 3 to 4, or 1 to 3)
 void changeRunType(unsigned int run_type, struct blockSeg *param){
-  printf("changing run type\n");
+  //printf("changing run type\n");
   /*this only happens if we are already a TYPE_1 run AND the
   tail length is 0 (i.e. going from type 1 to type 2)*/
   if(run_type == TYPE_2){
@@ -188,7 +188,7 @@ void changeRunType(unsigned int run_type, struct blockSeg *param){
 void incrementFill(struct blockSeg *param){
   //increments fill
   byte newhead;
-  printf("incrementing fill\n");
+  //printf("incrementing fill\n");
   if(param->run_type == TYPE_1){
     param->fill_len++;
     byte temp_fill = (byte)param->fill_len;
@@ -209,12 +209,12 @@ void incrementFill(struct blockSeg *param){
   if(param->run_type == TYPE_3){
     //continue incrementing current counter byte
     if(param->curr_run[param->curr_size] < 127){
-      printf("incrementing counter byte\n");
+      //printf("incrementing counter byte\n");
       param->curr_run[param->curr_size]++;
-      printf("param->curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
+      //printf("param->curr_run[param->curr_size] = %x\n", param->curr_run[param->curr_size]);
       //printf("param_curr_run[0] = %x\n", param->curr_run[0]);
       //printf("param_curr_run[1] = %x\n", param->curr_run[1]);
-      printf("param->curr_size = %d\n", param->curr_size);
+      //printf("param->curr_size = %d\n", param->curr_size);
       param->fill_len++;
     }
     //make new counter byte

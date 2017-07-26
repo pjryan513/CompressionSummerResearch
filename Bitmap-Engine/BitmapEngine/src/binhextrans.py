@@ -4,6 +4,7 @@
 
 import os 
 import sys
+import binascii
 
 global byte_array
 global init_byte
@@ -60,6 +61,8 @@ def main():
 		hex_string = ''.join(hex_list)
 		print("Hex output:")
 		print(hex_string)
+		#print("Creating test file bbc_tester2.dat")
+
 	elif convert == 'hex':
 		print("Converting from hexadecimal to binary...")
 		len_block = len(content)
