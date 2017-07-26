@@ -18,7 +18,7 @@ int main(int argc, char*argv[])
   {
     manualSet = 0;
   }
-  manualSet = 1; //testing
+  manualSet = 0; //testing
 
   struct blockSeg *segtest1;
 
@@ -326,7 +326,7 @@ int main(int argc, char*argv[])
 
   else
   {
-    printf("about to open tester2.dat\n");
+    printf("about to open bbc_tester2.dat\n");
     char cwd[1024];
     //char test[100];
     getcwd(cwd, sizeof(cwd));
@@ -336,7 +336,7 @@ int main(int argc, char*argv[])
     FILE *inPtr = fopen(cwd,"rb");
 
 
-    printf("about to read from bitmap_test.dat\n");
+    printf("about to read from bbc_tester2.dat\n");
     //int readSize = 8;
     int i;
     //int loopSize = 3000/8;
@@ -355,7 +355,7 @@ int main(int argc, char*argv[])
       //fread()
       //fgets(buff,readSize,inPtr);
       //segtest1->toCompress[i] = buff;
-      printf("%02x", segtest1->toCompress[i]);
+      //printf("%02x", segtest1->toCompress[i]);
     }
     printf("\nloop end\n");
 
@@ -373,7 +373,7 @@ int main(int argc, char*argv[])
   int i;
   for(i = 0; i < 3000/8; i++)
   {
-    printf("%x!!!\n",segtest1->toCompress[i]);
+    //printf("%x!!!\n",segtest1->toCompress[i]);
   }
 
   printf("colFile is pointing\n");
