@@ -14,6 +14,10 @@ typedef struct blockSeg{
 	word_32 stored;
 	int status;//first/last block of column? or not valid block (empty)?
 
+	////////////////////////////////////////////////////////////////
+	/*									This section is for BBC										*/
+	////////////////////////////////////////////////////////////////
+	
 	byte *compressBytes; //the current block of uncompressed bytes
 	//struct blockBytes *nextBlock; //the next block of bytes to compress
 	unsigned int fill_len;
