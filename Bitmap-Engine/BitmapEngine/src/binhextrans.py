@@ -14,8 +14,8 @@ global convert
 
 def main():
 	dir_path = os.getcwd()
-	file_name = sys.argv[1]
-	convert = sys.argv[2]
+	file_name = sys.argv[1
+]	convert = sys.argv[2]
 	full_path = dir_path + "/" + file_name
 	file = open(full_path, "r");
 	content = file.read();
