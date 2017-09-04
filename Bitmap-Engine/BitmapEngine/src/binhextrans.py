@@ -14,13 +14,14 @@ global convert
 
 def main():
 	dir_path = os.getcwd()
-	file_name = sys.argv[1
-]	convert = sys.argv[2]
+	file_name = sys.argv[1]	
+	convert = sys.argv[2]
 	full_path = dir_path + "/" + file_name
 	file = open(full_path, "r");
 	content = file.read();
 	content = content.split()
 	content = ''.join(content)
+	res_file = open('converted_test.txt', 'w')
 
 	if convert == 'bin':
 		print("Converting from binary to hexadecimal...")
@@ -54,8 +55,10 @@ def main():
 			int_rep = int(byte, 2)
 			hex_rep = '%02X' % int_rep
 			hex_list.append(hex_rep)
+			res_file.write(byte)
 
 		#print(hex_list)
+		res_file.close()
 		hex_string = ''.join(hex_list)
 		hex_list = hex_string.split('x')
 		hex_string = ''.join(hex_list)
@@ -97,7 +100,9 @@ def main():
 			#hex_rep = '%02X' % int_rep
 			bin_rep = bin(int(byte, 16))[2:].zfill(8)
 			bin_list.append(bin_rep)
+			res_file.write(byte)
 
+		res_file.close()
 		bin_string = ' '.join(bin_list)
 		print("Binary output:")
 		print(bin_string)
