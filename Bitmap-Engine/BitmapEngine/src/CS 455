@@ -1,0 +1,21 @@
+CS 455
+
+SET: unordered group of different elements
+
+bag (multiset) set that allows duplicate elements
+DIJKSTRA
+
+ordered list (allows duplicates and has an order)
+
+Power Set P(S): set of all subsets of a set S
+size of power set is 2^S
+
+Intersection, Union, etc. 
+
+Set difference S1\S2 or S1 - S2
+
+elem in S1 and elem not in S2
+
+Cartesian Product: set of tuples S1xS2 = {(a,b)|a in S1^b in S2} 
+	kinda like a nested for loop
+

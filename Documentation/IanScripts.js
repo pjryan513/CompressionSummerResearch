@@ -2,7 +2,6 @@
 //$( document ).ready(function(){})
 
 
-$(function() {
+
+console.log("poop!!!");
     //console.log( "ready!" );
-     $(".button-collapse").sideNav();
-});
