@@ -29,7 +29,7 @@ The Our_Code folder contains the BBC portion of the Bitmap-Engine written by Pat
 The folder is just to contain and present the files written by both students and can not be run due to lacking addition c and h files needed to compile and run.
 The BBC algorithm can be run from the Bitmap-Engine folder.
 
-### Running BBC
+## Running BBC
 
 As of written now the main compression research algorithm can not be run from the central main function (Bitmap-Engine/BitmapEngine/src/main.c).
 Instead the bbc_test_main should be used (Bitmap-Engine/BitmapEngine/src/bbc_test_main.c).
